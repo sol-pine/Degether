@@ -6,10 +6,12 @@ function KakaoOAuthRedirectHandler() {
   let code = new URL(window.location.href).searchParams.get("code");
   const navigate = useNavigate();
   axios.post(`${SERVER_URL}/user/kakao?code=${code}`).then((response) => {
-    console.log(response.headers.authorization);
     localStorage.setItem("token", response.headers.authorization);
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/");
+    }
   });
-
   return <div></div>;
 }
 

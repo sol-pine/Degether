@@ -13,6 +13,7 @@ function Main() {
   const dispatch = useDispatch();
   const createModal = useSelector((state) => state.Project.projectCreateModal);
   const token = localStorage.getItem("token");
+  console.log(token);
 
   return (
     <>
