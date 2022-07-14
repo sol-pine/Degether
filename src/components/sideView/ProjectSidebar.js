@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Plus, Folder } from "./Icon";
@@ -11,6 +11,11 @@ function ProjectSidebarContainer() {
   console.log(list, myProject);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getProject());
+  }, []);
+
   return (
     <ProjectSidebarContainerWrap>
       {/* 상단 참여 중 프로젝트 */}
@@ -31,16 +36,19 @@ function ProjectSidebarContainer() {
           </ProjectAddBtnText>
         </ProjectAddBtn>
         <Test
-        // onClick={() => {
-        //   navigate(`/project/${projectId}`);
-        // }}
+          onClick={() => {
+            navigate(`/project/${myProject.projectId}`);
+          }}
         >
           {/* 프로젝트 배경 이미지 */}
-          <ProjectBackgroundImg src="img/Group 515.png" />
+          <ProjectBackgroundImg src={myProject.thumbnail} />
           {/* 프로젝트 상세 정보 게시물 리스트 */}
           <ProjectList>
-            <p>디게더(프로젝트 매칭 시스템)</p>
-            <p>참여인원 [개발자 / 5명] [디자이너 / 1명]</p>
+            <p>{myProject.projectName}</p>
+            <p>
+              참여인원 [개발자 / {myProject.devCount}명] [디자이너 /{" "}
+              {myProject.deCount}명]
+            </p>
           </ProjectList>
         </Test>
       </ProjectListTop>

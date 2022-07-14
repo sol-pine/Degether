@@ -372,7 +372,7 @@ const ProjectCreateModal = () => {
                   </ProjectFileLink>
                   <FileUploadDesc>
                     이미지 파일은 1개의 파일만 업로드가 가능합니다. 각 파일은
-                    용량 10MB 이하로만 업로드가 가능합니다.
+                    용량 2MB 이하로만 업로드가 가능합니다.
                   </FileUploadDesc>
                 </ProjcectLinkBox>
               </BottomBox>

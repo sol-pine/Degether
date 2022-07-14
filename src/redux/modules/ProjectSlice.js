@@ -10,8 +10,8 @@ export const addProject = createAsyncThunk(
   async (formData) => {
     const res = await axios.post(`${SERVER_URL}/api/project`, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `${token}`,
+        "Content-Type": "multipart/form-data",
       },
     });
     console.log(res.data);
@@ -36,6 +36,9 @@ export const getProjectPage = createAsyncThunk(
   async (page) => {
     return await axios
       .get(`${SERVER_URL}/api/projects?`, {
+        headers: {
+          Authorization: `${token}`,
+        },
         params: {
           page: Number(page),
           sorted: "createdDate",
@@ -149,7 +152,7 @@ const ProjectSlice = createSlice({
     detail: {},
     file1: "",
     file2: "",
-    myProject: [],
+    myProject: "",
     genre: "",
   },
   reducers: {
@@ -169,7 +172,7 @@ const ProjectSlice = createSlice({
     },
     [getProject.fulfilled]: (state, action) => {
       state.list = [...action.payload.list];
-      state.myProject = [...action.payload.myProject];
+      state.myProject = action.payload.myProject[0];
       console.log("getProject");
     },
     [getProjectPage.fulfilled]: (state, action) => {
