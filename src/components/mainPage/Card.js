@@ -8,7 +8,7 @@ import { getProjectPage } from "../../redux/modules/ProjectSlice";
 const Card = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const project = useSelector((state) => state.Project.list);
+  const project = useSelector((state) => state.Project?.list);
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);

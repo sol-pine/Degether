@@ -6,67 +6,72 @@ import { createModal, getProject } from "../../redux/modules/ProjectSlice";
 import { useNavigate } from "react-router-dom";
 
 function ProjectSidebarContainer() {
-  const myProject = useSelector((state) => state.Project.myProject);
-  const list = useSelector((state) => state.Project.list);
-  console.log(list, myProject);
+  const myProject = useSelector((state) => state.Project?.myProject);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getProject());
   }, []);
-
+  if (!myProject) {
+    return <div></div>;
+  }
   return (
-    <ProjectSidebarContainerWrap>
-      {/* 상단 참여 중 프로젝트 */}
-      <ProjectListTop>
-        <ProjectSidebarTop>
-          <Folder />
-          <TopText>참여 중 프로젝트</TopText>
-        </ProjectSidebarTop>
-        {/* 프로젝트 생성 버튼 */}
-        <ProjectAddBtn
-          onClick={() => {
-            dispatch(createModal(true));
-          }}
-        >
-          <ProjectAddBtnText>
-            <Plus />
-            <AddBtnText>프로젝트 생성</AddBtnText>
-          </ProjectAddBtnText>
-        </ProjectAddBtn>
-        <Test
-          onClick={() => {
-            navigate(`/project/${myProject.projectId}`);
-          }}
-        >
-          {/* 프로젝트 배경 이미지 */}
-          <ProjectBackgroundImg src={myProject.thumbnail} />
-          {/* 프로젝트 상세 정보 게시물 리스트 */}
-          <ProjectList>
-            <p>{myProject.projectName}</p>
-            <p>
-              참여인원 [개발자 / {myProject.devCount}명] [디자이너 /{" "}
-              {myProject.deCount}명]
-            </p>
-          </ProjectList>
-        </Test>
-      </ProjectListTop>
-      <ProjectListBottom>
-        <svg
-          width="30"
-          height="20"
-          viewBox="0 0 30 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3.525 20L15 7.63833L26.475 20L30 16.1943L15 0L0 16.1943L3.525 20Z"
-            fill="white"
-          />
-        </svg>
-      </ProjectListBottom>
-    </ProjectSidebarContainerWrap>
+    <>
+      <ProjectSidebarContainerWrap>
+        {/* 상단 참여 중 프로젝트 */}
+        <ProjectListTop>
+          <ProjectSidebarTop>
+            <Folder />
+            <TopText>참여 중 프로젝트</TopText>
+          </ProjectSidebarTop>
+          {/* 프로젝트 생성 버튼 */}
+          <ProjectAddBtn
+            onClick={() => {
+              dispatch(createModal(true));
+            }}
+          >
+            <ProjectAddBtnText>
+              <Plus />
+              <AddBtnText>프로젝트 생성</AddBtnText>
+            </ProjectAddBtnText>
+          </ProjectAddBtn>
+          <Test
+            onClick={() => {
+              // 프로젝트 아이디를 이용해 해당 프로젝트 관리 페이지로 이동
+              navigate(`/admin/${myProject.projectId}`);
+            }}
+          >
+            {/* 프로젝트 배경 이미지 */}
+            <ProjectBackgroundImg src={myProject.thumbnail} />
+            {/* 프로젝트 상세 정보 게시물 리스트 */}
+            <ProjectList>
+              <p>{myProject.projectName}</p>
+              <p>
+                참여인원 [개발자 / {myProject.devCount}명] [디자이너 /{" "}
+                {myProject.deCount}
+                명]
+              </p>
+            </ProjectList>
+          </Test>
+        </ProjectListTop>
+        <ProjectListBottom>
+          <svg
+            width="30"
+            height="20"
+            viewBox="0 0 30 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3.525 20L15 7.63833L26.475 20L30 16.1943L15 0L0 16.1943L3.525 20Z"
+              fill="white"
+            />
+          </svg>
+        </ProjectListBottom>
+      </ProjectSidebarContainerWrap>
+      ;
+    </>
   );
 }
 
@@ -101,6 +106,7 @@ const ProjectListBottom = styled.div`
 `;
 const Test = styled.div`
   width: 421px;
+  cursor: pointer;
 `;
 
 const ProjectSidebarTop = styled.div`

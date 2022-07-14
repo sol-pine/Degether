@@ -76,7 +76,6 @@ const ProjectCreateModal = () => {
     const selectedEls = document.querySelectorAll(query);
     // 선택된 목록에서 value 찾기
     selectedEls.forEach((el) => {
-      // result += el.value + " ";
       let a = result.push(el.value);
     });
 

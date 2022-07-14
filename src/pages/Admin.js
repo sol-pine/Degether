@@ -1,32 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Header from "../components/header/Header";
 import LeftInfoBar from "../components/projectPage/LeftInfoBar";
 import UserSidebar from "../components/sideView/UserSidebar";
-import { detailModal, getProjectDetails } from "../redux/modules/ProjectSlice";
+import { getProjectDetails } from "../redux/modules/ProjectSlice";
 
 function Admin() {
   const dispatch = useDispatch();
+  const { projectId } = useParams();
+
+  const detail = useSelector((state) => state.Project?.detail);
+
   useEffect(() => {
-    dispatch(getProjectDetails("200"));
+    dispatch(getProjectDetails(projectId));
   }, []);
 
-  const detail = useSelector((state) => state.Project.detail);
   const defaultGenre = useSelector((state) => state.Project.genre);
-  console.log(detail);
-  const defaultLanguage = useSelector(
-    (state) => state.Project.detail.languageString
-  );
+  const defaultLanguage = detail.languageString;
   const defaultStep = useSelector((state) => state.Project.detail.step);
+  console.log(defaultLanguage);
 
-  // 프로젝트 장르
-  const [genre, setGenre] = useState("");
-  const handleGenre = (e) => {
-    let a = e.target.value;
-    setGenre([a]);
+  // 프로젝트 명
+  const [newTitle, setNewTitle] = useState(detail.projectName);
+  const handleTitle = (e) => {
+    setNewTitle(e.target.value);
   };
 
+  // 프로젝트 장르
+  const [newGenre, setNewGenre] = useState([defaultGenre]);
+  const handleGenre = (e) => {
+    let a = e.target.value;
+    setNewGenre([a]);
+  };
+
+  // 개발 언어
+  const [newLanguage, setNewLanguage] = useState(defaultLanguage);
+  let result = [];
+  const query = 'input[name="language"]:checked';
+  const handleLanguage = (e) => {
+    result = [];
+    const selectedEls = document.querySelectorAll(query);
+    // 선택된 목록에서 value 찾기
+    selectedEls.forEach((el) => {
+      let a = result.push(el.defaultValue);
+      setNewLanguage(result);
+    });
+  };
+
+  function test() {
+    console.log(newTitle, newGenre, newLanguage);
+  }
+  if (!detail) {
+    return <div></div>;
+  }
   return (
     <div>
       <Header />
@@ -43,6 +71,7 @@ function Admin() {
                     type="text"
                     className="projectName"
                     defaultValue={detail.projectName}
+                    onChange={handleTitle}
                   />
                 </section>
                 <section>
@@ -136,36 +165,28 @@ function Admin() {
                         type="checkbox"
                         defaultValue="HTML"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "HTML" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                       * CSS
                       <CheckType
                         type="checkbox"
                         defaultValue="CSS"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "CSS" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                       * Java
                       <CheckType
                         type="checkbox"
                         defaultValue="Java"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "Java" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                       * JavaScript
                       <CheckType
                         type="checkbox"
                         defaultValue="JavaScript"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "JavaScript" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                     </div>
                     <div className="checkbox">
@@ -174,36 +195,28 @@ function Admin() {
                         type="checkbox"
                         defaultValue="Python"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "Python" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                       * TypeScript
                       <CheckType
                         type="checkbox"
                         defaultValue="TypeScript"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "TypeScript" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                       * Kotlin
                       <CheckType
                         type="checkbox"
                         defaultValue="Kotlin"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "Kotlin" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                       * Shell
                       <CheckType
                         type="checkbox"
                         defaultValue="Shell"
                         name="language"
-                        defaultChecked={
-                          defaultLanguage === "Shell" ? true : false
-                        }
+                        onChange={handleLanguage}
                       />
                     </div>
                   </div>
@@ -283,7 +296,18 @@ function Admin() {
                 <Title>참고 자료</Title>
                 <FileBox>
                   <button>
-                    <img src="img/edit.svg" />
+                    <svg
+                      width="19"
+                      height="19"
+                      viewBox="0 0 19 19"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M15.4138 0.000488281C15.1578 0.000488281 14.9018 0.0984555 14.7068 0.293453L12.7068 2.29342L11.2928 3.70746L0 15.0003V19.0002H3.99994L18.7068 4.29339C19.0977 3.9024 19.0977 3.26935 18.7068 2.87935L16.1209 0.293453C15.9259 0.0984555 15.6698 0.000488281 15.4138 0.000488281ZM15.4138 2.41452L16.5857 3.58637L15.2927 4.87932L14.1209 3.70746L15.4138 2.41452ZM12.7068 5.12151L13.8787 6.29336L3.17183 17.0002H1.99997V15.8284L12.7068 5.12151Z"
+                        fill="#EFEFEF"
+                      />
+                    </svg>
                   </button>
                 </FileBox>
               </FileInput>
@@ -303,7 +327,19 @@ function Admin() {
           <FileContainer>
             <ImageBox>
               <section>
-                <img src="img/upload.svg" />
+                <svg
+                  width="56"
+                  height="66"
+                  viewBox="0 0 56 66"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 50.3428H40V27.1076H56L28 0L0 27.1076H16V50.3428ZM0 58.0878H56V65.8329H0V58.0878Z"
+                    fill="#6D8663"
+                  />
+                </svg>
+
                 <p>
                   프로필 사진
                   <br /> 업로드 & 변경
@@ -323,7 +359,13 @@ function Admin() {
             </LinkContainer>
             <BtnWrap>
               <button>재설정</button>
-              <button>저장 </button>
+              <button
+                onClick={() => {
+                  test();
+                }}
+              >
+                저장
+              </button>
             </BtnWrap>
           </FileContainer>
         </AdminBox>

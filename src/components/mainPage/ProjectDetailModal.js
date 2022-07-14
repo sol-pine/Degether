@@ -120,7 +120,7 @@ function ProjectDetailModal() {
 }
 export default ProjectDetailModal;
 const ModalBackground = styled.div`
-  position: absolute;
+  position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -137,7 +137,9 @@ const Modal = styled.div`
   height: 752px;
   background: #09120e;
   z-index: 3;
-  position: absolute;
+  position: fixed;
+  top: 0%;
+  left: 50%;
   margin: 233px auto;
   left: 183px;
   display: flex;
