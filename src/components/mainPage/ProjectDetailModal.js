@@ -23,102 +23,111 @@ function ProjectDetailModal() {
 
   return (
     <div>
-      <Modal>
-        <ModalContainer>
-          <LeftBox>
-            <ProjectImg src={detail.thumbnail} />
-          </LeftBox>
-          <RightBox>
-            <ProjectDetailBox>
-              <section className="firstline">
-                <p>모집 마감일</p>
-                <div className="content deadline">{detail.deadLine}</div>
-                <p>프론트엔드 개발자</p>
-                <div className="content count">
-                  {detail.feCurrentCount}명 / {detail.feCount}명
-                </div>
-                <p>백엔드 개발자</p>
-                <div className="content count">
-                  {detail.beCurrentCount}명 / {detail.beCount}명
-                </div>
-                <p>디자이너</p>
-                <div className="content countlast">
-                  {detail.deCurrentCount}명 / {detail.deCount}명
-                </div>
-              </section>
-              <section className="secondline">
-                <p>프로젝트 명칭 </p>
-                <div className="content projectName">{detail.projectName}</div>
-              </section>
-              <section className="thirdline">
-                <p>프로젝트 단계 </p>
-                <div className="content middle">{detail.step}</div>
-                <p>프로젝트 타입</p>
-                <div className="content middle">{detail.genre}</div>
-                <p>개발 언어</p>
-                <div className="content lang">{detail.languageString} </div>
-              </section>
-              <section className="descline">
-                <p>프로젝트 설명 </p>
-                <div className="description">{detail.projectDescription}</div>
-              </section>
-              <section className="fileline">
-                <p>소개자료</p>
-                <div className="projectFile">
-                  {file1 && file1.fileName}
-                  {file2 && file2.fileName}
-                  <button>
-                    <svg
-                      width="18"
-                      height="22"
-                      viewBox="0 0 18 22"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M18 7.71429H12.8571V0H5.14286V7.71429H0L9 16.7143L18 7.71429ZM7.71429 10.2857V2.57143H10.2857V10.2857H11.79L9 13.0757L6.21 10.2857H7.71429ZM0 19.2857H18V21.8571H0V19.2857Z"
-                        fill="white"
-                      />
-                    </svg>
-                  </button>
-                </div>
-              </section>
-            </ProjectDetailBox>
-
-            <BtnWrap>
-              <button
-                className="zzim"
-                onClick={() => {
-                  dispatch(interestedProject(projectId));
-                }}
-              >
-                프로젝트 찜하기
-              </button>
-              <button
-                className="dm"
-                onClick={() => {
-                  dispatch(applyProject(projectId));
-                }}
-              >
-                참여 DM 보내기
-              </button>
-              <button
-                className="close"
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                닫기
-              </button>
-            </BtnWrap>
-          </RightBox>
-        </ModalContainer>
-      </Modal>
+      <DetailModal>
+        <Modal>
+          <ModalContainer>
+            <LeftBox>
+              <ProjectImg src={detail.thumbnail} />
+            </LeftBox>
+            <RightBox>
+              <ProjectDetailBox>
+                <section className="firstline">
+                  <p>모집 마감일</p>
+                  <div className="content deadline">{detail.deadLine}</div>
+                  <p>프론트엔드 개발자</p>
+                  <div className="content count">
+                    {detail.feCurrentCount}명 / {detail.feCount}명
+                  </div>
+                  <p>백엔드 개발자</p>
+                  <div className="content count">
+                    {detail.beCurrentCount}명 / {detail.beCount}명
+                  </div>
+                  <p>디자이너</p>
+                  <div className="content countlast">
+                    {detail.deCurrentCount}명 / {detail.deCount}명
+                  </div>
+                </section>
+                <section className="secondline">
+                  <p>프로젝트 명칭 </p>
+                  <div className="content projectName">
+                    {detail.projectName}
+                  </div>
+                </section>
+                <section className="thirdline">
+                  <p>프로젝트 단계 </p>
+                  <div className="content middle">{detail.step}</div>
+                  <p>프로젝트 타입</p>
+                  <div className="content middle">{detail.genre}</div>
+                  <p>개발 언어</p>
+                  <div className="content lang">{detail.languageString} </div>
+                </section>
+                <section className="descline">
+                  <p>프로젝트 설명 </p>
+                  <div className="description">{detail.projectDescription}</div>
+                </section>
+                <section className="fileline">
+                  <p>소개자료</p>
+                  <div className="projectFile">
+                    {file1 && file1.fileName}
+                    {file2 && file2.fileName}
+                    <button>
+                      <svg
+                        width="18"
+                        height="22"
+                        viewBox="0 0 18 22"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M18 7.71429H12.8571V0H5.14286V7.71429H0L9 16.7143L18 7.71429ZM7.71429 10.2857V2.57143H10.2857V10.2857H11.79L9 13.0757L6.21 10.2857H7.71429ZM0 19.2857H18V21.8571H0V19.2857Z"
+                          fill="white"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </section>
+              </ProjectDetailBox>
+              <BtnWrap>
+                <button
+                  className="zzim"
+                  onClick={() => {
+                    dispatch(interestedProject(projectId));
+                  }}
+                >
+                  프로젝트 찜하기
+                </button>
+                <button
+                  className="dm"
+                  onClick={() => {
+                    dispatch(applyProject(projectId));
+                  }}
+                >
+                  참여 DM 보내기
+                </button>
+                <button
+                  className="close"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  닫기
+                </button>
+              </BtnWrap>
+            </RightBox>
+          </ModalContainer>
+        </Modal>
+      </DetailModal>
       <ModalBackground />
     </div>
   );
 }
 export default ProjectDetailModal;
+const DetailModal = styled.div`
+  width: 1888px;
+  height: 1080px;
+  z-index: 10;
+  position: fixed;
+`;
 const ModalBackground = styled.div`
   position: fixed;
   display: flex;
@@ -137,11 +146,9 @@ const Modal = styled.div`
   height: 752px;
   background: #09120e;
   z-index: 3;
-  position: fixed;
-  top: 0%;
-  left: 50%;
-  margin: 233px auto;
-  left: 183px;
+  position: absolute;
+  top: 21.5%;
+  right: 9.7%;
   display: flex;
   justify-content: center;
   align-items: center;
