@@ -56,7 +56,7 @@ function ProjectDetailModal() {
                 <p>프로젝트 장르</p>
                 <div className="content middle">{detail.genre}</div>
                 <p>개발 언어</p>
-                <div className="content lang">{detail.language} </div>
+                <div className="content lang">{detail.languageString} </div>
               </section>
               <section className="descline">
                 <p>프로젝트 설명 </p>

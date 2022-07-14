@@ -21,8 +21,12 @@ export const addProject = createAsyncThunk(
 // 프로젝트 리스트 처음 받아오기
 export const getProject = createAsyncThunk("GET/getProject", async () => {
   return await axios
-    .get(`${SERVER_URL}/api/projects`)
-    .then((res) => res.data.result.list)
+    .get(`${SERVER_URL}/api/projects`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    })
+    .then((res) => res.data.result)
     .catch((e) => console.log(e));
 });
 
@@ -145,6 +149,8 @@ const ProjectSlice = createSlice({
     detail: {},
     file1: "",
     file2: "",
+    myProject: [],
+    genre: "",
   },
   reducers: {
     clickTag: (state, action) => {
@@ -162,7 +168,8 @@ const ProjectSlice = createSlice({
       console.log("ok");
     },
     [getProject.fulfilled]: (state, action) => {
-      state.list = [...action.payload];
+      state.list = [...action.payload.list];
+      state.myProject = [...action.payload.myProject];
       console.log("getProject");
     },
     [getProjectPage.fulfilled]: (state, action) => {
@@ -188,6 +195,7 @@ const ProjectSlice = createSlice({
       state.detail = action.payload;
       state.file1 = action.payload.infoFiles[0];
       state.file2 = action.payload.infoFiles[1];
+      state.genre = action.payload.genre[0];
       state.projectDetailModal = true;
       console.log("got detail!");
     },

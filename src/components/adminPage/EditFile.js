@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function EditFile() {
   return (
-    <Container>
+    <FileContainer>
       <ImageBox>
         <section>
           <img src="img/upload.svg" />
@@ -28,11 +28,11 @@ function EditFile() {
         <button>재설정</button>
         <button>저장 </button>
       </BtnWrap>
-    </Container>
+    </FileContainer>
   );
 }
 export default EditFile;
-const Container = styled.div`
+const FileContainer = styled.div`
   width: 445px;
   height: 1080px;
   display: flex;

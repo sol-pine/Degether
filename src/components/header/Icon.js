@@ -75,7 +75,13 @@ const LogoutBtn = () => {
   }
   return (
     <>
-      <LoginButton onClick={logout()}>LOGOUT</LoginButton>
+      <LoginButton
+        onClick={() => {
+          logout();
+        }}
+      >
+        LOGOUT
+      </LoginButton>
     </>
   );
 };
@@ -83,13 +89,7 @@ const ProjectBtn = () => {
   const navigate = useNavigate();
   return (
     <>
-      <LoginButton
-        onClick={() => {
-          navigate("/project");
-        }}
-      >
-        PROJECT
-      </LoginButton>
+      <LoginButton>PROJECT</LoginButton>
     </>
   );
 };

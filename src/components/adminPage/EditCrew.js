@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function EditCrew() {
   return (
-    <Container>
+    <CrewContainer>
       <p>모집 정보 편집</p>
       <FirstLine>
         <GalleryInput>
@@ -43,11 +43,11 @@ function EditCrew() {
           <input type="number" value="1" />
         </CountWrap>
       </CountInput>
-    </Container>
+    </CrewContainer>
   );
 }
 export default EditCrew;
-const Container = styled.div`
+const CrewContainer = styled.div`
   width: 779px;
   height: 380px;
   border: 1px solid #cbcbcb;

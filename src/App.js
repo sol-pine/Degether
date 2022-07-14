@@ -13,14 +13,13 @@ import SearchBar from "./components/header/SearchBar";
 function App() {
   return (
     <div className="App">
-      <Header />
       <Routes>
         <Route path="/" element={<Main />}>
           <Route path="/:projectId" element={<ProjectDetailModal />} />
         </Route>
         <Route path="/mypage" element={<User />} />
-        <Route path="/project" element={<Project />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/project/:projectId" element={<Project />} />
+        <Route path="/admin/:projectId" element={<Admin />} />
         <Route
           path="/auth/kakao/callback"
           element={<KakaoOAuthRedirectHandler />}

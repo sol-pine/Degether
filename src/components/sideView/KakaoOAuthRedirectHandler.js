@@ -7,9 +7,7 @@ function KakaoOAuthRedirectHandler() {
   const navigate = useNavigate();
   axios.post(`${SERVER_URL}/user/kakao?code=${code}`).then((response) => {
     localStorage.setItem("token", response.headers.authorization);
-
     const token = localStorage.getItem("token");
-    console.log(token);
     if (token) {
       navigate("/");
     }

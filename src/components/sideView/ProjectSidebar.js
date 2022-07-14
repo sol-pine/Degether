@@ -1,9 +1,15 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Plus, Folder } from "./Icon";
-import { createModal } from "../../redux/modules/ProjectSlice";
-function ProjectSidebarContainer(props) {
+import { createModal, getProject } from "../../redux/modules/ProjectSlice";
+import { useNavigate } from "react-router-dom";
+
+function ProjectSidebarContainer() {
+  const myProject = useSelector((state) => state.Project.myProject);
+  const list = useSelector((state) => state.Project.list);
+  console.log(list, myProject);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   return (
     <ProjectSidebarContainerWrap>
@@ -24,7 +30,11 @@ function ProjectSidebarContainer(props) {
             <AddBtnText>프로젝트 생성</AddBtnText>
           </ProjectAddBtnText>
         </ProjectAddBtn>
-        <Test>
+        <Test
+        // onClick={() => {
+        //   navigate(`/project/${projectId}`);
+        // }}
+        >
           {/* 프로젝트 배경 이미지 */}
           <ProjectBackgroundImg src="img/Group 515.png" />
           {/* 프로젝트 상세 정보 게시물 리스트 */}

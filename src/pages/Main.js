@@ -13,7 +13,6 @@ function Main() {
   const dispatch = useDispatch();
   const createModal = useSelector((state) => state.Project.projectCreateModal);
   const token = localStorage.getItem("token");
-  console.log(token);
 
   return (
     <>
@@ -53,6 +52,7 @@ const ModalBackground = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
   top: 0;
   left: 0;
   bottom: 0;

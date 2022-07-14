@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 function EditProject() {
   return (
-    <Container>
+    <ProjectContainer>
       <div className="title">프로젝트 정보 편집</div>
       <div className="infoBox">
         <section>
@@ -123,12 +123,12 @@ function EditProject() {
           <ProjectDescription type="text" defaultvalue="프로젝트 설명" />
         </section>
       </div>
-    </Container>
+    </ProjectContainer>
   );
 }
 export default EditProject;
 
-const Container = styled.div`
+const ProjectContainer = styled.div`
   width: 779px;
   height: 519px;
   border: 1px solid #cbcbcb;
