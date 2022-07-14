@@ -51,9 +51,9 @@ function ProjectDetailModal() {
                 <div className="content projectName">{detail.projectName}</div>
               </section>
               <section className="thirdline">
-                <p>프로젝트 현황 </p>
+                <p>프로젝트 단계 </p>
                 <div className="content middle">{detail.step}</div>
-                <p>프로젝트 장르</p>
+                <p>프로젝트 타입</p>
                 <div className="content middle">{detail.genre}</div>
                 <p>개발 언어</p>
                 <div className="content lang">{detail.languageString} </div>

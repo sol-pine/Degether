@@ -142,6 +142,21 @@ export const applyProject = createAsyncThunk(
   }
 );
 
+// 프로젝트 수정하기
+export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
+  const res = await axios
+    .put(`${SERVER_URL}/api/project/${args.projectId}`, args.formData, {
+      headers: {
+        Authorization: `${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log("Edit ", res.data);
+    })
+    .catch((e) => console.log(e));
+});
+
 const ProjectSlice = createSlice({
   name: "ProjectSlice",
   initialState: {
@@ -199,6 +214,7 @@ const ProjectSlice = createSlice({
       state.file1 = action.payload.infoFiles[0];
       state.file2 = action.payload.infoFiles[1];
       state.genre = action.payload.genre[0];
+
       state.projectDetailModal = true;
       console.log("got detail!");
     },
@@ -209,6 +225,10 @@ const ProjectSlice = createSlice({
     [applyProject.fulfilled]: (state, action) => {
       console.log("apply!");
       window.location.reload();
+    },
+    [editProject.fulfilled]: (state, action) => {
+      console.log("edit!");
+      alert("프로젝트 수정이 완료되었습니다!");
     },
   },
 });

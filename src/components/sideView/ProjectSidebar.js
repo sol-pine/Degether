@@ -70,7 +70,6 @@ function ProjectSidebarContainer() {
           </svg>
         </ProjectListBottom>
       </ProjectSidebarContainerWrap>
-      ;
     </>
   );
 }

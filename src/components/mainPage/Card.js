@@ -19,7 +19,7 @@ const Card = () => {
     dispatch(getProjectPage(page));
     setLoading(false);
   }, [page]);
-
+  console.log(project);
   // getItems 가 바뀔 때 마다 함수 실행
   useEffect(() => {
     getList();

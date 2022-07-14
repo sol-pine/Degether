@@ -93,8 +93,6 @@ const ProjectCreateModal = () => {
       genre: genre,
       step: step,
     };
-    console.log(genre);
-    console.log(projectRequestDto);
     const formData = new FormData();
     formData.append(
       "projectRequestDto",
@@ -114,7 +112,7 @@ const ProjectCreateModal = () => {
     formData.append("infoFiles", file2);
 
     dispatch(addProject(formData));
-    // dispatch(createModal(false));
+    dispatch(createModal(false));
     // window.location.reload();
   }
 
@@ -135,7 +133,7 @@ const ProjectCreateModal = () => {
             <RightBox>
               <TopBox>
                 <ProjectTitle>
-                  <label htmlFor="title">프로젝트 명칭</label>
+                  <label htmlFor="title">프로젝트 명</label>
                   <div>
                     <input
                       ref={projectName}
@@ -146,7 +144,7 @@ const ProjectCreateModal = () => {
                 </ProjectTitle>
                 <ProjectBox>
                   <ProjectType>
-                    <label htmlFor="genre">프로젝트 장르</label>
+                    <label htmlFor="genre">프로젝트 타입</label>
                     <select onChange={(e) => handleChange(e)}>
                       <option>선택</option>
                       <option value="모바일 앱">모바일 앱</option>
