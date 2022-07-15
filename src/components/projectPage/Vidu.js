@@ -61,52 +61,12 @@ function Vidu() {
     }
   }, [session]);
 
-  //   function joinSession(event) {
-  //     if (mySessionId && myUserName) {
-  //         getToken();
-  //       setToken(token);
-  //       setSession(true);
-  //         event.preventDefault();
-  //     }
-  //   }
-
-  //웹캠 연결
-  // useEffect(() => {
-  //   connectWebCam();
-  //   // joinSession();
-  // }, []);
-  // let devices;
-  // async function connectWebCam() {
-  //   devices = await OV.getDevices();
+  // localUser.setStreamManager(publisher);
+  // 웹캠 상태 변경 (on&off)
+  // function camStatusChanged() {
+  //   localUser.setVideoActive(!localUser.isVideoActive());
+  //   localUser.getStreamManager().publishVideo(localUser.isVideoActive());
   // }
-  // publisher = OV.initPublisher(undefined, {
-  //   audioSource: undefined,
-  //   videoSource: undefined,
-  //   publishAudio: localUser.isVideoActive(),
-  //   publishVideo: localUser.isVideoActive(),
-  //   resolution: "640x480",
-  //   frameRate: 30,
-  //   insertMode: "APPEND",
-  // });
-
-  //     if (this.state.session.capabilities.publish) {
-  //         publisher.on('accessAllowed' , () => {
-  //             this.state.session.publish(publisher).then(() => {
-  //                 this.updateSubscribers();
-  //                 this.localUserAccessAllowed = true;
-  //                 if (this.props.joinSession) {
-  //                     this.props.joinSession();
-  //                 }
-  //             });
-  //         });
-
-  //     }
-  localUser.setStreamManager(publisher);
-  //웹캠 상태 변경 (on&off)
-  function camStatusChanged() {
-    localUser.setVideoActive(!localUser.isVideoActive());
-    localUser.getStreamManager().publishVideo(localUser.isVideoActive());
-  }
 
   //   camStatusChanged() {
   //     localUser.setVideoActive(!localUser.isVideoActive());
@@ -255,11 +215,7 @@ function Vidu() {
                   />
                 </svg>
               </button>
-              <button
-                onClick={() => {
-                  camStatusChanged();
-                }}
-              >
+              <button>
                 <svg
                   width="24"
                   height="17"

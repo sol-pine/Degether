@@ -10,17 +10,47 @@ import { editProject, getProjectDetails } from "../redux/modules/ProjectSlice";
 function Admin() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
-  const detail = useSelector((state) => state.Project.detail);
+  const detail = useSelector((state) => state.Project?.detail);
+  const defaultGenre = useSelector((state) => state.Project?.genre);
+  const defaultLanguage = detail.language;
+  const defaultStep = detail.step;
+  const defaultDeadline = detail.deadLine;
 
   // 기존 데이터 저장할 state
   const [newTitle, setNewTitle] = useState("");
+  const [newGenre, setNewGenre] = useState("");
+  const [newLanguage, setNewLanguage] = useState(null);
   const [newDescripton, setNewDescripton] = useState("");
+  const [newFeCount, setNewFeCount] = useState(0);
+  const [newBeCount, setNewBeCount] = useState(0);
+  const [newDeCount, setNewDeCount] = useState(0);
+  const [newStep, setNewStep] = useState("");
+  const [newDeadline, setNewDeadline] = useState("");
 
   useEffect(() => {
     dispatch(getProjectDetails(projectId));
     setNewTitle(detail.projectName);
+    setNewGenre(defaultGenre);
+    setNewLanguage(defaultLanguage);
+    setNewStep(detail.step);
     setNewDescripton(detail.projectDescription);
-  }, []);
+    setNewDeadline(defaultDeadline);
+    setNewFeCount(detail.feCount);
+    setNewBeCount(detail.beCount);
+    setNewDeCount(detail.deCount);
+  }, [null]);
+  console.log(newDeadline);
+
+  // 모집 인원
+  const handleFeCount = (e) => {
+    setNewFeCount(e.target.value);
+  };
+  const handleBeCount = (e) => {
+    setNewBeCount(e.target.value);
+  };
+  const handleDeCount = (e) => {
+    setNewDeCount(e.target.value);
+  };
 
   // 프로젝트 명
   const handleTitle = (e) => {
@@ -70,16 +100,12 @@ function Admin() {
   };
 
   // 프로젝트 장르
-  const defaultGenre = useSelector((state) => state.Project.genre);
-  const [newGenre, setNewGenre] = useState([defaultGenre]);
   const handleGenre = (e) => {
     let a = e.target.value;
     setNewGenre([a]);
   };
 
   // 개발 언어
-  const defaultLanguage = detail.languageString;
-  const [newLanguage, setNewLanguage] = useState(defaultLanguage);
   let result = [];
   const query = 'input[name="language"]:checked';
   const handleLanguage = (e) => {
@@ -92,8 +118,6 @@ function Admin() {
     });
   };
   // 진행 단계
-  const defaultStep = detail.step;
-  const [newStep, setNewStep] = useState(defaultStep);
   const handleStep = (e) => {
     setNewStep(e.target.value);
   };
@@ -102,24 +126,8 @@ function Admin() {
   let today = new Date();
   today = today.toISOString();
   today = today.substring(0, 10);
-  const defaultDeadline = detail.deadLine;
-  const [newDeadline, setNewDeadline] = useState(defaultDeadline);
   const handleDeadline = (e) => {
     setNewDeadline(e.target.value);
-  };
-
-  // 모집 인원
-  const [newFeCount, setNewFeCount] = useState(detail.feCount);
-  const [newBeCount, setNewBeCount] = useState(detail.beCount);
-  const [newDeCount, setNewDeCount] = useState(detail.deCount);
-  const handleFeCount = (e) => {
-    setNewFeCount(e.target.value);
-  };
-  const handleBeCount = (e) => {
-    setNewBeCount(e.target.value);
-  };
-  const handleDeCount = (e) => {
-    setNewDeCount(e.target.value);
   };
 
   function submit() {
