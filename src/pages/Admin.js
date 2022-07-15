@@ -10,11 +10,26 @@ import { editProject, getProjectDetails } from "../redux/modules/ProjectSlice";
 function Admin() {
   const dispatch = useDispatch();
   const { projectId } = useParams();
-
   const detail = useSelector((state) => state.Project.detail);
+
+  // 기존 데이터 저장할 state
+  const [newTitle, setNewTitle] = useState("");
+  const [newDescripton, setNewDescripton] = useState("");
+
   useEffect(() => {
     dispatch(getProjectDetails(projectId));
+    setNewTitle(detail.projectName);
+    setNewDescripton(detail.projectDescription);
   }, []);
+
+  // 프로젝트 명
+  const handleTitle = (e) => {
+    setNewTitle(e.target.value);
+  };
+  // 프로젝트 설명
+  const handleDescription = (e) => {
+    setNewDescripton(e.target.value);
+  };
 
   // 썸네일 이미지 마우스이벤트
   const [changeThumbnail, setChangeThumbnail] = useState(false);
@@ -54,12 +69,6 @@ function Admin() {
     setNewFile2(e.target.files[1]);
   };
 
-  // 프로젝트 명
-  const [newTitle, setNewTitle] = useState(detail.projectName);
-  const handleTitle = (e) => {
-    setNewTitle(e.target.value);
-  };
-
   // 프로젝트 장르
   const defaultGenre = useSelector((state) => state.Project.genre);
   const [newGenre, setNewGenre] = useState([defaultGenre]);
@@ -87,13 +96,6 @@ function Admin() {
   const [newStep, setNewStep] = useState(defaultStep);
   const handleStep = (e) => {
     setNewStep(e.target.value);
-  };
-
-  // 프로젝트 설명
-  const defaultDescription = detail.projectDescription;
-  const [newDescripton, setNewDescripton] = useState(defaultDescription);
-  const handleDescription = (e) => {
-    setNewDescripton(e.target.value);
   };
 
   // 모집 마감일
@@ -149,11 +151,11 @@ function Admin() {
         }
       )
     );
-    console.log(projectRequestDto);
     formData.append("thumbnail", newThumbnail);
     dispatch(editProject({ projectId: projectId, formData: formData }));
     dispatch(getProjectDetails(projectId));
   }
+
   // 조건을 걸어 비동기 처리
   if (!detail || !defaultGenre) {
     return <div></div>;
