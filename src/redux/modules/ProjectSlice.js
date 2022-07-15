@@ -214,7 +214,6 @@ const ProjectSlice = createSlice({
       state.file1 = action.payload.infoFiles[0];
       state.file2 = action.payload.infoFiles[1];
       state.genre = action.payload.genre[0];
-
       state.projectDetailModal = true;
       console.log("got detail!");
     },

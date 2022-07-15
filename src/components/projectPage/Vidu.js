@@ -3,36 +3,64 @@ import styled from "styled-components";
 import { OpenVidu } from "openvidu-browser";
 import userModel from "openvidu-react/dist/models/user-model";
 import { useDispatch, useSelector } from "react-redux";
-import { createViduToken } from "../../redux/modules/ViduSlice";
+import { createSession, createViduToken } from "../../redux/modules/ViduSlice";
+import { useParams } from "react-router-dom";
 
 function Vidu() {
   const dispatch = useDispatch();
-  const [session, setSession] = useState(false);
-  const [mySessionId, setMySessionId] = useState("200");
-  const [myUserName, setMyUserName] = useState("hey");
+  const viduToken = useSelector((state) => state.Vidu.viduToken);
+  const { projectId } = useParams();
+  const [sessionId, setSessionId] = useState(projectId);
+  const [session, setSession] = useState(null);
+  const [nickname, setNickname] = useState("nickname");
+  const [OV, setOV] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
+  const [publisher, setPublisher] = useState(null);
+  const [test, setTest] = useState(["test"]);
   const localUser = new userModel();
-  const OV = new OpenVidu();
-  console.log(OV);
-  console.log(localUser);
-  console.log(OV.publishers);
+  // const OV = new OpenVidu();
 
   useEffect(() => {
-    dispatch(createViduToken());
-  }, []);
+    console.log("useEffect OV", OV);
+    if (OV != null) {
+      console.log(OV);
+      // ** enableProdMode() : Disable all logging except error level / Returns void
+      OV.enableProdMode();
+      // ** initSession() : Returns new session / Returns Session
+      setSession(OV.initSession());
+    }
+  }, [OV]);
+  useEffect(() => {
+    console.log("useEffect session", session);
 
-  const viduToken = useSelector((state) => state.Vidu.viduToken);
-  console.log(viduToken);
+    if (session != null) {
+      console.log(session);
 
-  //채팅방 입장
-  //채팅
-  //채팅방 종료
-  //마이크 ON
-  //마이크 OFF
-  //화면공유 ON
-  //화면공유 OFF
+      session.on("streamCreated", (event) => {
+        //Stream Created
+        let tempSubscribers = [...subscribers];
+        tempSubscribers.push(session.subscribe(event.stream, undefined));
+        setSubscribers(tempSubscribers);
+        console.warn("Stream Created");
+      });
+      session.on("streamDestroyed", (event) => {
+        //Stream Destroyed
+        const index = subscribers.indexOf(event.stream.streamManager, 0);
+        let tempSubscribers = [...subscribers];
+        if (index > -1) {
+          tempSubscribers.splice(index, 1);
+        }
+        setSubscribers(tempSubscribers);
+        console.log("Stream Destroyed");
+      });
+      session.on("exception", (event) => {
+        //exception
+        console.log("exception");
+      });
+      getToken().then((response) => {});
+    }
+  }, [session]);
 
-  //채팅 시작
   //   function joinSession(event) {
   //     if (mySessionId && myUserName) {
   //         getToken();
@@ -43,23 +71,23 @@ function Vidu() {
   //   }
 
   //웹캠 연결
-  useEffect(() => {
-    connectWebCam();
-    // joinSession();
-  }, []);
-  let devices;
-  async function connectWebCam() {
-    devices = await OV.getDevices();
-  }
-  const publisher = OV.initPublisher(undefined, {
-    audioSource: undefined,
-    videoSource: undefined,
-    publishAudio: localUser.isVideoActive(),
-    publishVideo: localUser.isVideoActive(),
-    resolution: "640x480",
-    frameRate: 30,
-    insertMode: "APPEND",
-  });
+  // useEffect(() => {
+  //   connectWebCam();
+  //   // joinSession();
+  // }, []);
+  // let devices;
+  // async function connectWebCam() {
+  //   devices = await OV.getDevices();
+  // }
+  // publisher = OV.initPublisher(undefined, {
+  //   audioSource: undefined,
+  //   videoSource: undefined,
+  //   publishAudio: localUser.isVideoActive(),
+  //   publishVideo: localUser.isVideoActive(),
+  //   resolution: "640x480",
+  //   frameRate: 30,
+  //   insertMode: "APPEND",
+  // });
 
   //     if (this.state.session.capabilities.publish) {
   //         publisher.on('accessAllowed' , () => {
@@ -87,10 +115,84 @@ function Vidu() {
   //     this.setState({ localUser: localUser });
   // }
 
+  useEffect(() => {
+    console.log("useEffect token", viduToken);
+    if (viduToken != null && session != null) {
+      console.log("connect");
+      session
+        .connect(viduToken, { clientData: nickname })
+        .then(async () => {
+          var devices = await OV.getDevices();
+          var videoDevices = devices.filter(
+            (device) => device.kind === "videoinput"
+          );
+
+          setPublisher(
+            OV.initPublisher(undefined, {
+              audioSource: undefined, // The source of audio. If undefined default microphone
+              videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
+              publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+              publishVideo: true, // Whether you want to start publishing with your video enabled or not
+              resolution: "640x480", // The resolution of your video
+              frameRate: 30, // The frame rate of your video
+              insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
+              mirror: false, // Whether to mirror your local video or not
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(
+            "There was an error connecting to the session:",
+            error.code,
+            error.message
+          );
+        });
+    }
+  }, [viduToken]);
+
+  // 세션 연결
+  useEffect(() => {
+    if (publisher != null) {
+      session.publish(publisher);
+    }
+  }, [publisher]);
+
+  // JOIN SESSION
+  const joinSession = () => {
+    setOV(new OpenVidu());
+  };
+
+  // LEAVE SESSION
+  const leaveSession = () => {
+    if (session) {
+      session.disconnect();
+    }
+    setOV(null);
+  };
+
+  // GET TOKEN (CREATE SESSION, CREATE TOKEN)
+  const getToken = () => {
+    dispatch(createSession(projectId));
+    dispatch(createViduToken(projectId));
+  };
+
+  function btnTest() {
+    console.log("testOV", OV);
+    console.log("session", session);
+    console.log("token", viduToken);
+  }
+
   return (
     <div>
       <Container>
         <Title>화상 회의</Title>
+        <button
+          onClick={() => {
+            btnTest();
+          }}
+        >
+          테스트
+        </button>
         <ViduBox>
           <SubVidu>
             <button>
@@ -137,18 +239,39 @@ function Vidu() {
             <video autoPlay muted></video>
             <div>
               <button>
-                <img src="img/share.svg" />
+                <img src="img/share.png" />
               </button>
               <button>
-                <img src="img/mic.svg" />
+                <svg
+                  width="24"
+                  height="32"
+                  viewBox="0 0 24 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M12.2565 19.9008C14.9927 19.9008 17.1851 17.6786 17.1851 14.9257L17.2015 4.97556C17.2015 2.22269 14.9927 0.000488281 12.2565 0.000488281C9.52022 0.000488281 7.31142 2.22269 7.31142 4.97556V14.9257C7.31142 17.6786 9.52022 19.9008 12.2565 19.9008ZM20.9927 14.9257C20.9927 19.9008 16.8059 23.3833 12.2565 23.3833C7.70703 23.3833 3.52022 19.9008 3.52022 14.9257H0.718018C0.718018 20.5807 5.20153 25.2573 10.6081 26.0699V31.5093H13.9048V26.0699C19.3114 25.2738 23.7949 20.5973 23.7949 14.9257H20.9927Z"
+                    fill="black"
+                  />
+                </svg>
               </button>
-              <button>
-                <img
-                  src="img/cam.svg"
-                  onClick={() => {
-                    camStatusChanged();
-                  }}
-                />
+              <button
+                onClick={() => {
+                  camStatusChanged();
+                }}
+              >
+                <svg
+                  width="24"
+                  height="17"
+                  viewBox="0 0 24 17"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.9744 6.16327V1.56824C17.9744 0.846161 17.3974 0.255371 16.6923 0.255371H1.30769C0.602558 0.255371 0.0256348 0.846161 0.0256348 1.56824V14.6969C0.0256348 15.419 0.602558 16.0098 1.30769 16.0098H16.6923C17.3974 16.0098 17.9744 15.419 17.9744 14.6969V10.1019L23.1026 15.3533V0.911804L17.9744 6.16327Z"
+                    fill="black"
+                  />
+                </svg>
               </button>
             </div>
           </MainVidu>
@@ -253,5 +376,9 @@ const MainVidu = styled.div`
     border: none;
     cursor: pointer;
     margin-right: 17px;
+  }
+  img {
+    width: 30.77px;
+    height: 30.96px;
   }
 `;

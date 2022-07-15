@@ -89,6 +89,10 @@ const BarWrap = styled.div`
     border-radius: 30px;
     margin-right: 7px;
     cursor: pointer;
+    :hover {
+      background: #d6e5d0;
+      color: #2f4a3b;
+    }
   }
 `;
 const SearchTagWrap = styled.div`

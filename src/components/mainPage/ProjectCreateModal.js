@@ -113,7 +113,7 @@ const ProjectCreateModal = () => {
 
     dispatch(addProject(formData));
     dispatch(createModal(false));
-    // window.location.reload();
+    window.location.reload("/");
   }
 
   return (
@@ -147,8 +147,8 @@ const ProjectCreateModal = () => {
                     <label htmlFor="genre">프로젝트 타입</label>
                     <select onChange={(e) => handleChange(e)}>
                       <option>선택</option>
-                      <option value="모바일 앱">모바일 앱</option>
-                      <option value="웹 프로그램">웹 프로그램</option>
+                      <option value="앱">앱</option>
+                      <option value="웹">웹</option>
                       <option value="게임">게임</option>
                       <option value="메타버스">메타버스</option>
                       <option value="블록체인">블록체인</option>

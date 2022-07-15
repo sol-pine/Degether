@@ -41,9 +41,10 @@ const MainHeader = () => {
             <MainIconContainer>
               <HomeIcon />
               {/* <NoticeIcon /> */}
-              <Profile />
+
               {token ? (
                 <div>
+                  <Profile />
                   <LogoutBtn />
                   <ProjectBtn />
                 </div>

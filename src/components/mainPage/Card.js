@@ -12,6 +12,12 @@ const Card = () => {
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
+  console.log(project);
+
+  // 프로젝트 썸네일 카드 호버 이벤트
+  // 반복으로 돌린 카드에 개별 cardOpen의 state 변경을 위해 state를 project 길이 만큼의 배열로 만들어줌
+  // const cardOpen = Array(project.length).fill(false);
+  // console.log(cardOpen);
 
   // 프로젝트 리스트 받아오기
   const getList = useCallback(async () => {
@@ -19,7 +25,7 @@ const Card = () => {
     dispatch(getProjectPage(page));
     setLoading(false);
   }, [page]);
-  console.log(project);
+
   // getItems 가 바뀔 때 마다 함수 실행
   useEffect(() => {
     getList();
@@ -31,6 +37,7 @@ const Card = () => {
       setPage((prevState) => prevState + 1);
     }
   }, [inView, loading]);
+
   return (
     <>
       {project.map((list, idx) => {
@@ -41,7 +48,17 @@ const Card = () => {
               navigate(`/${list.projectId}`);
               console.log(project);
             }}
+            // onMouseEnter={() => {
+            //   cardOpen[idx] = true;
+            //   console.log(cardOpen);
+            // }}
+            // onMouseLeave={() => {
+            //   cardOpen[idx] = false;
+            //   console.log(cardOpen);
+            // }}
           >
+            {/* {cardOpen[0] ? <OnCardContainer /> : null} */}
+            {/* <OnCardContainer /> */}
             <CardText>
               {list.projectName}
               <br />
@@ -75,7 +92,21 @@ const Card = () => {
   );
 };
 
+const OnCardContainer = styled.div`
+  z-index: 1;
+  background: #09120e;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.9;
+  border: 0.5px solid #cbcbcb;
+  border-radius: 10px;
+  width: 214px;
+  height: 366px;
+`;
+
 const CardContainer = styled.div`
+  position: relative;
   width: 214px;
   height: 366px;
   border-radius: 10px;

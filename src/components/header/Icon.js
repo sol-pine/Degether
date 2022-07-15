@@ -50,7 +50,7 @@ const Profile = () => {
   const navigate = useNavigate();
   return (
     <>
-      <ProfileImg onClick={() => navigate("mypage")}>MY</ProfileImg>
+      <ProfileImg onClick={() => navigate("/mypage")}>MY</ProfileImg>
     </>
   );
 };

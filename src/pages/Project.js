@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import Header from "../components/header/Header";
 
 function Project() {
-  const { projectId } = useParams();
   return (
     <div>
       <Header />

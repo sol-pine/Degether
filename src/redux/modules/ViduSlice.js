@@ -3,14 +3,32 @@ import axios from "axios";
 import { OpenVidu } from "openvidu-browser";
 import { OPENVIDU_SERVER_URL, OPENVIDU_SERVER_SECRET } from "../../shared/api";
 
-//   비두 토큰 생성
-const sessionId = "SessionB";
+// 세션 생성
+export const createSession = createAsyncThunk(
+  "POST/createSession",
+  async (projectId) => {
+    return await axios
+      .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, projectId, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization:
+            "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+        },
+      })
+      .then((res) => {
+        console.log("CREATE SESION", res.data.id);
+      })
+      .catch((e) => console.log(e));
+  }
+);
+
+// 토큰 생성
 export const createViduToken = createAsyncThunk(
-  "CREATE/createToken",
-  async () => {
-    const res = await axios
+  "POST/createToken",
+  async (projectId) => {
+    return await axios
       .post(
-        `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${sessionId}/connection`,
+        `${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${projectId}/connection`,
         {},
         {
           headers: {

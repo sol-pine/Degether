@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../components/mainPage/Card";
 import ProjectCreateModal from "../components/mainPage/ProjectCreateModal";
 import LoginContainer from "../components/sideView/LoginContainer";
-import { clickTag } from "../redux/modules/ProjectSlice";
+import { clickTag, getProject } from "../redux/modules/ProjectSlice";
 import ProjectSidebar from "../components/sideView/ProjectSidebar";
 import { Outlet } from "react-router-dom";
 import { MainHeader } from "../components/header/Header";
@@ -13,6 +13,12 @@ function Main() {
   const dispatch = useDispatch();
   const createModal = useSelector((state) => state.Project.projectCreateModal);
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    dispatch(getProject());
+  }, []);
+
+
 
   return (
     <>
@@ -23,7 +29,6 @@ function Main() {
         }}
       >
         <Outlet></Outlet>
-
         {createModal ? (
           <div>
             <ProjectCreateModal />
@@ -32,7 +37,10 @@ function Main() {
         ) : null}
         <CardContainer>
           <CardGrid>
-            <Card />
+
+            <Card
+             
+            />
           </CardGrid>
         </CardContainer>
         {token ? <ProjectSidebar /> : <LoginContainer />}
@@ -67,6 +75,7 @@ const CardContainer = styled.div`
   justify-content: center;
   margin-top: 215px;
 `;
+
 const CardGrid = styled.div`
   min-width: 1365px;
   display: grid;

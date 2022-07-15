@@ -134,6 +134,7 @@ function Admin() {
       genre: newGenre,
       step: newStep,
     };
+
     const formData = new FormData();
     formData.append(
       "projectRequestDto",
@@ -148,6 +149,7 @@ function Admin() {
         }
       )
     );
+    console.log(projectRequestDto);
     formData.append("thumbnail", newThumbnail);
     dispatch(editProject({ projectId: projectId, formData: formData }));
     dispatch(getProjectDetails(projectId));
@@ -183,22 +185,18 @@ function Admin() {
                       <CheckType
                         className="checktype"
                         type="radio"
-                        defaultValue="모바일 앱"
+                        defaultValue="앱"
                         name="type"
-                        defaultChecked={
-                          defaultGenre === "모바일 앱" ? true : false
-                        }
+                        defaultChecked={defaultGenre === "앱" ? true : false}
                         onChange={handleGenre}
                       />
                       웹 프로그램
                       <CheckType
                         className="checktype"
                         type="radio"
-                        defaultValue="웹 프로그램"
+                        defaultValue="웹"
                         name="type"
-                        defaultChecked={
-                          defaultGenre === "웹 프로그램" ? true : false
-                        }
+                        defaultChecked={defaultGenre === "웹" ? true : false}
                         onChange={handleGenre}
                       />
                       게임

@@ -92,6 +92,7 @@ function ProjectDetailModal() {
                   className="zzim"
                   onClick={() => {
                     dispatch(interestedProject(projectId));
+                    alert("해당 프로젝트 찜 등록이 완료되었습니다!");
                   }}
                 >
                   프로젝트 찜하기
@@ -100,6 +101,7 @@ function ProjectDetailModal() {
                   className="dm"
                   onClick={() => {
                     dispatch(applyProject(projectId));
+                    alert("프로젝트 담당자에게 참여 DM이 보내졌습니다!");
                   }}
                 >
                   참여 DM 보내기
