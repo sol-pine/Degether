@@ -17,7 +17,7 @@ export const createSession = createAsyncThunk(
         },
       })
       .then((res) => {
-        console.log("CREATE SESION", res.data.id);
+        console.log("CREATE SESSION", res.data.id);
       })
       .catch((e) => console.log(e));
   }
@@ -55,6 +55,10 @@ const ViduSlice = createSlice({
   extraReducers: {
     [createViduToken.fulfilled]: (state, action) => {
       state.viduToken = localStorage.getItem("viduToken");
+      console.log("get token");
+    },
+    [createSession.fulfilled]: (state, action) => {
+      console.log("session created!");
     },
   },
 });

@@ -19,6 +19,7 @@ function Vidu() {
   const [publisher, setPublisher] = useState(null);
   const [test, setTest] = useState(["test"]);
   const localUser = new userModel();
+  let subscribers2 = [];
   // const OV = new OpenVidu();
 
   useEffect(() => {
@@ -29,6 +30,7 @@ function Vidu() {
   const joinSession = () => {
     setOV(new OpenVidu());
   };
+
   useEffect(() => {
     console.log("useEffect OV", OV);
     if (OV != null) {
@@ -44,12 +46,12 @@ function Vidu() {
 
     if (session != null) {
       console.log(session);
-
       session.on("streamCreated", (event) => {
         //Stream Created
-        let tempSubscribers = [...subscribers];
+        const tempSubscribers = [...subscribers2];
         tempSubscribers.push(session.subscribe(event.stream, undefined));
         setSubscribers(tempSubscribers);
+        subscribers2 = tempSubscribers;
         console.warn("Stream Created");
       });
       session.on("streamDestroyed", (event) => {
@@ -62,11 +64,13 @@ function Vidu() {
         setSubscribers(tempSubscribers);
         console.log("Stream Destroyed");
       });
+
       session.on("exception", (event) => {
         //exception
         console.log("exception");
         console.log(event);
       });
+
       getToken();
     }
   }, [session]);
@@ -137,12 +141,6 @@ function Vidu() {
     // setViduToken(null);
   };
 
-  function btnTest() {
-    console.log("testOV", OV);
-    console.log("session", session);
-    console.log("token", viduToken);
-  }
-
   return (
     <div>
       <Container>
@@ -182,6 +180,12 @@ function Vidu() {
                   </div>
                 ))}
               </div>
+              <div className="memberWrap">
+                <div className="member"></div>
+                <div className="member"></div>
+                <div className="member"></div>
+                <div className="member"></div>
+              </div>
             </section>
             <button>
               <svg
@@ -201,9 +205,7 @@ function Vidu() {
           <MainVidu>
             {publisher != null ? <Video streamManager={publisher} /> : null}
             <div>
-              <button>
-                <img src="img/share.png" />
-              </button>
+              <button></button>
               <button>
                 <svg
                   width="24"
@@ -350,4 +352,8 @@ const MainVidu = styled.div`
     width: 30.77px;
     height: 30.96px;
   }
+`;
+const Monitor = styled.svg`
+  width: 24px;
+  height: 32px;
 `;

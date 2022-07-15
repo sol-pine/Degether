@@ -133,7 +133,7 @@ const ProjectCreateModal = () => {
             <RightBox>
               <TopBox>
                 <ProjectTitle>
-                  <label htmlFor="title">프로젝트 명</label>
+                  <label htmlFor="title">프로젝트 명칭</label>
                   <div>
                     <input
                       ref={projectName}

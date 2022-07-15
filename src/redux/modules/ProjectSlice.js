@@ -153,8 +153,11 @@ export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
     })
     .then((res) => {
       console.log("Edit ", res.data);
+      alert("프로젝트 수정이 완료되었습니다.");
     })
-    .catch((e) => console.log(e));
+    .catch((e) => {
+      console.log(e);
+    });
 });
 
 const ProjectSlice = createSlice({
@@ -227,7 +230,6 @@ const ProjectSlice = createSlice({
     },
     [editProject.fulfilled]: (state, action) => {
       console.log("edit!");
-      alert("프로젝트 수정이 완료되었습니다!");
     },
   },
 });
