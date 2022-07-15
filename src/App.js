@@ -18,8 +18,8 @@ function App() {
           <Route path="/:projectId" element={<ProjectDetailModal />} />
         </Route>
         <Route path="/mypage" element={<User />} />
-        <Route path="/project/:projectId" element={<Project />} />
-        <Route path="/admin/:projectId" element={<Admin />} />
+        <Route path="/project/:myprojectId" element={<Project />} />
+        <Route path="/admin/:myprojectId" element={<Admin />} />
         <Route
           path="/auth/kakao/callback"
           element={<KakaoOAuthRedirectHandler />}

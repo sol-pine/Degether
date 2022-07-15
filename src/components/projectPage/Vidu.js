@@ -5,12 +5,13 @@ import userModel from "openvidu-react/dist/models/user-model";
 import { useDispatch, useSelector } from "react-redux";
 import { createSession, createViduToken } from "../../redux/modules/ViduSlice";
 import { useParams } from "react-router-dom";
+import Video from "./Video";
 
 function Vidu() {
   const dispatch = useDispatch();
   const viduToken = useSelector((state) => state.Vidu.viduToken);
-  const { projectId } = useParams();
-  const [sessionId, setSessionId] = useState(projectId);
+  const { myprojectId } = useParams();
+  const [sessionId, setSessionId] = useState(myprojectId);
   const [session, setSession] = useState(null);
   const [nickname, setNickname] = useState("nickname");
   const [OV, setOV] = useState(null);
@@ -20,6 +21,14 @@ function Vidu() {
   const localUser = new userModel();
   // const OV = new OpenVidu();
 
+  useEffect(() => {
+    joinSession();
+  }, []);
+
+  // JOIN SESSION
+  const joinSession = () => {
+    setOV(new OpenVidu());
+  };
   useEffect(() => {
     console.log("useEffect OV", OV);
     if (OV != null) {
@@ -56,24 +65,16 @@ function Vidu() {
       session.on("exception", (event) => {
         //exception
         console.log("exception");
+        console.log(event);
       });
-      getToken().then((response) => {});
+      getToken();
     }
   }, [session]);
-
-  // localUser.setStreamManager(publisher);
-  // 웹캠 상태 변경 (on&off)
-  // function camStatusChanged() {
-  //   localUser.setVideoActive(!localUser.isVideoActive());
-  //   localUser.getStreamManager().publishVideo(localUser.isVideoActive());
-  // }
-
-  //   camStatusChanged() {
-  //     localUser.setVideoActive(!localUser.isVideoActive());
-  //     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
-  //     this.sendSignalUserChanged({ isVideoActive: localUser.isVideoActive() });
-  //     this.setState({ localUser: localUser });
-  // }
+  // GET TOKEN (CREATE SESSION, CREATE TOKEN)
+  const getToken = () => {
+    dispatch(createSession(myprojectId));
+    dispatch(createViduToken(myprojectId));
+  };
 
   useEffect(() => {
     console.log("useEffect token", viduToken);
@@ -117,10 +118,12 @@ function Vidu() {
     }
   }, [publisher]);
 
-  // JOIN SESSION
-  const joinSession = () => {
-    setOV(new OpenVidu());
-  };
+  localUser.setStreamManager(publisher);
+  //웹캠 상태 변경 (on&off)
+  function camStatusChanged() {
+    localUser.setVideoActive(!localUser.isVideoActive());
+    localUser.getStreamManager().publishVideo(localUser.isVideoActive());
+  }
 
   // LEAVE SESSION
   const leaveSession = () => {
@@ -128,12 +131,10 @@ function Vidu() {
       session.disconnect();
     }
     setOV(null);
-  };
-
-  // GET TOKEN (CREATE SESSION, CREATE TOKEN)
-  const getToken = () => {
-    dispatch(createSession(projectId));
-    dispatch(createViduToken(projectId));
+    setSession(null);
+    setSubscribers([]);
+    setPublisher(null);
+    // setViduToken(null);
   };
 
   function btnTest() {
@@ -148,10 +149,17 @@ function Vidu() {
         <Title>화상 회의</Title>
         <button
           onClick={() => {
-            btnTest();
+            leaveSession();
           }}
         >
-          테스트
+          나가기
+        </button>
+        <button
+          onClick={() => {
+            joinSession();
+          }}
+        >
+          입장하기
         </button>
         <ViduBox>
           <SubVidu>
@@ -168,16 +176,11 @@ function Vidu() {
             </button>
             <section>
               <div className="memberWrap">
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-              </div>
-              <div className="memberWrap">
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
+                {subscribers.map((sub, i) => (
+                  <div className="member" key={i}>
+                    <Video streamManager={sub} />
+                  </div>
+                ))}
               </div>
             </section>
             <button>
@@ -196,7 +199,7 @@ function Vidu() {
             </button>
           </SubVidu>
           <MainVidu>
-            <video autoPlay muted></video>
+            {publisher != null ? <Video streamManager={publisher} /> : null}
             <div>
               <button>
                 <img src="img/share.png" />
@@ -215,7 +218,11 @@ function Vidu() {
                   />
                 </svg>
               </button>
-              <button>
+              <button
+                onClick={() => {
+                  camStatusChanged();
+                }}
+              >
                 <svg
                   width="24"
                   height="17"
@@ -292,6 +299,12 @@ const SubVidu = styled.div`
     width: 136px;
     height: 136px;
     background: #efefef;
+    border-radius: 10px;
+    margin-bottom: 16px;
+  }
+  video {
+    width: 136px;
+    height: 136px;
     border-radius: 10px;
     margin-bottom: 16px;
   }

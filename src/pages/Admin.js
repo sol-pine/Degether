@@ -9,38 +9,51 @@ import { editProject, getProjectDetails } from "../redux/modules/ProjectSlice";
 
 function Admin() {
   const dispatch = useDispatch();
-  const { projectId } = useParams();
+  const { myprojectId } = useParams();
   const detail = useSelector((state) => state.Project?.detail);
   const defaultGenre = useSelector((state) => state.Project?.genre);
+  const defaultLanguageString = detail.languageString;
   const defaultLanguage = detail.language;
   const defaultStep = detail.step;
   const defaultDeadline = detail.deadLine;
 
   // 기존 데이터 저장할 state
   const [newTitle, setNewTitle] = useState("");
-  const [newGenre, setNewGenre] = useState("");
+  const [newGenre, setNewGenre] = useState(defaultGenre);
   const [newLanguage, setNewLanguage] = useState(null);
   const [newDescripton, setNewDescripton] = useState("");
   const [newFeCount, setNewFeCount] = useState(0);
   const [newBeCount, setNewBeCount] = useState(0);
   const [newDeCount, setNewDeCount] = useState(0);
-  const [newStep, setNewStep] = useState("");
-  const [newDeadline, setNewDeadline] = useState("");
+  const [newStep, setNewStep] = useState(detail.step);
+  const [newDeadline, setNewDeadline] = useState(detail.deadLine);
+  const [newThumbnail, setNewThumbnail] = useState(detail.thumbnail);
 
   useEffect(() => {
-    dispatch(getProjectDetails(projectId));
+    dispatch(getProjectDetails(myprojectId));
     setNewTitle(detail.projectName);
     setNewGenre(defaultGenre);
     setNewLanguage(defaultLanguage);
     setNewStep(detail.step);
     setNewDescripton(detail.projectDescription);
-    setNewDeadline(defaultDeadline);
+    setNewDeadline(detail.deadLine);
     setNewFeCount(detail.feCount);
     setNewBeCount(detail.beCount);
     setNewDeCount(detail.deCount);
-  }, [null]);
-  console.log(newDeadline);
-
+    setNewThumbnail(detail.thumbnail);
+  }, [null && undefined]);
+  console.log(
+    newTitle,
+    newGenre,
+    newLanguage,
+    newStep,
+    newDescripton,
+    newDeadline,
+    newFeCount,
+    newBeCount,
+    newDeCount,
+    newThumbnail
+  );
   // 모집 인원
   const handleFeCount = (e) => {
     setNewFeCount(e.target.value);
@@ -66,7 +79,6 @@ function Admin() {
 
   // 썸네일 미리보기
   const [imageSrc, setImageSrc] = useState("");
-  const [newThumbnail, setNewThumbnail] = useState(detail.thumbnail);
   const thumbnailUpload = (e) => {
     encodeFileToBase64(e.target.files[0]);
     setNewThumbnail(e.target.files[0]);
@@ -160,8 +172,8 @@ function Admin() {
       )
     );
     formData.append("thumbnail", newThumbnail);
-    dispatch(editProject({ projectId: projectId, formData: formData }));
-    dispatch(getProjectDetails(projectId));
+    dispatch(editProject({ projectId: myprojectId, formData: formData }));
+    dispatch(getProjectDetails(myprojectId));
   }
 
   // 조건을 걸어 비동기 처리
@@ -275,7 +287,7 @@ function Admin() {
                         defaultValue="HTML"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("HTML") ? true : false
+                          defaultLanguageString.includes("HTML") ? true : false
                         }
                         onChange={handleLanguage}
                       />
@@ -285,7 +297,7 @@ function Admin() {
                         defaultValue="CSS"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("CSS") ? true : false
+                          defaultLanguageString.includes("CSS") ? true : false
                         }
                         onChange={handleLanguage}
                       />
@@ -295,7 +307,7 @@ function Admin() {
                         defaultValue="Java"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("Java,") ? true : false
+                          defaultLanguageString.includes("Java,") ? true : false
                         }
                         onChange={handleLanguage}
                       />
@@ -305,7 +317,9 @@ function Admin() {
                         defaultValue="JavaScript"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("JavaScript") ? true : false
+                          defaultLanguageString.includes("JavaScript")
+                            ? true
+                            : false
                         }
                         onChange={handleLanguage}
                       />
@@ -317,7 +331,9 @@ function Admin() {
                         defaultValue="Python"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("Python") ? true : false
+                          defaultLanguageString.includes("Python")
+                            ? true
+                            : false
                         }
                         onChange={handleLanguage}
                       />
@@ -327,7 +343,9 @@ function Admin() {
                         defaultValue="TypeScript"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("TypeScript") ? true : false
+                          defaultLanguageString.includes("TypeScript")
+                            ? true
+                            : false
                         }
                         onChange={handleLanguage}
                       />
@@ -337,7 +355,9 @@ function Admin() {
                         defaultValue="Kotlin"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("Kotlin") ? true : false
+                          defaultLanguageString.includes("Kotlin")
+                            ? true
+                            : false
                         }
                         onChange={handleLanguage}
                       />
@@ -347,7 +367,7 @@ function Admin() {
                         defaultValue="Shell"
                         name="language"
                         defaultChecked={
-                          defaultLanguage.includes("Shell") ? true : false
+                          defaultLanguageString.includes("Shell") ? true : false
                         }
                         onChange={handleLanguage}
                       />
@@ -589,7 +609,7 @@ function Admin() {
             <BtnWrap>
               <button
                 onClick={() => {
-                  window.location.replace(`/admin/${projectId}`);
+                  window.location.replace(`/admin/${myprojectId}`);
                 }}
               >
                 재설정

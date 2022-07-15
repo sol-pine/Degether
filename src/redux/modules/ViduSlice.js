@@ -7,12 +7,13 @@ import { OPENVIDU_SERVER_URL, OPENVIDU_SERVER_SECRET } from "../../shared/api";
 export const createSession = createAsyncThunk(
   "POST/createSession",
   async (projectId) => {
+    const data = JSON.stringify({ customSessionId: projectId });
     return await axios
-      .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, projectId, {
+      .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, data, {
         headers: {
-          "Content-Type": "application/json",
           Authorization:
             "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
+          "Content-Type": "application/json",
         },
       })
       .then((res) => {

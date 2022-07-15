@@ -9,6 +9,7 @@ function ProjectSidebarContainer() {
   const myProject = useSelector((state) => state.Project?.myProject);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  console.log(myProject.projectId);
 
   if (!myProject) {
     return (

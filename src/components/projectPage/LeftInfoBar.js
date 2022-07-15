@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 function LeftInfoBar() {
-  const { projectId } = useParams();
+  const { myprojectId } = useParams();
   const navigate = useNavigate();
   return (
     <div>
@@ -12,7 +12,7 @@ function LeftInfoBar() {
         <ProjectNav
           onClick={() => {
             // 프로젝트 아이디를 이용해 해당 프로젝트 페이지로 이동
-            navigate(`/project/${projectId}`);
+            navigate(`/project/${myprojectId}`);
           }}
         >
           프로젝트 화상회의
@@ -20,7 +20,7 @@ function LeftInfoBar() {
         <ProjectNav
           onClick={() => {
             // 프로젝트 아이디를 이용해 해당 관리자 프로젝트 페이지로 이동
-            navigate(`/admin/${projectId}`);
+            navigate(`/admin/${myprojectId}`);
           }}
         >
           프로젝트 관리

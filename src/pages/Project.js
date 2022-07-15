@@ -3,7 +3,6 @@ import styled from "styled-components";
 import LeftInfoBar from "../components/projectPage/LeftInfoBar";
 import UserSidebar from "../components/sideView/UserSidebar";
 import Vidu from "../components/projectPage/Vidu";
-import { useParams } from "react-router-dom";
 import Header from "../components/header/Header";
 
 function Project() {
