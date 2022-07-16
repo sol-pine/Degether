@@ -41,7 +41,7 @@ function Admin() {
     setNewBeCount(detail.beCount);
     setNewDeCount(detail.deCount);
     setNewThumbnail(detail.thumbnail);
-  }, [myprojectId]);
+  }, [undefined && null]);
   console.log(
     newTitle,
     newGenre,

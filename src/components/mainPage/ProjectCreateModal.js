@@ -157,7 +157,7 @@ const ProjectCreateModal = () => {
                     </select>
                   </ProjectType>
                   <ProjectStep>
-                    <label htmlFor="step">프로젝트 현황</label>
+                    <label htmlFor="step">프로젝트 단계</label>
                     <StepRadio>
                       <section>
                         <div>
