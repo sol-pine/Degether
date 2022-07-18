@@ -23,7 +23,16 @@ function Vidu() {
   // const OV = new OpenVidu();
 
   useEffect(() => {
-    joinSession();
+    console.log("미디어 연결");
+    navigator.mediaDevices
+      .getUserMedia({ audio: true, video: true })
+      .then((stream) => {
+        console.log(stream, "연결 완료");
+        setOV(new OpenVidu());
+      })
+      .catch((e) => {
+        alert("설정에서 카메라와 마이크를 허용해주세요.");
+      });
   }, []);
 
   // JOIN SESSION
@@ -205,38 +214,23 @@ function Vidu() {
           <MainVidu>
             {publisher != null ? <Video streamManager={publisher} /> : null}
             <div>
-              <button></button>
               <button>
-                <svg
-                  width="24"
-                  height="32"
-                  viewBox="0 0 24 32"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12.2565 19.9008C14.9927 19.9008 17.1851 17.6786 17.1851 14.9257L17.2015 4.97556C17.2015 2.22269 14.9927 0.000488281 12.2565 0.000488281C9.52022 0.000488281 7.31142 2.22269 7.31142 4.97556V14.9257C7.31142 17.6786 9.52022 19.9008 12.2565 19.9008ZM20.9927 14.9257C20.9927 19.9008 16.8059 23.3833 12.2565 23.3833C7.70703 23.3833 3.52022 19.9008 3.52022 14.9257H0.718018C0.718018 20.5807 5.20153 25.2573 10.6081 26.0699V31.5093H13.9048V26.0699C19.3114 25.2738 23.7949 20.5973 23.7949 14.9257H20.9927Z"
-                    fill="black"
-                  />
-                </svg>
+                <img src="/img/share.png" alt="screenshare"></img>
+              </button>
+              <button>
+                {" "}
+                <img
+                  src="/img/mic.svg"
+                  alt="mic control
+              "
+                ></img>
               </button>
               <button
                 onClick={() => {
                   camStatusChanged();
                 }}
               >
-                <svg
-                  width="24"
-                  height="17"
-                  viewBox="0 0 24 17"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M17.9744 6.16327V1.56824C17.9744 0.846161 17.3974 0.255371 16.6923 0.255371H1.30769C0.602558 0.255371 0.0256348 0.846161 0.0256348 1.56824V14.6969C0.0256348 15.419 0.602558 16.0098 1.30769 16.0098H16.6923C17.3974 16.0098 17.9744 15.419 17.9744 14.6969V10.1019L23.1026 15.3533V0.911804L17.9744 6.16327Z"
-                    fill="black"
-                  />
-                </svg>
+                <img src="/img/cam.svg" alt="cam control"></img>
               </button>
             </div>
           </MainVidu>

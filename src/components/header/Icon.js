@@ -50,7 +50,7 @@ const Profile = () => {
   const navigate = useNavigate();
   return (
     <>
-      <ProfileImg onClick={() => navigate("/mypage")}>MY</ProfileImg>
+      <ProfileImg onClick={() => navigate("/")}>MY</ProfileImg>
     </>
   );
 };
@@ -71,6 +71,7 @@ const LoginModalBtn = () => {
 const LogoutBtn = () => {
   function logout() {
     localStorage.removeItem("token");
+    alert("로그아웃이 완료되었습니다.");
     window.location.replace("/");
   }
   return (

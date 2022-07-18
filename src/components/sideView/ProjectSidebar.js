@@ -39,7 +39,7 @@ function ProjectSidebarContainer() {
               }}
             >
               {/* 프로젝트 배경 이미지 */}
-              <ProjectBackgroundImg src="img/Degether.png" />
+              <ProjectBackgroundImg src="/img/Degether.png" />
               {/* 프로젝트 상세 정보 게시물 리스트 */}
               <ProjectList>
                 <p>참여 중인 프로젝트 이름</p>

@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Main />}>
           <Route path="/:projectId" element={<ProjectDetailModal />} />
         </Route>
-        <Route path="/mypage" element={<User />} />
+        <Route path="/mypage/:userId" element={<User />} />
         <Route path="/project/:myprojectId" element={<Project />} />
         <Route path="/admin/:myprojectId" element={<Admin />} />
         <Route

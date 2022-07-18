@@ -6,6 +6,7 @@ import {
   getProjectDetails,
   interestedProject,
   applyProject,
+  detailModal,
 } from "../../redux/modules/ProjectSlice";
 
 function ProjectDetailModal() {
@@ -109,7 +110,7 @@ function ProjectDetailModal() {
                 <button
                   className="close"
                   onClick={() => {
-                    navigate("/");
+                    navigate(-1);
                   }}
                 >
                   닫기

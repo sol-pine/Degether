@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../components/mainPage/Card";
@@ -6,19 +6,18 @@ import ProjectCreateModal from "../components/mainPage/ProjectCreateModal";
 import LoginContainer from "../components/sideView/LoginContainer";
 import { clickTag, getProject } from "../redux/modules/ProjectSlice";
 import ProjectSidebar from "../components/sideView/ProjectSidebar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { MainHeader } from "../components/header/Header";
 
 function Main() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const createModal = useSelector((state) => state.Project.projectCreateModal);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(getProject());
   }, []);
-
-
 
   return (
     <>
@@ -37,10 +36,7 @@ function Main() {
         ) : null}
         <CardContainer>
           <CardGrid>
-
-            <Card
-             
-            />
+            <Card />
           </CardGrid>
         </CardContainer>
         {token ? <ProjectSidebar /> : <LoginContainer />}

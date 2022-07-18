@@ -12,7 +12,6 @@ const Card = () => {
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
-  console.log(project);
 
   // 프로젝트 썸네일 카드 호버 이벤트
   // 반복으로 돌린 카드에 개별 cardOpen의 state 변경을 위해 state를 project 길이 만큼의 배열로 만들어줌
@@ -26,7 +25,7 @@ const Card = () => {
     setLoading(false);
   }, [page]);
 
-  // getItems 가 바뀔 때 마다 함수 실행
+  // getList 가 바뀔 때 마다 함수 실행
   useEffect(() => {
     getList();
   }, [getList]);
@@ -46,7 +45,6 @@ const Card = () => {
             key={idx}
             onClick={() => {
               navigate(`/${list.projectId}`);
-              console.log(project);
             }}
             // onMouseEnter={() => {
             //   cardOpen[idx] = true;
@@ -65,7 +63,7 @@ const Card = () => {
               <HeadCount>
                 모집인원
                 <span>
-                  [개발자 / {list.devCount}] [디자이너 / {list.deCount}]
+                  [개발자 / {list.devCount}명] [디자이너 / {list.deCount}명]
                 </span>
               </HeadCount>
             </CardText>
