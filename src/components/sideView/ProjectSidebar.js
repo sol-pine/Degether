@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Plus, Folder } from "./Icon";
@@ -6,74 +6,24 @@ import { createModal, getProject } from "../../redux/modules/ProjectSlice";
 import { useNavigate } from "react-router-dom";
 
 function ProjectSidebarContainer() {
-  const myProject = useSelector((state) => state.Project?.myProject);
+  const myProject = useSelector((state) => state.Project.myProject);
+  const [firstProject, setFirstProject] = useState();
+  console.log(myProject);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  console.log(myProject.projectId);
+  const token = localStorage.getItem("token");
 
-  if (!myProject) {
-    return (
-      <>
-        <ProjectSidebarContainerWrap>
-          {/* 상단 참여 중 프로젝트 */}
-          <ProjectListTop>
-            <ProjectSidebarTop>
-              <Folder />
-              <TopText>참여 중 프로젝트</TopText>
-            </ProjectSidebarTop>
-            {/* 프로젝트 생성 버튼 */}
-            <ProjectAddBtn
-              onClick={() => {
-                dispatch(createModal(true));
-              }}
-            >
-              <ProjectAddBtnText>
-                <Plus />
-                <AddBtnText>프로젝트 생성</AddBtnText>
-              </ProjectAddBtnText>
-            </ProjectAddBtn>
-            <Test
-              onClick={() => {
-                // 프로젝트 아이디를 이용해 해당 프로젝트 페이지로 이동
-                alert("참여 중인 프로젝트가 없습니다!");
-              }}
-            >
-              {/* 프로젝트 배경 이미지 */}
-              <ProjectBackgroundImg src="/img/Degether.png" />
-              {/* 프로젝트 상세 정보 게시물 리스트 */}
-              <ProjectList>
-                <p>참여 중인 프로젝트 이름</p>
-                <p>참여인원 [개발자 / 0명] [디자이너 / 0 명]</p>
-              </ProjectList>
-            </Test>
-          </ProjectListTop>
-          <ProjectListBottom>
-            <svg
-              width="30"
-              height="20"
-              viewBox="0 0 30 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.525 20L15 7.63833L26.475 20L30 16.1943L15 0L0 16.1943L3.525 20Z"
-                fill="white"
-              />
-            </svg>
-          </ProjectListBottom>
-        </ProjectSidebarContainerWrap>
-      </>
-    );
-  }
+  useEffect(() => {
+    if (myProject) {
+      setFirstProject(myProject[0]);
+    }
+  }, [myProject]);
+
   return (
     <>
       <ProjectSidebarContainerWrap>
         {/* 상단 참여 중 프로젝트 */}
         <ProjectListTop>
-          <ProjectSidebarTop>
-            <Folder />
-            <TopText>참여 중 프로젝트</TopText>
-          </ProjectSidebarTop>
           {/* 프로젝트 생성 버튼 */}
           <ProjectAddBtn
             onClick={() => {
@@ -82,42 +32,40 @@ function ProjectSidebarContainer() {
           >
             <ProjectAddBtnText>
               <Plus />
-              <AddBtnText>프로젝트 생성</AddBtnText>
+              <AddBtnText>새로운 프로젝트 시작하기 </AddBtnText>
             </ProjectAddBtnText>
           </ProjectAddBtn>
-          <Test
-            onClick={() => {
-              // 프로젝트 아이디를 이용해 해당 프로젝트 페이지로 이동
-              navigate(`/project/${myProject.projectId}`);
-            }}
-          >
-            {/* 프로젝트 배경 이미지 */}
-            <ProjectBackgroundImg src={myProject.thumbnail} />
-            {/* 프로젝트 상세 정보 게시물 리스트 */}
-            <ProjectList>
-              <p>{myProject.projectName}</p>
-              <p>
-                참여인원 [개발자 / {myProject.devCount}명] [디자이너 /{" "}
-                {myProject.deCount}
-                명]
-              </p>
-            </ProjectList>
-          </Test>
+          <ProjectSidebarTop>
+            <Folder />
+            <TopText>참여 중 프로젝트</TopText>
+          </ProjectSidebarTop>
+          {myProject && myProject ? (
+            <Test
+              onClick={() => {
+                // 프로젝트 아이디를 이용해 해당 프로젝트 페이지로 이동
+                navigate(`/project/${firstProject?.projectId}`);
+              }}
+            >
+              {/* 프로젝트 배경 이미지 */}
+              <ProjectBackgroundImg src={firstProject?.thumbnail} />
+              {/* 프로젝트 상세 정보 게시물 리스트 */}
+              <ProjectList>
+                <p>{firstProject?.projectName}</p>
+                <p>
+                  참여인원 [개발자 / {firstProject?.devCount}명] [디자이너 /{" "}
+                  {firstProject?.deCount}
+                  명]
+                </p>
+              </ProjectList>
+            </Test>
+          ) : null}
+          {!myProject && !myProject ? (
+            <WelcomMsg>
+              참여 중인 프로젝트가 없습니다! <br />
+              관심있는 프로젝트를 찾아 참여해보세요😊
+            </WelcomMsg>
+          ) : null}
         </ProjectListTop>
-        <ProjectListBottom>
-          <svg
-            width="30"
-            height="20"
-            viewBox="0 0 30 20"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3.525 20L15 7.63833L26.475 20L30 16.1943L15 0L0 16.1943L3.525 20Z"
-              fill="white"
-            />
-          </svg>
-        </ProjectListBottom>
       </ProjectSidebarContainerWrap>
     </>
   );
@@ -143,7 +91,6 @@ const ProjectListTop = styled.div`
   flex-direction: column;
   align-items: center;
   height: 853px;
-  border-bottom: 1px solid #efefef;
 `;
 const ProjectListBottom = styled.div`
   height: 45px;
@@ -184,7 +131,12 @@ const ProjectAddBtn = styled.div`
   margin-top: 15px;
   cursor: pointer;
 `;
-
+const WelcomMsg = styled.div`
+  font-weight: 400;
+  font-size: 22px;
+  color: #fff;
+  margin-top: 40px;
+`;
 const ProjectAddBtnText = styled.div`
   display: flex;
   align-items: center;

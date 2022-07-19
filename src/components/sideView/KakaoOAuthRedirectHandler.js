@@ -11,22 +11,18 @@ function KakaoOAuthRedirectHandler() {
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.User.userInfo);
   const userId = userInfo.userId;
-  console.log(userInfo, userId);
+
   useEffect(() => {
     dispatch(kakaoLogin());
   }, []);
 
   const token = localStorage.getItem("token");
   useEffect(() => {
-    console.log("useEffect", userInfo);
     if (userInfo) {
       if (token && userInfo.role) {
-        alert("로그인이 완료되었습니다!");
         navigate("/");
       } else if (token && userInfo.role === null) {
-        alert(
-          "로그인이 완료되었습니다! 회원정보 등록 후, 서비스를 이용해주세요."
-        );
+        alert("회원정보 등록 후, 서비스를 이용해주세요.");
         navigate(`/mypage/${userId}`);
       }
     }

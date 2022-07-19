@@ -125,8 +125,8 @@ function Vidu() {
             OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
-              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-              publishVideo: true, // Whether you want to start publishing with your video enabled or not
+              publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+              publishVideo: localUser.isVideoActive(), // Whether you want to start publishing with your video enabled or not
               resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
               insertMode: "APPEND", // How the video is inserted in the target element 'video-container'
@@ -150,6 +150,7 @@ function Vidu() {
       session.publish(publisher);
     }
   }, [publisher]);
+
   localUser.setStreamManager(publisher);
   // 웹캠 상태 변경 (on & off)
   function camStatusChanged() {
@@ -162,6 +163,7 @@ function Vidu() {
     localUser.setAudioActive(!localUser.isAudioActive());
     localUser.getStreamManager().publishAudio(localUser.isAudioActive());
     setMic(localUser.isAudioActive());
+    console.log(localUser.isAudioActive());
   }
 
   // 화면 공유
@@ -174,7 +176,7 @@ function Vidu() {
       undefined,
       {
         videoSource: videoSource,
-        publishAudio: localUser.isAudioActive(),
+        publishAudio: false,
         publishVideo: localUser.isVideoActive(),
         mirror: false,
       },
@@ -184,16 +186,16 @@ function Vidu() {
         } else if (error && error.name === "SCREEN_SHARING_NOT_SUPPORTED") {
           alert("화면 공유를 지원하지 않는 브라우저입니다.");
         } else if (error && error.name === "SCREEN_EXTENSION_DISABLED") {
-          alert("You need to enable screen sharing extension");
+          alert("화면 공유 확장 프로그램을 사용해야 합니다.");
         } else if (error && error.name === "SCREEN_CAPTURE_DENIED") {
-          alert("You need to choose a window or application to share");
+          alert("공유할 화면을 선택해주세요.");
         }
       }
     );
     publisher.once("accessAllowed", () => {
-      this.state.session.unpublish(localUser.getStreamManager());
+      session.unpublish(localUser.getStreamManager());
       localUser.setStreamManager(publisher);
-      this.state.session.publish(localUser.getStreamManager()).then(() => {
+      session.publish(localUser.getStreamManager()).then(() => {
         localUser.setScreenShareActive(true);
         this.setState({ localUser: localUser }, () => {
           this.sendSignalUserChanged({
@@ -202,6 +204,7 @@ function Vidu() {
           console.log(localUser.isScreenShareActive());
         });
       });
+      publisher.on("streamPlaying");
     });
   }
 
@@ -217,34 +220,25 @@ function Vidu() {
     localStorage.removeItem("viduToken");
   };
 
+  console.log(publisher, subscribers);
   return (
     <div>
       <Container>
         <Title>화상 회의</Title>
-        <button
-          onClick={() => {
-            joinSession();
-          }}
-        >
-          JOIN SESSION
-        </button>
         <ViduBox>
           <SubVidu>
             <section>
               <MemberGrid>
                 {subscribers.map((sub, idx) => {
-                  <div className="member" key={idx}>
-                    <Video streamManager={sub} />
-                  </div>;
+                  return (
+                    <div className="member" key={idx}>
+                      <Video streamManager={sub} />
+                    </div>
+                  );
                 })}
-                {/* <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div>
-                <div className="member"></div> */}
+                {Array.from({ length: 8 - subscribers.length }, (item, i) => {
+                  return <div className="member"></div>;
+                })}
               </MemberGrid>
             </section>
           </SubVidu>

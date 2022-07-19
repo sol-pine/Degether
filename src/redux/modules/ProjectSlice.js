@@ -168,10 +168,11 @@ const ProjectSlice = createSlice({
     projectCreateModal: false,
     projectDetailModal: false,
     list: [],
+    project: [],
+    myProject: [],
     detail: {},
     file1: "",
     file2: "",
-    myProject: "",
     genre: "",
   },
   reducers: {
@@ -191,7 +192,9 @@ const ProjectSlice = createSlice({
     },
     [getProject.fulfilled]: (state, action) => {
       state.list = [...action.payload.list];
-      state.myProject = action.payload.myProject[0];
+      if (action.payload.myProject) {
+        state.myProject = [...action.payload.myProject];
+      }
       console.log("getProject");
     },
     [getProjectPage.fulfilled]: (state, action) => {
