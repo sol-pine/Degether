@@ -10,6 +10,8 @@ import Project from "./pages/Project";
 import Admin from "./pages/Admin";
 import ProjectDetailModal from "./components/mainPage/ProjectDetailModal";
 import SearchBar from "./components/header/SearchBar";
+import OpvSession from "openvidu-react";
+
 function App() {
   return (
     <div className="App">

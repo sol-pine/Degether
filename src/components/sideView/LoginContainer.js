@@ -12,10 +12,10 @@ function LoginContainer() {
     <LoginContainerWrap>
       <LoginTitle>LOGIN</LoginTitle>
       <LoginBackgroundImage>
-        <img src="img/Degether.png" />
+        <img src="/img/degether.png" />
       </LoginBackgroundImage>
       <GoogleLoginBtn onClick={LoginGoogle}>
-        <img src="img/GoogleIcon.png" />
+        <img src="/img/GoogleIcon.png" />
         GOOGLE 계정으로 로그인
       </GoogleLoginBtn>
       <KakaoLoginBtn onClick={LoginKakao}>

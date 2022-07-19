@@ -16,6 +16,8 @@ export const kakaoLogin = createAsyncThunk("POST/kakaoLogin", async () => {
       localStorage.setItem("token", res.headers.authorization);
       localStorage.setItem("nickname", res.data.result.nickname);
       localStorage.setItem("profileUrl", res.data.result.profileUrl);
+      localStorage.setItem("id", res.data.result.userId);
+      console.log(res.data.result.userId);
       return res.data.result;
     })
 
@@ -68,7 +70,6 @@ const UserSlice = createSlice({
       state.userInfo = { ...action.payload };
     },
     [getUserInfo.fulfilled]: (state, action) => {
-      // console.log(action.payload);
       state.userInfo = { ...action.payload };
     },
     [editUser.fulfilled]: (state, action) => {

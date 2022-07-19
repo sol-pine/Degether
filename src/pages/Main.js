@@ -8,6 +8,7 @@ import { clickTag, getProject } from "../redux/modules/ProjectSlice";
 import ProjectSidebar from "../components/sideView/ProjectSidebar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MainHeader } from "../components/header/Header";
+import { getUserInfo } from "../redux/modules/UserSlice";
 
 function Main() {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ function Main() {
 
   useEffect(() => {
     dispatch(getProject());
+    dispatch(getUserInfo());
   }, []);
 
   return (

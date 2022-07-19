@@ -14,7 +14,6 @@ function Profile() {
   const defaultNickName = localStorage.getItem("nickname");
   const defaultProfileThumbnail = localStorage.getItem("profileUrl");
   const userInfo = useSelector((state) => state.User.userInfo);
-  const userLanguage = useSelector((state) => state.User.userInfo.language);
   const [nickName, setNickName] = useState(defaultNickName);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -29,7 +28,6 @@ function Profile() {
     setPhoneNumber(userInfo.phoneNumber);
     setEmail(userInfo.email);
     setLanguage(userInfo.language);
-
     setGithubLink(userInfo.github);
     setComment(userInfo.intro);
     setRole(userInfo.role);

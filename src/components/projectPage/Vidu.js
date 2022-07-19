@@ -13,21 +13,34 @@ function Vidu() {
   const { myprojectId } = useParams();
   const [sessionId, setSessionId] = useState(myprojectId);
   const [session, setSession] = useState(null);
-  const [nickname, setNickname] = useState("nickname");
+  const [nickname, setNickname] = useState("");
   const [OV, setOV] = useState(null);
-  const [subscribers, setSubscribers] = useState([]);
+  const [cam, setCam] = useState(true);
+  const [mic, setMic] = useState(false);
   const [publisher, setPublisher] = useState(null);
-  const [test, setTest] = useState(["test"]);
+  const [subscribers, setSubscribers] = useState([]);
+  let _subscribers = [];
+
   const localUser = new userModel();
-  let subscribers2 = [];
-  // const OV = new OpenVidu();
+  const userInfo = useSelector((state) => state.User.userInfo);
+
+  // 1 joinSession => openvidu 객체 생성
+  // 2 setSession(OV.initSession())
+  // 3 session listener 등록, getToken
+  // 4 getDevice , setPublisher(),
+  // 5 session.publish(publisher)
 
   useEffect(() => {
-    console.log("미디어 연결");
+    setNickname(userInfo.nickname);
+  }, [userInfo]);
+
+  // JOIN SESSION ====> OV 객체 생성, 미디어 연결
+  useEffect(() => {
     navigator.mediaDevices
       .getUserMedia({ audio: true, video: true })
       .then((stream) => {
-        console.log(stream, "연결 완료");
+        console.log("연결 완료! ====> stream", stream);
+        console.log("JOIN SESSION ====> OV", OV);
         setOV(new OpenVidu());
       })
       .catch((e) => {
@@ -40,28 +53,29 @@ function Vidu() {
     setOV(new OpenVidu());
   };
 
+  // SET SESSION ===> 세션 초기화 (OV 생성 후 실행)
   useEffect(() => {
-    console.log("useEffect OV", OV);
     if (OV != null) {
-      console.log(OV);
       // ** enableProdMode() : Disable all logging except error level / Returns void
       OV.enableProdMode();
-      // ** initSession() : Returns new session / Returns Session
+      // ** initSession() 세션 초기화 : Returns new session / Returns Session
+      console.log("SET SESSION");
       setSession(OV.initSession());
     }
   }, [OV]);
-  useEffect(() => {
-    console.log("useEffect session", session);
 
+  // Subscriber 등록 / GET TOKEN (CREATE SESSION, CREATE TOKEN) ===> 세션 생성, 토큰 생성
+  useEffect(() => {
+    console.log("SESSION ====> session", session);
     if (session != null) {
       console.log(session);
       session.on("streamCreated", (event) => {
         //Stream Created
-        const tempSubscribers = [...subscribers2];
+        const tempSubscribers = [..._subscribers];
         tempSubscribers.push(session.subscribe(event.stream, undefined));
         setSubscribers(tempSubscribers);
-        subscribers2 = tempSubscribers;
-        console.warn("Stream Created");
+        _subscribers = tempSubscribers;
+        console.log("Stream Created");
       });
       session.on("streamDestroyed", (event) => {
         //Stream Destroyed
@@ -71,10 +85,14 @@ function Vidu() {
           tempSubscribers.splice(index, 1);
         }
         setSubscribers(tempSubscribers);
-        console.log("Stream Destroyed");
+        console.warn("Stream Destroyed");
       });
 
       session.on("exception", (event) => {
+        if (event.name === "ICE_CONNECTION_DISCONNECTED") {
+          let stream = event.origin;
+          console.warn("Stream " + stream.streamId + " disconnected!");
+        }
         //exception
         console.log("exception");
         console.log(event);
@@ -83,29 +101,31 @@ function Vidu() {
       getToken();
     }
   }, [session]);
+
   // GET TOKEN (CREATE SESSION, CREATE TOKEN)
   const getToken = () => {
     dispatch(createSession(myprojectId));
     dispatch(createViduToken(myprojectId));
   };
 
+  // TOKEN 이 있으면 SESSION CONNECT, Device 연결
   useEffect(() => {
     console.log("useEffect token", viduToken);
     if (viduToken != null && session != null) {
-      console.log("connect");
+      console.log("CONNECT!");
       session
         .connect(viduToken, { clientData: nickname })
         .then(async () => {
-          var devices = await OV.getDevices();
-          var videoDevices = devices.filter(
+          let devices = await OV.getDevices();
+          let videoDevices = devices.filter(
             (device) => device.kind === "videoinput"
           );
 
           setPublisher(
             OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
-              videoSource: videoDevices[0].deviceId, // The source of video. If undefined default webcam
-              publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+              videoSource: undefined, // The source of video. If undefined default webcam
+              publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
               publishVideo: true, // Whether you want to start publishing with your video enabled or not
               resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
@@ -130,12 +150,59 @@ function Vidu() {
       session.publish(publisher);
     }
   }, [publisher]);
-
   localUser.setStreamManager(publisher);
-  //웹캠 상태 변경 (on&off)
+  // 웹캠 상태 변경 (on & off)
   function camStatusChanged() {
     localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
+    setCam(localUser.isVideoActive());
+  }
+  // 마이크 상태 변경 (on & off)
+  function micStatusChanged() {
+    localUser.setAudioActive(!localUser.isAudioActive());
+    localUser.getStreamManager().publishAudio(localUser.isAudioActive());
+    setMic(localUser.isAudioActive());
+  }
+
+  // 화면 공유
+  function screenShare() {
+    const videoSource =
+      // 브라우저에 따라 videoSource 설정
+      navigator.userAgent.indexOf("Firefox") !== -1 ? "window" : "screen";
+    console.log(navigator.userAgent);
+    const publisher = OV.initPublisher(
+      undefined,
+      {
+        videoSource: videoSource,
+        publishAudio: localUser.isAudioActive(),
+        publishVideo: localUser.isVideoActive(),
+        mirror: false,
+      },
+      (error) => {
+        if (error && error.name === "SCREEN_EXTENSION_NOT_INSTALLED") {
+          this.setState({ showExtensionDialog: true });
+        } else if (error && error.name === "SCREEN_SHARING_NOT_SUPPORTED") {
+          alert("화면 공유를 지원하지 않는 브라우저입니다.");
+        } else if (error && error.name === "SCREEN_EXTENSION_DISABLED") {
+          alert("You need to enable screen sharing extension");
+        } else if (error && error.name === "SCREEN_CAPTURE_DENIED") {
+          alert("You need to choose a window or application to share");
+        }
+      }
+    );
+    publisher.once("accessAllowed", () => {
+      this.state.session.unpublish(localUser.getStreamManager());
+      localUser.setStreamManager(publisher);
+      this.state.session.publish(localUser.getStreamManager()).then(() => {
+        localUser.setScreenShareActive(true);
+        this.setState({ localUser: localUser }, () => {
+          this.sendSignalUserChanged({
+            isScreenShareActive: localUser.isScreenShareActive(),
+          });
+          console.log(localUser.isScreenShareActive());
+        });
+      });
+    });
   }
 
   // LEAVE SESSION
@@ -147,7 +214,7 @@ function Vidu() {
     setSession(null);
     setSubscribers([]);
     setPublisher(null);
-    // setViduToken(null);
+    localStorage.removeItem("viduToken");
   };
 
   return (
@@ -156,82 +223,76 @@ function Vidu() {
         <Title>화상 회의</Title>
         <button
           onClick={() => {
-            leaveSession();
-          }}
-        >
-          나가기
-        </button>
-        <button
-          onClick={() => {
             joinSession();
           }}
         >
-          입장하기
+          JOIN SESSION
         </button>
         <ViduBox>
           <SubVidu>
-            <button>
-              <svg
-                width="40"
-                height="20"
-                viewBox="0 0 40 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M0 20L20 0L40 20H0Z" fill="black" />
-              </svg>
-            </button>
             <section>
-              <div className="memberWrap">
-                {subscribers.map((sub, i) => (
-                  <div className="member" key={i}>
+              <MemberGrid>
+                {subscribers.map((sub, idx) => {
+                  <div className="member" key={idx}>
                     <Video streamManager={sub} />
-                  </div>
-                ))}
-              </div>
-              <div className="memberWrap">
+                  </div>;
+                })}
+                {/* <div className="member"></div>
                 <div className="member"></div>
                 <div className="member"></div>
                 <div className="member"></div>
                 <div className="member"></div>
-              </div>
+                <div className="member"></div>
+                <div className="member"></div>
+                <div className="member"></div> */}
+              </MemberGrid>
             </section>
-            <button>
-              <svg
-                width="40"
-                height="20"
-                viewBox="0 0 40 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M40 0L20 20L1.74846e-06 -3.49691e-06L40 0Z"
-                  fill="black"
-                />
-              </svg>
-            </button>
           </SubVidu>
           <MainVidu>
             {publisher != null ? <Video streamManager={publisher} /> : null}
             <div>
-              <button>
-                <img src="/img/share.png" alt="screenshare"></img>
-              </button>
-              <button>
-                {" "}
-                <img
-                  src="/img/mic.svg"
-                  alt="mic control
-              "
-                ></img>
-              </button>
-              <button
+              <OnBtn
                 onClick={() => {
-                  camStatusChanged();
+                  screenShare();
                 }}
               >
-                <img src="/img/cam.svg" alt="cam control"></img>
-              </button>
+                <img src="/img/share.png" alt="screen share" />
+              </OnBtn>
+              {mic ? (
+                <OnBtn
+                  onClick={() => {
+                    micStatusChanged();
+                  }}
+                >
+                  <img src="/img/mic.svg" alt="mic control" />
+                </OnBtn>
+              ) : (
+                <OffBtn
+                  onClick={() => {
+                    micStatusChanged();
+                  }}
+                >
+                  <img src="/img/mic.svg" alt="mic control" />
+                </OffBtn>
+              )}
+
+              {cam ? (
+                <OnBtn
+                  onClick={() => {
+                    camStatusChanged();
+                  }}
+                >
+                  <img src="/img/cam.svg" alt="cam control" />
+                </OnBtn>
+              ) : (
+                <OffBtn
+                  onClick={() => {
+                    camStatusChanged();
+                  }}
+                >
+                  <img src="/img/cam.svg" alt="cam control" />
+                </OffBtn>
+              )}
             </div>
           </MainVidu>
         </ViduBox>
@@ -277,6 +338,10 @@ const SubVidu = styled.div`
     display: flex;
     justify-content: space-between;
   }
+  .memberWrap {
+    width: 136px;
+    height: 592px;
+  }
   button {
     width: 288px;
     height: 20px;
@@ -286,10 +351,6 @@ const SubVidu = styled.div`
     justify-content: center;
     align-items: flex-start;
     cursor: pointer;
-  }
-  .memberWrap {
-    width: 136px;
-    height: 592px;
   }
   .member {
     width: 136px;
@@ -330,24 +391,41 @@ const MainVidu = styled.div`
     left: 49px;
     bottom: 49px;
   }
-  button {
-    width: 55px;
-    height: 55px;
-    border-radius: 55px;
-    background: #efefef;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    margin-right: 17px;
-  }
+
   img {
     width: 30.77px;
     height: 30.96px;
   }
 `;
-const Monitor = styled.svg`
-  width: 24px;
-  height: 32px;
+const MemberGrid = styled.div`
+  min-width: 288px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(2, 136px);
+  grid-column-gap: 12px;
+  grid-row-gap: 12px;
+`;
+const OnBtn = styled.button`
+  width: 55px;
+  height: 55px;
+  border-radius: 55px;
+  background: #efefef;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  margin-right: 17px;
+`;
+const OffBtn = styled.button`
+  width: 55px;
+  height: 55px;
+  border-radius: 55px;
+  background: #cc0000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  margin-right: 17px;
 `;

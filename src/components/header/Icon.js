@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { loginModal } from "../../redux/modules/UserSlice";
@@ -48,9 +48,10 @@ const NoticeIcon = () => {
 };
 const Profile = () => {
   const navigate = useNavigate();
+  const userId = localStorage.getItem("id");
   return (
     <>
-      <ProfileImg onClick={() => navigate("/")}>MY</ProfileImg>
+      <ProfileImg onClick={() => navigate(`/mypage/${userId}`)}>MY</ProfileImg>
     </>
   );
 };
@@ -71,6 +72,9 @@ const LoginModalBtn = () => {
 const LogoutBtn = () => {
   function logout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("nickname");
+    localStorage.removeItem("id");
+    localStorage.removeItem("profileUrl");
     alert("로그아웃이 완료되었습니다.");
     window.location.replace("/");
   }

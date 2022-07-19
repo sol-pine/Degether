@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { OpenVidu } from "openvidu-browser";
 import { OPENVIDU_SERVER_URL, OPENVIDU_SERVER_SECRET } from "../../shared/api";
 
 // 세션 생성
