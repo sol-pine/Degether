@@ -1,13 +1,24 @@
 import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { clickTag, searchProjectWord } from "../../redux/modules/ProjectSlice";
+import {
+  clickTag,
+  getProject,
+  setSearchWord,
+} from "../../redux/modules/ProjectSlice";
 
-const SearchBar = () => {
+const SearchBar = (props) => {
   const dispatch = useDispatch();
+  const page = props.page;
   const word = useRef();
   function search() {
-    dispatch(searchProjectWord(word.current.value));
+    dispatch(setSearchWord(word.current.value));
+    dispatch(
+      getProject({
+        sorted: "createdDate",
+        searchWord: word.current.value,
+      })
+    );
     word.current.value = "";
   }
   return (

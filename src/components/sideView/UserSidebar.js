@@ -14,6 +14,8 @@ const ProjectSidebarContainerWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-right: 8px;
+  position: absolute;
+  right: 0;
   margin-top: 181px;
+  z-index: 3;
 `;

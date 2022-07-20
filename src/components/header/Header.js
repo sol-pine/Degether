@@ -2,6 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import LoginContainer from "../sideView/LoginContainer";
+import ProjectSidebar from "../sideView/ProjectSidebar";
 import HomeIcon, {
   NoticeIcon,
   Profile,
@@ -11,13 +13,14 @@ import HomeIcon, {
 } from "./Icon";
 import SearchBar from "./SearchBar";
 import SearchModal from "./SearchModal";
-import SortBar from "./SortBar";
+import SortingButton from "./SortingButton";
 
 const MainHeader = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const tag = useSelector((state) => state.Project.searchTag);
   const token = localStorage.getItem("token");
+  const page = useSelector((state) => state.Project.page);
 
   function reload() {
     navigate("/");
@@ -25,41 +28,45 @@ const MainHeader = () => {
   }
   return (
     <>
-      <HeaderContainer>
-        <div>
-          <img
-            src="/img/logo.svg"
-            onClick={() => {
-              window.location.replace("/");
-            }}
-          />
-        </div>
-      </HeaderContainer>
-      <MenuSearchWrap>
-        <MenuContainer>
-          <MenuBar>
-            <SearchBar />
-            <MainIconContainer>
-              <HomeIcon />
-              {/* <NoticeIcon /> */}
-              {token ? (
-                <div>
-                  <Profile />
-                  <LogoutBtn />
-                  <ProjectBtn />
-                </div>
-              ) : (
-                <LoginModalBtn
-                  onClick={() => {
-                    navigate("/project");
-                  }}
-                />
-              )}
-            </MainIconContainer>
-          </MenuBar>
-        </MenuContainer>
-        {tag ? <SearchModal /> : null}
-      </MenuSearchWrap>
+      <HeadMainContainer>
+        <HeaderContainer>
+          <div>
+            <img
+              src="/img/logo.svg"
+              onClick={() => {
+                window.location.replace("/");
+              }}
+            />
+          </div>
+        </HeaderContainer>
+        <MenuSearchWrap>
+          <MenuContainer>
+            <MenuBar>
+              <SearchBar page={page} />
+              <MainIconContainer>
+                <HomeIcon />
+                {/* <NoticeIcon /> */}
+                {token ? (
+                  <div>
+                    <Profile />
+                    <LogoutBtn />
+                    <ProjectBtn />
+                  </div>
+                ) : (
+                  <LoginModalBtn
+                    onClick={() => {
+                      navigate("/project");
+                    }}
+                  />
+                )}
+              </MainIconContainer>
+            </MenuBar>
+          </MenuContainer>
+          {tag ? <SearchModal page={page} /> : null}
+        </MenuSearchWrap>
+        <SortingButton page={page} />
+        {token ? <ProjectSidebar /> : <LoginContainer />}
+      </HeadMainContainer>
     </>
   );
 };
@@ -70,42 +77,50 @@ const Header = () => {
 
   return (
     <>
-      <HeaderContainer2>
-        <div>
-          <img
-            src="/img/logo.svg"
-            onClick={() => {
-              window.location.replace("/");
-            }}
-          />
-        </div>
-      </HeaderContainer2>
-      <MenuSearchWrap>
-        <MenuContainer>
-          <MenuBar>
-            <IconContainer>
-              <HomeIcon />
-              {/* <NoticeIcon /> */}
-              <Profile />
-              {token ? (
-                <div>
-                  <LogoutBtn />
-                  <ProjectBtn />
-                </div>
-              ) : (
-                <LoginModalBtn
-                  onClick={() => {
-                    navigate("/project");
-                  }}
-                />
-              )}
-            </IconContainer>
-          </MenuBar>
-        </MenuContainer>
-      </MenuSearchWrap>
+      <HeadMainContainer>
+        <HeaderContainer2>
+          <div>
+            <img
+              src="/img/logo.svg"
+              onClick={() => {
+                window.location.replace("/");
+              }}
+            />
+          </div>
+        </HeaderContainer2>
+        <MenuSearchWrap>
+          <MenuContainer>
+            <MenuBar>
+              <IconContainer>
+                <HomeIcon />
+                {/* <NoticeIcon /> */}
+                <Profile />
+                {token ? (
+                  <div>
+                    <LogoutBtn />
+                    <ProjectBtn />
+                  </div>
+                ) : (
+                  <LoginModalBtn
+                    onClick={() => {
+                      navigate("/project");
+                    }}
+                  />
+                )}
+              </IconContainer>
+            </MenuBar>
+          </MenuContainer>
+        </MenuSearchWrap>
+        {token ? <ProjectSidebar /> : <LoginContainer />}
+      </HeadMainContainer>
     </>
   );
 };
+const HeadMainContainer = styled.div`
+  width: 1888px;
+  height: 1080px;
+  position: absolute;
+`;
 const HeaderContainer = styled.div`
   width: 1888px;
   height: 62px;

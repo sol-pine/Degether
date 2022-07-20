@@ -11,12 +11,11 @@ function KakaoOAuthRedirectHandler() {
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.User.userInfo);
   const userId = userInfo.userId;
-
+  const token = localStorage.getItem("token");
   useEffect(() => {
     dispatch(kakaoLogin());
   }, []);
 
-  const token = localStorage.getItem("token");
   useEffect(() => {
     if (userInfo) {
       if (token && userInfo.role) {

@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { SERVER_URL } from "../../shared/api";
-
-const token = localStorage.getItem("token");
+import { SERVER_URL, token } from "../../shared/api";
 
 // 프로젝트 생성하기
 export const addProject = createAsyncThunk(
@@ -18,36 +16,55 @@ export const addProject = createAsyncThunk(
   }
 );
 
-// 프로젝트 리스트 처음 받아오기
-export const getProject = createAsyncThunk("GET/getProject", async () => {
+// 프로젝트 리스트 받아오기
+export const getProject = createAsyncThunk("GET/getProject", async (args) => {
   return await axios
-    .get(`${SERVER_URL}/api/projects`, {
-      headers: {
-        Authorization: `${token}`,
+    .get(`${SERVER_URL}/api/projects?`, {
+      params: {
+        search: args.searchWord ? args.searchWord : null,
+        language: args.language ? args.language : null,
+        genre: args.genre ? args.genre : null,
+        sorted: args.sorted,
+        page: args.page ? Number(args.page) : 0,
       },
     })
     .then((res) => res.data.result)
-    .catch((e) => console.log(e));
+    .catch((e) => console.error(e));
 });
 
 // 프로젝트 리스트 무한스크롤
 export const getProjectPage = createAsyncThunk(
   "GET/getProjectPage",
-  async (page) => {
+  async (args) => {
     return await axios
       .get(`${SERVER_URL}/api/projects?`, {
-        headers: {
-          Authorization: `${token}`,
-        },
         params: {
-          page: Number(page),
-          sorted: "createdDate",
+          search: args.searchWord ? args.searchWord : null,
+          language: args.language ? args.language : null,
+          genre: args.genre ? args.genre : null,
+          sorted: args.sorted,
+          page: args.page ? Number(args.page) : 0,
         },
       })
       .then((res) => res.data.result.list)
-      .catch((e) => console.log(e));
+      .catch((e) => console.err(e));
   }
 );
+// 프로젝트 리스트 무한스크롤
+// export const getProjectPage = createAsyncThunk(
+//   "GET/getProjectPage",
+//   async (page) => {
+//     return await axios
+//       .get(`${SERVER_URL}/api/projects?`, {
+//         params: {
+//           page: Number(page),
+//           sorted: "createdDate",
+//         },
+//       })
+//       .then((res) => res.data.result.list)
+//       .catch((e) => console.err(e));
+//   }
+// );
 
 // 프로젝트 검색(검색어로)
 export const searchProjectWord = createAsyncThunk(
@@ -61,7 +78,7 @@ export const searchProjectWord = createAsyncThunk(
         },
       })
       .then((res) => res.data.result.list)
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }
 );
 
@@ -77,7 +94,7 @@ export const searchProjectLanguage = createAsyncThunk(
         },
       })
       .then((res) => res.data.result.list)
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }
 );
 
@@ -93,9 +110,10 @@ export const searchProjectType = createAsyncThunk(
         },
       })
       .then((res) => res.data.result.list)
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }
 );
+
 // 프로젝트 썸네일 카드 클릭 시 상세 보기
 export const getProjectDetails = createAsyncThunk(
   "GET/getProjectDetails",
@@ -103,7 +121,7 @@ export const getProjectDetails = createAsyncThunk(
     return await axios
       .get(`${SERVER_URL}/api/project/${projectId}`)
       .then((res) => res.data.result)
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   }
 );
 // 프로젝트 찜하기
@@ -138,7 +156,8 @@ export const applyProject = createAsyncThunk(
           headers: { Authorization: `${token}` },
         }
       )
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((e) => console.error(e));
     return res.data;
   }
 );
@@ -164,6 +183,12 @@ export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
 const ProjectSlice = createSlice({
   name: "ProjectSlice",
   initialState: {
+    order: "",
+    genre: "",
+    searchWord: "",
+    language: "",
+
+    page: 0,
     searchTag: false,
     projectCreateModal: false,
     projectDetailModal: false,
@@ -185,36 +210,34 @@ const ProjectSlice = createSlice({
     detailModal: (state, action) => {
       state.projectDetailModal = action.payload;
     },
+    addPage: (state, action) => {
+      state.page = action.payload;
+    },
+    setOrder: (state, action) => {
+      state.order = action.payload;
+    },
+    setGenre: (state, action) => {
+      state.genre = action.payload;
+    },
+    setSearchWord: (state, action) => {
+      state.searchWord = action.payload;
+    },
+    setLanguage: (state, action) => {
+      state.language = action.payload;
+    },
   },
   extraReducers: {
     [addProject.fulfilled]: (state, action) => {
       console.log("ok");
     },
     [getProject.fulfilled]: (state, action) => {
+      console.log("리덕스에 있는 액션 페이로드!!!", action.payload.list);
       state.list = [...action.payload.list];
-      if (action.payload.myProject) {
-        state.myProject = [...action.payload.myProject];
-      }
       console.log("getProject");
     },
     [getProjectPage.fulfilled]: (state, action) => {
       state.list = [...state.list, ...action.payload];
       console.log("getProjectPage");
-    },
-    [searchProjectWord.fulfilled]: (state, action) => {
-      state.list = [...action.payload];
-      state.searchTag = false;
-      console.log("search by word!");
-    },
-    [searchProjectLanguage.fulfilled]: (state, action) => {
-      state.list = [...action.payload];
-      state.searchTag = false;
-      console.log("search by language!");
-    },
-    [searchProjectType.fulfilled]: (state, action) => {
-      state.list = [...action.payload];
-      state.searchTag = false;
-      console.log("search by type!");
     },
     [getProjectDetails.fulfilled]: (state, action) => {
       state.detail = action.payload;
@@ -237,5 +260,14 @@ const ProjectSlice = createSlice({
     },
   },
 });
-export const { clickTag, createModal, detailModal } = ProjectSlice.actions;
+export const {
+  clickTag,
+  createModal,
+  detailModal,
+  addPage,
+  setOrder,
+  setGenre,
+  setLanguage,
+  setSearchWord,
+} = ProjectSlice.actions;
 export default ProjectSlice.reducer;

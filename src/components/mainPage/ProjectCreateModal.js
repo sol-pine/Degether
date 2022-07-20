@@ -113,7 +113,6 @@ const ProjectCreateModal = () => {
 
     dispatch(addProject(formData));
     dispatch(createModal(false));
-    window.location.reload("/");
   }
 
   return (

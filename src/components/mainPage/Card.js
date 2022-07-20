@@ -3,25 +3,33 @@ import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getProjectPage } from "../../redux/modules/ProjectSlice";
-
-const Card = () => {
+import { addPage, getProjectPage } from "../../redux/modules/ProjectSlice";
+import Spinner from "../Spinner";
+const Card = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const project = useSelector((state) => state.Project?.list);
+  const project = useSelector((state) => state.Project.list);
   const [ref, inView] = useInView();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
+  const order = useSelector((state) => state.Project.order);
+  const genre = useSelector((state) => state.Project.genre);
+  const searchWord = useSelector((state) => state.Project.searchWord);
+  const language = useSelector((state) => state.Project.language);
 
-  // 프로젝트 썸네일 카드 호버 이벤트
-  // 반복으로 돌린 카드에 개별 cardOpen의 state 변경을 위해 state를 project 길이 만큼의 배열로 만들어줌
-  // const cardOpen = Array(project.length).fill(false);
-  // console.log(cardOpen);
+  // 프로젝트 리스트 받아오기, page가 바뀔 때마다 카드 18개씩 불러오기
 
-  // 프로젝트 리스트 받아오기
   const getList = useCallback(async () => {
     setLoading(true);
-    dispatch(getProjectPage(page));
+    dispatch(
+      getProjectPage({
+        page: page,
+        sorted: order,
+        genre: genre,
+        language: language,
+        search: searchWord,
+      })
+    );
     setLoading(false);
   }, [page]);
 
@@ -35,73 +43,60 @@ const Card = () => {
     if (project.length && inView && !loading) {
       setPage((prevState) => prevState + 1);
     }
+    dispatch(addPage(page));
   }, [inView, loading]);
 
-  return (
-    <>
-      {project.map((list, idx) => {
-        return (
-          <CardContainer
-            key={idx}
-            onClick={() => {
-              navigate(`/${list.projectId}`);
-            }}
-            // onMouseEnter={() => {
-            //   cardOpen[idx] = true;
-            //   console.log(cardOpen);
-            // }}
-            // onMouseLeave={() => {
-            //   cardOpen[idx] = false;
-            //   console.log(cardOpen);
-            // }}
-          >
-            {/* {cardOpen[0] ? <OnCardContainer /> : null} */}
-            {/* <OnCardContainer /> */}
-            <CardText>
-              {list.projectName}
-              <br />
-              <HeadCount>
-                모집인원
-                <span>
-                  [개발자 / {list.devCount}명] [디자이너 / {list.deCount}명]
-                </span>
-              </HeadCount>
-            </CardText>
-            <CardImg>
-              <Dday>
-                <span>D</span>- {list.dDay}
-              </Dday>
-              <img src={list.thumbnail} alt="프로젝트썸네일" />
-              <Pin>
-                {list.zzimCount === 0 ? (
-                  <img src="img/unpin.png" />
+  if (!project) {
+    return <Spinner></Spinner>;
+  } else {
+    return (
+      <>
+        {project.map((list, idx) => {
+          return (
+            <CardContainer
+              key={idx}
+              onClick={() => {
+                navigate(`/${list.projectId}`);
+              }}
+            >
+              <CardText>
+                {list.projectName}
+                <br />
+                <HeadCount>
+                  모집인원
+                  <span>
+                    [개발자 / {list.devCount}명] [디자이너 / {list.deCount}명]
+                  </span>
+                </HeadCount>
+              </CardText>
+              <CardImg>
+                <Dday>
+                  <span>D</span>- {list.dDay}
+                </Dday>
+                {list.thumbnail ? (
+                  <img src={list.thumbnail} alt="project thumbnail image" />
                 ) : (
-                  <img src="img/pin.svg" />
+                  <img src="/img/degether.png" alt="default image" />
                 )}
 
-                <PinCount>{list.zzimCount}</PinCount>
-              </Pin>
-            </CardImg>
-          </CardContainer>
-        );
-      })}
-      <div ref={ref}>&#8203;</div>
-    </>
-  );
-};
+                <Pin>
+                  {list.zzimCount === 0 ? (
+                    <img src="img/unpin.png" />
+                  ) : (
+                    <img src="img/pin.svg" />
+                  )}
 
-const OnCardContainer = styled.div`
-  z-index: 1;
-  background: #09120e;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.9;
-  border: 0.5px solid #cbcbcb;
-  border-radius: 10px;
-  width: 214px;
-  height: 366px;
-`;
+                  <PinCount>{list.zzimCount}</PinCount>
+                </Pin>
+              </CardImg>
+            </CardContainer>
+          );
+        })}
+        <div ref={ref}>&#8203;</div>
+      </>
+    );
+  }
+};
 
 const CardContainer = styled.div`
   position: relative;
@@ -130,7 +125,6 @@ const CardImg = styled.div`
   width: 214px;
   height: 300px;
   position: relative;
-
   img {
     width: 214px;
     height: 300px;

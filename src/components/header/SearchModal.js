@@ -2,12 +2,15 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import {
-  searchProjectLanguage,
-  searchProjectType,
+  clickTag,
+  getProject,
+  setGenre,
+  setLanguage,
 } from "../../redux/modules/ProjectSlice";
 
-const SearchModal = () => {
+const SearchModal = (props) => {
   const dispatch = useDispatch();
+  const page = props.page;
   return (
     <>
       <ModalContainer>
@@ -17,56 +20,94 @@ const SearchModal = () => {
             <TagBtnWrap>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("HTML"));
+                  dispatch(setLanguage("HTML"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", language: "HTML" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 HTML
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("CSS"));
+                  dispatch(setLanguage("CSS"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", language: "CSS" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 CSS
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("Java"));
+                  dispatch(setLanguage("Java"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", language: "Java" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 Java
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("JavaScript"));
+                  dispatch(setLanguage("JavaScript"));
+                  dispatch(
+                    getProject({
+                      sorted: "createdDate",
+                      language: "JavaScript",
+                    })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 JavaScript
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("Python"));
+                  dispatch(setLanguage("Python"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", language: "Python" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 Python
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("TypeScript"));
+                  dispatch(setLanguage("TypeScript"));
+                  dispatch(
+                    getProject({
+                      sorted: "createdDate",
+                      language: "TypeScript",
+                    })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 TypeScript
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("Kotlin"));
+                  dispatch(setLanguage("Kotlin"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", language: "Kotlin" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 Kotlin
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectLanguage("Shell"));
+                  dispatch(setLanguage("shell"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", language: "shell" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 Shell
@@ -78,42 +119,62 @@ const SearchModal = () => {
             <TagBtnWrap>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectType("웹"));
+                  dispatch(setGenre("웹"));
+                  dispatch(getProject({ sorted: "createdDate", genre: "웹" }));
+                  dispatch(clickTag(false));
                 }}
               >
                 웹
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectType("앱"));
+                  dispatch(setGenre("앱"));
+                  dispatch(getProject({ sorted: "createdDate", genre: "앱" }));
+                  dispatch(clickTag(false));
                 }}
               >
                 앱
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectType("게임"));
+                  dispatch(setGenre("게임"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", genre: "게임" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 게임
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectType("메타버스"));
+                  dispatch(setGenre("메타버스"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", genre: "메타버스" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 메타버스
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectType("데이터베이스"));
+                  dispatch(setGenre("데이터베이스"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", genre: "데이터베이스" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 데이터베이스
               </Tag>
               <Tag
                 onClick={() => {
-                  dispatch(searchProjectType("임베디드"));
+                  dispatch(setGenre("임베디드"));
+                  dispatch(
+                    getProject({ sorted: "createdDate", genre: "임베디드" })
+                  );
+                  dispatch(clickTag(false));
                 }}
               >
                 임베디드

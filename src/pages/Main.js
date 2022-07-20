@@ -3,23 +3,15 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import Card from "../components/mainPage/Card";
 import ProjectCreateModal from "../components/mainPage/ProjectCreateModal";
-import LoginContainer from "../components/sideView/LoginContainer";
-import { clickTag, getProject } from "../redux/modules/ProjectSlice";
-import ProjectSidebar from "../components/sideView/ProjectSidebar";
+import { clickTag } from "../redux/modules/ProjectSlice";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MainHeader } from "../components/header/Header";
-import { getUserInfo } from "../redux/modules/UserSlice";
 
 function Main() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const createModal = useSelector((state) => state.Project.projectCreateModal);
   const token = localStorage.getItem("token");
-
-  useEffect(() => {
-    dispatch(getProject());
-    dispatch(getUserInfo());
-  }, []);
 
   return (
     <>
@@ -29,7 +21,7 @@ function Main() {
           dispatch(clickTag(false));
         }}
       >
-        <Outlet></Outlet>
+        <Outlet />
         {createModal ? (
           <div>
             <ProjectCreateModal />
@@ -41,7 +33,6 @@ function Main() {
             <Card />
           </CardGrid>
         </CardContainer>
-        {token ? <ProjectSidebar /> : <LoginContainer />}
       </MainContainer>
     </>
   );
@@ -53,6 +44,7 @@ const MainContainer = styled.div`
   margin: 0 auto;
   position: relative;
 `;
+
 const ModalBackground = styled.div`
   position: fixed;
   display: flex;
@@ -71,7 +63,7 @@ const CardContainer = styled.div`
   width: 1435px;
   display: flex;
   justify-content: center;
-  margin-top: 215px;
+  margin-top: 244px;
 `;
 
 const CardGrid = styled.div`

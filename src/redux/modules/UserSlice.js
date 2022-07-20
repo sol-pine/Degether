@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { Axios } from "axios";
 import { useNavigate } from "react-router-dom";
-import { SERVER_URL, REACT_APP_KAKAO_REDIRECT_URL } from "../../shared/api";
+import {
+  SERVER_URL,
+  REACT_APP_KAKAO_REDIRECT_URL,
+  token,
+} from "../../shared/api";
 
-// 카카오 로그인
 const code = new URL(window.location.href).searchParams.get("code");
-const token = localStorage.getItem("token");
-
+// 카카오 로그인
 export const kakaoLogin = createAsyncThunk("POST/kakaoLogin", async () => {
   return await axios
     .post(
@@ -28,8 +30,7 @@ export const getUserInfo = createAsyncThunk("GET/getUserInfo", async () => {
   return await axios
     .get(`${SERVER_URL}/user/userInfo`, {
       headers: {
-        Authorization: `${token}`,
-        "Content-Type": "multipart/form-data",
+        Authorization: token,
       },
     })
     .then((res) => {
@@ -42,7 +43,7 @@ export const editUser = createAsyncThunk("PUT/editUser", async (formData) => {
   const res = await axios
     .put(`${SERVER_URL}/user/userEdit`, formData, {
       headers: {
-        Authorization: `${token}`,
+        Authorization: token,
         "Content-Type": "multipart/form-data",
       },
     })
