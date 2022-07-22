@@ -16,24 +16,24 @@ function Admin() {
   const file = useSelector((state) => state.Project.file);
 
   const [loading, setLoading] = useState(false);
-
   const [newGenre, setNewGenre] = useState(null);
   const [newLanguage, setNewLanguage] = useState(null);
   const [newStep, setNewStep] = useState(null);
   const [newDeadline, setNewDeadline] = useState(null);
-  const [newFile, setNewFile] = useState(null);
   const [newFeCount, setNewFeCount] = useState(0);
   const [newBeCount, setNewBeCount] = useState(0);
   const [newDeCount, setNewDeCount] = useState(0);
   const [newThumbnail, setNewThumbnail] = useState(null);
 
   useEffect(() => {
-    console.log("어드민페이지 디스패치");
     dispatch(getProjectDetails(myprojectId));
   }, []);
 
   useEffect(() => {
     if (details && details.step) {
+      if (file) {
+        setFileStatus(true);
+      }
       setLoading(true);
     }
   }, [details && details.step]);
@@ -122,9 +122,9 @@ function Admin() {
   const newFigma = useRef();
 
   // 첨부 파일
+  const [fileStatus, setFileStatus] = useState(false);
   const handleUpload = (e) => {
     let formData = new FormData();
-    console.log(e.target.files[0]);
     formData.append("infoFile", e.target.files[0]);
     axios
       .post(`${SERVER_URL}/api/infoFile/${myprojectId}?`, formData, {
@@ -133,7 +133,10 @@ function Admin() {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => setNewFile(res.data.result))
+      .then((res) => {
+        console.log(res.data.result);
+        setFileStatus(true);
+      })
       .catch((e) => console.error(e));
   };
 
@@ -141,7 +144,7 @@ function Admin() {
     const fileUrl = file.fileUrl;
     axios
       .post(
-        `${SERVER_URL}/api/infoFile/${myprojectId}?${fileUrl}`,
+        `${SERVER_URL}/api/infoFile/${myprojectId}?fileUrl=${fileUrl}`,
         {},
         {
           headers: {
@@ -506,21 +509,20 @@ function Admin() {
                     <FileWrap>
                       <FileName>
                         <span>
-                          {file ? (
+                          {fileStatus ? (
                             <>
-                              {file.fileName || newFile}
+                              {file.fileName}
                               <RemoveBtn
                                 className="delete"
                                 onClick={() => {
                                   removeFile();
+                                  setFileStatus(false);
                                 }}
                               >
                                 x
                               </RemoveBtn>
                             </>
-                          ) : (
-                            <></>
-                          )}
+                          ) : null}
                         </span>
                       </FileName>
                     </FileWrap>

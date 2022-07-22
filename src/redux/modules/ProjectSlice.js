@@ -119,21 +119,6 @@ export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
     });
 });
 
-// export const getProject = createAsyncThunk("GET/getProject", async (args) => {
-//   return await axios
-//     .get(`${SERVER_URL}/api/projects?`, {
-//       params: {
-//         search: args.searchWord ? args.searchWord : null,
-//         language: args.language ? args.language : null,
-//         genre: args.genre ? args.genre : null,
-//         sorted: args.sorted,
-//         page: args.page ? Number(args.page) : 0,
-//       },
-//     })
-//     .then((res) => res.data.result)
-//     .catch((e) => console.error(e));
-// });
-
 // 프로젝트 자료 수정
 export const editFiles = createAsyncThunk("POST/editFiles", async (args) => {
   const res = await axios

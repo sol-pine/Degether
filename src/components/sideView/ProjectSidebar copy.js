@@ -6,17 +6,14 @@ import { createModal } from "../../redux/modules/ProjectSlice";
 import { useNavigate } from "react-router-dom";
 import { SERVER_URL } from "../../shared/api";
 import axios from "axios";
-import Slider from "./Slider";
 
 function ProjectSidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [myProjectList, setMyProjectList] = useState(null);
-  const [noProjectList, setNoProjectList] = useState(false);
   const [mouseEvent, setMouseEvent] = useState(false);
-  // console.log("myProjectList ===>", myProjectList);
-  // console.log("noProjectList ===>", noProjectList);
+
   useEffect(() => {
     axios
       .get(`${SERVER_URL}/api/myprojects`, {
@@ -25,22 +22,35 @@ function ProjectSidebar() {
         },
       })
       .then((res) => {
-        if (res.data.result) {
-          setMyProjectList(res.data.result);
-        } else {
-          setNoProjectList(true);
-        }
+        setMyProjectList(res.data.result[0]);
       })
       .catch((e) => console.error(e));
   }, []);
   useEffect(() => {
-    if (noProjectList || myProjectList) {
+    if (myProjectList) {
       setLoading(true);
     }
   }, [myProjectList]);
-
+  console.log(myProjectList);
   if (!loading) {
-    return <></>;
+    return (
+      <>
+        <ProjectSidebarContainerWrap>
+          <ProjectListTop>
+            <ProjectAddBtn
+              onClick={() => {
+                dispatch(createModal(true));
+              }}
+            >
+              <ProjectAddBtnText>
+                <Plus />
+                <AddBtnText>새로운 프로젝트 시작하기 </AddBtnText>
+              </ProjectAddBtnText>
+            </ProjectAddBtn>
+          </ProjectListTop>
+        </ProjectSidebarContainerWrap>
+      </>
+    );
   } else {
     return (
       <>
@@ -63,19 +73,45 @@ function ProjectSidebar() {
               <TopText>나의 프로젝트</TopText>
             </ProjectSidebarTop>
             {myProjectList ? (
-              <Test>
+              <Test
+                onMouseEnter={() => {
+                  setMouseEvent(true);
+                }}
+                onMouseLeave={() => {
+                  setMouseEvent(false);
+                }}
+                onClick={() => {
+                  // 프로젝트 아이디를 이용해 해당 프로젝트 페이지로 이동
+                  navigate(`/project/${myProjectList.projectId}`);
+                }}
+              >
                 {/* 프로젝트 배경 이미지 */}
                 <ProjectThumbnailWrap>
-                  <Slider myProjectList={myProjectList} />
+                  {mouseEvent ? (
+                    <ProjectHoverEvent>
+                      <img
+                        src="/img/project-enter.svg"
+                        alt="project thumbnail"
+                      />
+                    </ProjectHoverEvent>
+                  ) : null}
+                  <ProjectBackgroundImg src={myProjectList.thumbnail} />
                 </ProjectThumbnailWrap>
+                {/* 프로젝트 상세 정보 게시물 리스트 */}
+                <ProjectList>
+                  <p>{myProjectList.projectName}</p>
+                  <p>
+                    참여인원 [개발자 / {myProjectList.devCount}명] [디자이너 /{" "}
+                    {myProjectList.deCount}명]
+                  </p>
+                </ProjectList>
               </Test>
-            ) : null}
-            {noProjectList ? (
+            ) : (
               <WelcomMsg>
                 참여 중인 프로젝트가 없습니다! <br />
                 관심있는 프로젝트를 찾아 참여해보세요😊
               </WelcomMsg>
-            ) : null}
+            )}
           </ProjectListTop>
         </ProjectSidebarContainerWrap>
       </>
@@ -119,7 +155,7 @@ const ProjectHoverEvent = styled.div`
   position: absolute;
   top: 0;
   width: 430px;
-  height: 500px;
+  height: 610px;
   background: #09120e;
   opacity: 0.9;
   border-radius: 10px;
