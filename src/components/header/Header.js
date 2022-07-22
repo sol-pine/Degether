@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import LoginContainer from "../sideView/LoginContainer";
+import MypageSide from "../sideView/MypageSide";
 import ProjectSidebar from "../sideView/ProjectSidebar";
+import UserSidebar from "../sideView/UserSidebar";
 import HomeIcon, {
   NoticeIcon,
   Profile,
@@ -22,10 +24,6 @@ const MainHeader = () => {
   const token = localStorage.getItem("token");
   const page = useSelector((state) => state.Project.page);
 
-  function reload() {
-    navigate("/");
-    window.location.replace("/");
-  }
   return (
     <>
       <HeadMainContainer>
@@ -50,15 +48,8 @@ const MainHeader = () => {
                   <div>
                     <Profile />
                     <LogoutBtn />
-                    <ProjectBtn />
                   </div>
-                ) : (
-                  <LoginModalBtn
-                    onClick={() => {
-                      navigate("/project");
-                    }}
-                  />
-                )}
+                ) : null}
               </MainIconContainer>
             </MenuBar>
           </MenuContainer>
@@ -98,20 +89,51 @@ const Header = () => {
                 {token ? (
                   <div>
                     <LogoutBtn />
-                    <ProjectBtn />
                   </div>
-                ) : (
-                  <LoginModalBtn
-                    onClick={() => {
-                      navigate("/project");
-                    }}
-                  />
-                )}
+                ) : null}
               </IconContainer>
             </MenuBar>
           </MenuContainer>
         </MenuSearchWrap>
-        {token ? <ProjectSidebar /> : <LoginContainer />}
+        <UserSidebar />
+      </HeadMainContainer>
+    </>
+  );
+};
+const MypageHeader = () => {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  return (
+    <>
+      <HeadMainContainer>
+        <HeaderContainer2>
+          <div>
+            <img
+              src="/img/logo.svg"
+              onClick={() => {
+                window.location.replace("/");
+              }}
+            />
+          </div>
+        </HeaderContainer2>
+        <MenuSearchWrap>
+          <MenuContainer>
+            <MenuBar>
+              <IconContainer>
+                <HomeIcon />
+                {/* <NoticeIcon /> */}
+                <Profile />
+                {token ? (
+                  <div>
+                    <LogoutBtn />
+                  </div>
+                ) : null}
+              </IconContainer>
+            </MenuBar>
+          </MenuContainer>
+        </MenuSearchWrap>
+        <MypageSide />
       </HeadMainContainer>
     </>
   );
@@ -199,4 +221,4 @@ const IconContainer = styled.div`
   right: 16px;
 `;
 export default Header;
-export { MainHeader };
+export { MainHeader, MypageHeader };

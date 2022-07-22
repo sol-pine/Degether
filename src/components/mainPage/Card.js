@@ -3,7 +3,7 @@ import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { addPage, getProjectPage } from "../../redux/modules/ProjectSlice";
+import { getProjectPage } from "../../redux/modules/ProjectSlice";
 import Spinner from "../Spinner";
 const Card = (props) => {
   const dispatch = useDispatch();
@@ -43,7 +43,6 @@ const Card = (props) => {
     if (project.length && inView && !loading) {
       setPage((prevState) => prevState + 1);
     }
-    dispatch(addPage(page));
   }, [inView, loading]);
 
   if (!project) {
@@ -114,7 +113,11 @@ const CardText = styled.div`
   line-height: 17px;
   margin: 16px 6px 16px 6px;
 `;
-const HeadCount = styled.div`
+const HeadCount = styled.p`
+  width: 202px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   color: #2f4a3b;
   span {
     color: #b34301;

@@ -32,15 +32,12 @@ const ProjectCreateModal = () => {
   };
 
   // 프로젝트 소개 자료
-  const [file1, setFile1] = useState();
-  const [file2, setFile2] = useState();
+  const [file, setFile] = useState(null);
   const handleUpload = (e) => {
     e.preventDefault();
-    setFile1(e.target.files[0]);
-    setFile2(e.target.files[1]);
-    console.log(file1, file2);
+    setFile(e.target.files[0]);
+    console.log(e.target.files[0]);
   };
-
   // 프로젝트명
   const projectName = useRef();
 
@@ -108,11 +105,8 @@ const ProjectCreateModal = () => {
       )
     );
     formData.append("thumbnail", thumbnail);
-    formData.append("infoFiles", file1);
-    formData.append("infoFiles", file2);
-
+    formData.append("infoFiles", file);
     dispatch(addProject(formData));
-    dispatch(createModal(false));
   }
 
   return (
@@ -132,7 +126,7 @@ const ProjectCreateModal = () => {
             <RightBox>
               <TopBox>
                 <ProjectTitle>
-                  <label htmlFor="title">프로젝트 명칭</label>
+                  <label htmlFor="title">프로젝트 이름</label>
                   <div>
                     <input
                       ref={projectName}
@@ -143,7 +137,7 @@ const ProjectCreateModal = () => {
                 </ProjectTitle>
                 <ProjectBox>
                   <ProjectType>
-                    <label htmlFor="genre">프로젝트 타입</label>
+                    <label htmlFor="genre">프로젝트 유형</label>
                     <select onChange={(e) => handleChange(e)}>
                       <option>선택</option>
                       <option value="앱">앱</option>
@@ -156,7 +150,7 @@ const ProjectCreateModal = () => {
                     </select>
                   </ProjectType>
                   <ProjectStep>
-                    <label htmlFor="step">프로젝트 단계</label>
+                    <label htmlFor="step">진행 단계</label>
                     <StepRadio>
                       <section>
                         <div>
@@ -204,19 +198,19 @@ const ProjectCreateModal = () => {
                   <LangCheckbox>
                     <section>
                       <div>
-                        * HTML
+                        HTML
                         <input type="checkbox" value="HTML" name="language" />
                       </div>
                       <div>
-                        * CSS
+                        CSS
                         <input type="checkbox" value="CSS" name="language" />
                       </div>
                       <div>
-                        * Java
+                        Java
                         <input type="checkbox" value="Java" name="language" />
                       </div>
                       <div>
-                        * JavaScript
+                        JavaScript
                         <input
                           type="checkbox"
                           value="JavaScript"
@@ -224,11 +218,11 @@ const ProjectCreateModal = () => {
                         />
                       </div>
                       <div>
-                        * Python
+                        Python
                         <input type="checkbox" value="Python" name="language" />
                       </div>
                       <div>
-                        * TypeScript
+                        TypeScript
                         <input
                           type="checkbox"
                           value="TypeScript"
@@ -236,11 +230,11 @@ const ProjectCreateModal = () => {
                         />
                       </div>
                       <div>
-                        * Kotlin
+                        Kotlin
                         <input type="checkbox" value="Kotlin" name="language" />
                       </div>
                       <div>
-                        * Shell
+                        Shell
                         <input type="checkbox" value="Shell" name="language" />
                       </div>
                     </section>
@@ -344,31 +338,25 @@ const ProjectCreateModal = () => {
                     </InputBox>
                   </InputHeadcount>
                   <ProjectFileLink>
-                    <p>프로젝트 소개 자료</p>
+                    <FileLinkTitle>프로젝트 소개 자료</FileLinkTitle>
                     <label htmlFor="input-file">
-                      <svg
-                        width="17"
-                        height="21"
-                        viewBox="0 0 17 21"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4.85714 15.5876H12.1429V8.52875H17L8.5 0.293457L0 8.52875H4.85714V15.5876ZM8.5 3.62287L11.135 6.17581H9.71429V13.2346H7.28571V6.17581H5.865L8.5 3.62287ZM0 17.9405H17V20.2935H0V17.9405Z"
-                          fill="#09120E"
+                      {file ? (
+                        <p>{file.name}</p>
+                      ) : (
+                        <img
+                          src="/img/upload-icon.svg"
+                          alt="file upload icon"
                         />
-                      </svg>
+                      )}
                     </label>
                     <input
                       id="input-file"
                       type="file"
                       onChange={handleUpload}
-                      multiple
                     />
                   </ProjectFileLink>
                   <FileUploadDesc>
-                    이미지 파일은 1개의 파일만 업로드가 가능합니다. 각 파일은
-                    용량 2MB 이하로만 업로드가 가능합니다.
+                    파일은 용량 2MB 이하로만 업로드가 가능합니다.
                   </FileUploadDesc>
                 </ProjcectLinkBox>
               </BottomBox>
@@ -391,7 +379,7 @@ const ProjectCreateModal = () => {
 };
 export default ProjectCreateModal;
 const ModalPlusBtn = styled.div`
-  z-index: 3;
+  z-index: 8;
   position: absolute;
   left: 183px;
   margin: 233px auto;
@@ -402,7 +390,7 @@ const Modal = styled.div`
   width: 1522px;
   height: 752px;
   background: #09120e;
-  z-index: 3;
+  z-index: 8;
   position: relative;
   top: 0;
   left: 0;
@@ -859,12 +847,6 @@ const ProjectFileLink = styled.div`
   height: 45px;
   margin: 15px 0 0 23px;
   display: flex;
-  p {
-    margin-right: 24px;
-    font-weight: 700;
-    font-size: 12px;
-    color: #efefef;
-  }
   input {
     display: none;
   }
@@ -877,7 +859,25 @@ const ProjectFileLink = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    p {
+      text-align: center;
+      margin-top: 13px;
+      color: #000;
+      width: 300px;
+      height: 40px;
+      font-weight: 700;
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
+`;
+const FileLinkTitle = styled.p`
+  margin-right: 24px;
+  font-weight: 700;
+  font-size: 12px;
+  color: #efefef;
 `;
 const FileUploadDesc = styled.div`
   width: 509px;
@@ -885,7 +885,7 @@ const FileUploadDesc = styled.div`
   font-weight: 500;
   font-size: 12px;
   color: #d6e5d0;
-  margin: 6px 0 0 97px;
+  margin: 6px 0 0 140px;
 `;
 const ButtonWrap = styled.div`
   display: flex;

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import Header from "../components/header/Header";
+import { MypageHeader } from "../components/header/Header";
 import MyProject from "../components/myPage/MyProject";
 import Notice from "../components/myPage/Notice";
 import Profile from "../components/myPage/Profile";
@@ -16,7 +16,7 @@ function User() {
   }, []);
   return (
     <div>
-      <Header />
+      <MypageHeader />
       <MypageContainer>
         <MypageLeftWrap>
           <Profile />
@@ -24,7 +24,6 @@ function User() {
           <MyProject />
           <ZzimProject />
         </MypageLeftWrap>
-        <MypageSide />
       </MypageContainer>
     </div>
   );

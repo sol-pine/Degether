@@ -6,13 +6,15 @@ import { SERVER_URL, token } from "../../shared/api";
 export const addProject = createAsyncThunk(
   "ADD/addProject",
   async (formData) => {
-    const res = await axios.post(`${SERVER_URL}/api/project`, formData, {
-      headers: {
-        Authorization: `${token}`,
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    console.log(res.data);
+    const res = await axios
+      .post(`${SERVER_URL}/api/project`, formData, {
+        headers: {
+          Authorization: `${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => console.log(res.data))
+      .catch((e) => console.error(e.message));
   }
 );
 
@@ -50,71 +52,8 @@ export const getProjectPage = createAsyncThunk(
       .catch((e) => console.err(e));
   }
 );
-// 프로젝트 리스트 무한스크롤
-// export const getProjectPage = createAsyncThunk(
-//   "GET/getProjectPage",
-//   async (page) => {
-//     return await axios
-//       .get(`${SERVER_URL}/api/projects?`, {
-//         params: {
-//           page: Number(page),
-//           sorted: "createdDate",
-//         },
-//       })
-//       .then((res) => res.data.result.list)
-//       .catch((e) => console.err(e));
-//   }
-// );
 
-// 프로젝트 검색(검색어로)
-export const searchProjectWord = createAsyncThunk(
-  "GET/searchProjectWord",
-  async (searchWord) => {
-    return await axios
-      .get(`${SERVER_URL}/api/projects?`, {
-        params: {
-          search: searchWord,
-          sorted: "createdDate",
-        },
-      })
-      .then((res) => res.data.result.list)
-      .catch((e) => console.error(e));
-  }
-);
-
-// 프로젝트 검색(언어태그로)
-export const searchProjectLanguage = createAsyncThunk(
-  "GET/searchProjectLanguage",
-  async (searchLang) => {
-    return await axios
-      .get(`${SERVER_URL}/api/projects?`, {
-        params: {
-          language: searchLang,
-          sorted: "createdDate",
-        },
-      })
-      .then((res) => res.data.result.list)
-      .catch((e) => console.error(e));
-  }
-);
-
-// 프로젝트 검색(유형태그로)
-export const searchProjectType = createAsyncThunk(
-  "GET/searchProjectType",
-  async (searchType) => {
-    return await axios
-      .get(`${SERVER_URL}/api/projects?`, {
-        params: {
-          genre: searchType,
-          sorted: "createdDate",
-        },
-      })
-      .then((res) => res.data.result.list)
-      .catch((e) => console.error(e));
-  }
-);
-
-// 프로젝트 썸네일 카드 클릭 시 상세 보기
+// 프로젝트 상세 보기
 export const getProjectDetails = createAsyncThunk(
   "GET/getProjectDetails",
   async (projectId) => {
@@ -138,8 +77,8 @@ export const interestedProject = createAsyncThunk(
           },
         }
       )
-      .then((res) => res.data);
-
+      .then((res) => res.data)
+      .catch((e) => console.error(e));
     return res.data;
   }
 );
@@ -176,7 +115,39 @@ export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
       alert("프로젝트 수정이 완료되었습니다.");
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
+    });
+});
+
+// export const getProject = createAsyncThunk("GET/getProject", async (args) => {
+//   return await axios
+//     .get(`${SERVER_URL}/api/projects?`, {
+//       params: {
+//         search: args.searchWord ? args.searchWord : null,
+//         language: args.language ? args.language : null,
+//         genre: args.genre ? args.genre : null,
+//         sorted: args.sorted,
+//         page: args.page ? Number(args.page) : 0,
+//       },
+//     })
+//     .then((res) => res.data.result)
+//     .catch((e) => console.error(e));
+// });
+
+// 프로젝트 자료 수정
+export const editFiles = createAsyncThunk("POST/editFiles", async (args) => {
+  const res = await axios
+    .post(`${SERVER_URL}/api/infoFile/${args.projectId}?`, args.formData, {
+      headers: {
+        Authorization: `${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log("Edit ", res.data);
+    })
+    .catch((e) => {
+      console.error(e);
     });
 });
 
@@ -187,18 +158,14 @@ const ProjectSlice = createSlice({
     genre: "",
     searchWord: "",
     language: "",
-
-    page: 0,
     searchTag: false,
     projectCreateModal: false,
     projectDetailModal: false,
     list: [],
+    file: {},
     project: [],
     myProject: [],
     detail: {},
-    file1: "",
-    file2: "",
-    genre: "",
   },
   reducers: {
     clickTag: (state, action) => {
@@ -209,9 +176,6 @@ const ProjectSlice = createSlice({
     },
     detailModal: (state, action) => {
       state.projectDetailModal = action.payload;
-    },
-    addPage: (state, action) => {
-      state.page = action.payload;
     },
     setOrder: (state, action) => {
       state.order = action.payload;
@@ -228,10 +192,11 @@ const ProjectSlice = createSlice({
   },
   extraReducers: {
     [addProject.fulfilled]: (state, action) => {
+      state.createModal = false;
+      window.location.replace("/");
       console.log("ok");
     },
     [getProject.fulfilled]: (state, action) => {
-      console.log("리덕스에 있는 액션 페이로드!!!", action.payload.list);
       state.list = [...action.payload.list];
       console.log("getProject");
     },
@@ -241,9 +206,9 @@ const ProjectSlice = createSlice({
     },
     [getProjectDetails.fulfilled]: (state, action) => {
       state.detail = action.payload;
-      state.file1 = action.payload.infoFiles[0];
-      state.file2 = action.payload.infoFiles[1];
-      state.genre = action.payload.genre[0];
+      if (action.payload.infoFiles) {
+        state.file = action.payload.infoFiles[0];
+      }
       state.projectDetailModal = true;
       console.log("got detail!");
     },
@@ -254,9 +219,6 @@ const ProjectSlice = createSlice({
     [applyProject.fulfilled]: (state, action) => {
       console.log("apply!");
       window.location.reload();
-    },
-    [editProject.fulfilled]: (state, action) => {
-      console.log("edit!");
     },
   },
 });

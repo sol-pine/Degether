@@ -10,15 +10,15 @@ import axios from "axios";
 function ProjectSidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = localStorage.getItem("token");
   const [loading, setLoading] = useState(false);
   const [myProjectList, setMyProjectList] = useState(null);
+  const [mouseEvent, setMouseEvent] = useState(false);
 
   useEffect(() => {
     axios
       .get(`${SERVER_URL}/api/myprojects`, {
         headers: {
-          Authorization: token,
+          Authorization: localStorage.getItem("token"),
         },
       })
       .then((res) => {
@@ -31,6 +31,7 @@ function ProjectSidebar() {
       setLoading(true);
     }
   }, [myProjectList]);
+  console.log(myProjectList);
   if (!loading) {
     return (
       <>
@@ -69,17 +70,33 @@ function ProjectSidebar() {
             </ProjectAddBtn>
             <ProjectSidebarTop>
               <Folder />
-              <TopText>참여 중 프로젝트</TopText>
+              <TopText>나의 프로젝트</TopText>
             </ProjectSidebarTop>
             {myProjectList ? (
               <Test
+                onMouseEnter={() => {
+                  setMouseEvent(true);
+                }}
+                onMouseLeave={() => {
+                  setMouseEvent(false);
+                }}
                 onClick={() => {
                   // 프로젝트 아이디를 이용해 해당 프로젝트 페이지로 이동
-                  navigate(`/project/ ${myProjectList.projectId}`);
+                  navigate(`/project/${myProjectList.projectId}`);
                 }}
               >
                 {/* 프로젝트 배경 이미지 */}
-                <ProjectBackgroundImg src={myProjectList.thumbnail} />
+                <ProjectThumbnailWrap>
+                  {mouseEvent ? (
+                    <ProjectHoverEvent>
+                      <img
+                        src="/img/project-enter.svg"
+                        alt="project thumbnail"
+                      />
+                    </ProjectHoverEvent>
+                  ) : null}
+                  <ProjectBackgroundImg src={myProjectList.thumbnail} />
+                </ProjectThumbnailWrap>
                 {/* 프로젝트 상세 정보 게시물 리스트 */}
                 <ProjectList>
                   <p>{myProjectList.projectName}</p>
@@ -125,18 +142,27 @@ const ProjectListTop = styled.div`
   align-items: center;
   height: 853px;
 `;
-const ProjectListBottom = styled.div`
-  height: 45px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-`;
 const Test = styled.div`
   width: 421px;
   cursor: pointer;
 `;
-
+const ProjectThumbnailWrap = styled.div`
+  width: 421px;
+  height: 590px;
+  position: relative;
+`;
+const ProjectHoverEvent = styled.div`
+  position: absolute;
+  top: 0;
+  width: 430px;
+  height: 610px;
+  background: #09120e;
+  opacity: 0.9;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const ProjectSidebarTop = styled.div`
   width: 421px;
   height: 34px;

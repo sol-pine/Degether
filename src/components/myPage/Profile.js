@@ -159,6 +159,7 @@ function Profile() {
 
   return (
     <div>
+      <Link name="profile" />
       <ProfileContainer>
         <p>공개 프로필 수정</p>
         <ProfileBoxWrap>
@@ -564,7 +565,13 @@ function Profile() {
 }
 
 export default Profile;
-
+const Link = styled.a`
+  width: 30px;
+  height: 30px;
+  padding: 50px;
+  top: 0px;
+  position: absolute;
+`;
 const ProfileContainer = styled.div`
   width: 1371px;
   height: 836px;

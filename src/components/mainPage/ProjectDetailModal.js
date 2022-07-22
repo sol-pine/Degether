@@ -1,3 +1,4 @@
+import FileSaver from "file-saver";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,115 +15,136 @@ function ProjectDetailModal() {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const detail = useSelector((state) => state.Project.detail);
-  const file1 = useSelector((state) => state.Project.file1);
-  const file2 = useSelector((state) => state.Project.file2);
-
+  const file = useSelector((state) => state.Project.file);
+  console.log(detail);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     dispatch(getProjectDetails(projectId));
   }, []);
-  console.log(detail);
+  useEffect(() => {
+    if (detail) {
+      setLoading(true);
+    }
+  }, [detail]);
+  function fileDownload() {
+    FileSaver.saveAs(file.fileUrl, file.fileName);
+    console.log(file.fileUrl, file.fileName);
+  }
 
-  return (
-    <div>
-      <DetailModal>
-        <Modal>
-          <ModalContainer>
-            <LeftBox>
-              <ProjectImg src={detail.thumbnail} />
-            </LeftBox>
-            <RightBox>
-              <ProjectDetailBox>
-                <section className="firstline">
-                  <p>모집 마감일</p>
-                  <div className="content deadline">{detail.deadLine}</div>
-                  <p>프론트엔드 개발자</p>
-                  <div className="content count">
-                    {detail.feCurrentCount}명 / {detail.feCount}명
-                  </div>
-                  <p>백엔드 개발자</p>
-                  <div className="content count">
-                    {detail.beCurrentCount}명 / {detail.beCount}명
-                  </div>
-                  <p>디자이너</p>
-                  <div className="content countlast">
-                    {detail.deCurrentCount}명 / {detail.deCount}명
-                  </div>
-                </section>
-                <section className="secondline">
-                  <p>프로젝트 명칭 </p>
-                  <div className="content projectName">
-                    {detail.projectName}
-                  </div>
-                </section>
-                <section className="thirdline">
-                  <p>프로젝트 단계 </p>
-                  <div className="content middle">{detail.step}</div>
-                  <p>프로젝트 타입</p>
-                  <div className="content middle">{detail.genre}</div>
-                  <p>개발 언어</p>
-                  <div className="content lang">{detail.languageString} </div>
-                </section>
-                <section className="descline">
-                  <p>프로젝트 설명 </p>
-                  <div className="description">{detail.projectDescription}</div>
-                </section>
-                <section className="fileline">
-                  <p>소개자료</p>
-                  <div className="projectFile">
-                    {file1 && file1.fileName}
-                    {file2 && file2.fileName}
-                    <button>
-                      <svg
-                        width="18"
-                        height="22"
-                        viewBox="0 0 18 22"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+  if (!loading) {
+    return <></>;
+  } else {
+    return (
+      <div>
+        <DetailModal>
+          <Modal>
+            <ModalContainer>
+              <LeftBox>
+                {detail.thumbnail ? (
+                  <ProjectImg src={detail.thumbnail} />
+                ) : (
+                  <ProjectImg src="/img/degether.png" />
+                )}
+              </LeftBox>
+              <RightBox>
+                <ProjectDetailBox>
+                  <section className="firstline">
+                    <p>모집 마감일</p>
+                    <div className="content deadline">{detail.deadLine}</div>
+                    <p>프론트엔드 개발자</p>
+                    <div className="content count">
+                      {detail.feCurrentCount}명 / {detail.feCount}명
+                    </div>
+                    <p>백엔드 개발자</p>
+                    <div className="content count">
+                      {detail.beCurrentCount}명 / {detail.beCount}명
+                    </div>
+                    <p>디자이너</p>
+                    <div className="content countlast">
+                      {detail.deCurrentCount}명 / {detail.deCount}명
+                    </div>
+                  </section>
+                  <section className="secondline">
+                    <p>프로젝트 명칭 </p>
+                    <div className="content projectName">
+                      {detail.projectName}
+                    </div>
+                  </section>
+                  <section className="thirdline">
+                    <p>프로젝트 단계 </p>
+                    <div className="content middle">{detail.step}</div>
+                    <p>프로젝트 타입</p>
+                    <div className="content middle">{detail.genre}</div>
+                    <p>개발 언어</p>
+                    <div className="content lang">{detail.languageString} </div>
+                  </section>
+                  <section className="descline">
+                    <p>프로젝트 설명 </p>
+                    <div className="description">
+                      {detail.projectDescription}
+                    </div>
+                  </section>
+                  <section className="fileline">
+                    <p>소개자료</p>
+                    <div className="projectFile">
+                      {file ? file.fileName : null}
+                      <button
+                        onClick={() => {
+                          fileDownload();
+                        }}
                       >
-                        <path
-                          d="M18 7.71429H12.8571V0H5.14286V7.71429H0L9 16.7143L18 7.71429ZM7.71429 10.2857V2.57143H10.2857V10.2857H11.79L9 13.0757L6.21 10.2857H7.71429ZM0 19.2857H18V21.8571H0V19.2857Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </section>
-              </ProjectDetailBox>
-              <BtnWrap>
-                <button
-                  className="zzim"
-                  onClick={() => {
-                    dispatch(interestedProject(projectId));
-                    alert("해당 프로젝트 찜 등록이 완료되었습니다!");
-                  }}
-                >
-                  프로젝트 찜하기
-                </button>
-                <button
-                  className="dm"
-                  onClick={() => {
-                    dispatch(applyProject(projectId));
-                    alert("프로젝트 담당자에게 참여 DM이 보내졌습니다!");
-                  }}
-                >
-                  참여 DM 보내기
-                </button>
-                <button
-                  className="close"
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                >
-                  닫기
-                </button>
-              </BtnWrap>
-            </RightBox>
-          </ModalContainer>
-        </Modal>
-      </DetailModal>
-      <ModalBackground />
-    </div>
-  );
+                        <svg
+                          width="18"
+                          height="22"
+                          viewBox="0 0 18 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M18 7.71429H12.8571V0H5.14286V7.71429H0L9 16.7143L18 7.71429ZM7.71429 10.2857V2.57143H10.2857V10.2857H11.79L9 13.0757L6.21 10.2857H7.71429ZM0 19.2857H18V21.8571H0V19.2857Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </section>
+                </ProjectDetailBox>
+                <BtnWrap>
+                  <button
+                    className="zzim"
+                    onClick={() => {
+                      dispatch(interestedProject(projectId));
+                      alert("해당 프로젝트 찜 등록이 완료되었습니다!");
+                    }}
+                  >
+                    프로젝트 찜하기
+                  </button>
+                  <button
+                    className="dm"
+                    onClick={() => {
+                      dispatch(applyProject(projectId));
+                      alert("프로젝트 담당자에게 참여 DM이 보내졌습니다!");
+                    }}
+                  >
+                    참여 DM 보내기
+                  </button>
+                  <button
+                    className="close"
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                  >
+                    닫기
+                  </button>
+                </BtnWrap>
+              </RightBox>
+            </ModalContainer>
+          </Modal>
+        </DetailModal>
+        <ModalBackground />
+      </div>
+    );
+  }
 }
 export default ProjectDetailModal;
 const DetailModal = styled.div`
@@ -142,13 +164,13 @@ const ModalBackground = styled.div`
   right: 0;
   background: #ffffff;
   opacity: 0.9;
-  z-index: 1;
+  z-index: 4;
 `;
 const Modal = styled.div`
   width: 1522px;
   height: 752px;
   background: #09120e;
-  z-index: 3;
+  z-index: 8;
   position: absolute;
   top: 21.5%;
   right: 9.7%;
@@ -303,6 +325,9 @@ const ProjectDetailBox = styled.div`
       border-radius: 10px;
       border: none;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 `;

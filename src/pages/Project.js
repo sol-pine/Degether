@@ -19,7 +19,6 @@ function Project() {
       <Container>
         <LeftInfoBar />
         <Vidu />
-        <UserSidebar />
       </Container>
     </div>
   );

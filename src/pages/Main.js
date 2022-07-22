@@ -6,6 +6,7 @@ import ProjectCreateModal from "../components/mainPage/ProjectCreateModal";
 import { clickTag } from "../redux/modules/ProjectSlice";
 import { Outlet, useNavigate } from "react-router-dom";
 import { MainHeader } from "../components/header/Header";
+import Spinner from "../components/Spinner";
 
 function Main() {
   const dispatch = useDispatch();
@@ -44,7 +45,6 @@ const MainContainer = styled.div`
   margin: 0 auto;
   position: relative;
 `;
-
 const ModalBackground = styled.div`
   position: fixed;
   display: flex;
@@ -57,7 +57,7 @@ const ModalBackground = styled.div`
   right: 0;
   background: #ffffff;
   opacity: 0.9;
-  z-index: 1;
+  z-index: 4;
 `;
 const CardContainer = styled.div`
   width: 1435px;
@@ -65,7 +65,6 @@ const CardContainer = styled.div`
   justify-content: center;
   margin-top: 244px;
 `;
-
 const CardGrid = styled.div`
   min-width: 1365px;
   display: grid;
