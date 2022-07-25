@@ -6,11 +6,7 @@
   color: #09120e;
 }
 .App {
-  width: 1920px;
+  width: 100%;
   height: 1080px;
-  border: 1px solid #444;
   margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  display: block;
 }
