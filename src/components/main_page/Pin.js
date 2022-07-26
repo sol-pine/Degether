@@ -2,8 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Spinner from "../Spinner";
-function Pin() {
-  const projectList = useSelector((state) => state.Project.list);
+function Pin({ projectList }) {
   return (
     <>
       {projectList.map((item, index) => {

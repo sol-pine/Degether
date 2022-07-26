@@ -3,7 +3,13 @@ import styled from "styled-components";
 import Spinner from "../Spinner";
 
 function CardGrid() {
-  const Card = lazy(() => import("./Card"));
+  const Card = lazy(() => {
+    return Promise.all([
+      import("./Card"),
+      new Promise((resolve) => setTimeout(resolve, 800)),
+    ]).then(([moduleExports]) => moduleExports);
+  });
+
   return (
     <>
       <MainContainer>
