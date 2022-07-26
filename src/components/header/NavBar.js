@@ -4,9 +4,10 @@ import styled from "styled-components";
 import { HomeBtn, MyBtn, NoticeIcon, LogoutBtn } from "./Btns";
 import SearchBar from "./SearchBar";
 
-function NavBar() {
+export function MainNavBar() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+
   return (
     <>
       <MainContainer>
@@ -31,7 +32,34 @@ function NavBar() {
     </>
   );
 }
-export default NavBar;
+
+export function NavBar() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  return (
+    <>
+      <MainContainer>
+        <NavContainer>
+          <ButtonContainer>
+            <HomeBtn
+              onClick={() => {
+                navigate("/");
+              }}
+            />
+            {token ? (
+              <>
+                <NoticeIcon />
+                <MyBtn />
+                <LogoutBtn />
+              </>
+            ) : null}
+          </ButtonContainer>
+        </NavContainer>
+      </MainContainer>
+    </>
+  );
+}
 
 const MainContainer = styled.div`
   width: 100%;
@@ -45,10 +73,12 @@ const NavContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 `;
 const ButtonContainer = styled.div`
+  position: absolute;
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-right: 16px;
+  right: 16px;
 `;

@@ -10,7 +10,12 @@ function Myproject() {
   const [myProjectList, setMyProjectList] = useState([]);
   const [noProject, setNoProject] = useState(false);
 
-  const MyProjectThumbnail = lazy(() => import("./MyProjectThumbnail"));
+  const MyProjectThumbnail = lazy(() => {
+    return Promise.all([
+      import("./MyProjectThumbnail"),
+      new Promise((resolve) => setTimeout(resolve, 800)),
+    ]).then(([moduleExports]) => moduleExports);
+  });
 
   useEffect(() => {
     axios

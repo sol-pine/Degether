@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import MainHeader from "../components/header/Header";
+import { MainHeader } from "../components/header/Header";
 import CardGrid from "../components/main_page/CardGrid";
 import Login from "../components/side/main/Login";
 import Myproject from "../components/side/main/Myproject";

@@ -6,6 +6,7 @@ import KakaoOAuthRedirectHandler from "./components/side/login/Kakao";
 import GoogleOAuthRedirectHandler from "./components/side/login/Google";
 import NaverOAuthRedirectHandler from "./components/side/login/Naver";
 import ProjectCreateModal from "./components/create_modal/ProjectCreateModal";
+import Mypage from "./pages/Mypage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/:projectId" element={<ProjectDetailModal />} />
           <Route path="/create" element={<ProjectCreateModal />} />
         </Route>
+        <Route path="/mypage/:userId" element={<Mypage />} />
         <Route
           path="/auth/kakao/callback"
           element={<KakaoOAuthRedirectHandler />}

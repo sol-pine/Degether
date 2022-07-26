@@ -1,10 +1,20 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import LogoBar from "./LogoBar";
-import NavBar from "./NavBar";
+import { NavBar, MainNavBar } from "./NavBar";
 
-function MainHeader() {
+export function MainHeader() {
+  return (
+    <>
+      <MainContainer>
+        <LogoBar />
+        <MainNavBar />
+      </MainContainer>
+    </>
+  );
+}
+
+export function Header() {
   return (
     <>
       <MainContainer>
@@ -14,7 +24,6 @@ function MainHeader() {
     </>
   );
 }
-export default MainHeader;
 
 const MainContainer = styled.div`
   width: 100%;
