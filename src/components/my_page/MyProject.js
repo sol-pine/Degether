@@ -44,8 +44,7 @@ const Link = styled.a`
 const Container = styled.div`
   width: 1371px;
   height: 495px;
-  margin-top: 1200px;
-  /* margin-top: 32px; */
+  margin-top: 32px;
   margin-left: 32px;
   font-weight: 700;
   font-size: 22px;

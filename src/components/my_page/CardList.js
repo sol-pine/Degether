@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getUserInfo } from "../../redux/UserSlice";
 
 function CardList() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const myProjectList = useSelector((state) => state.User.userInfo.myProject);
 
@@ -19,23 +21,30 @@ function CardList() {
       {myProjectList &&
         myProjectList.map((item, index) => {
           return (
-            <Card key={index}>
-              <CardText>
-                {item.projectName}
-                <br />
-                <HeadCount>
-                  참여인원
-                  <span>[개발자 / 명] [디자이너 / 명]</span>
-                </HeadCount>
-              </CardText>
-              <CardImg>
-                {item.thumbnail ? (
-                  <img src={item.thumbnail} alt="프로젝트 썸네일" />
-                ) : (
-                  <img src="/img/degether.png" alt="기본 이미지" />
-                )}
-              </CardImg>
-            </Card>
+            <div key={index}>
+              <Card
+                onClick={() => {
+                  console.log(item.projectId);
+                  navigate(`/project/${item.projectId}`);
+                }}
+              >
+                <CardText>
+                  {item.projectName}
+                  <br />
+                  <HeadCount>
+                    참여인원
+                    <span>[개발자 / 명] [디자이너 / 명]</span>
+                  </HeadCount>
+                </CardText>
+                <CardImg>
+                  {item.thumbnail ? (
+                    <img src={item.thumbnail} alt="프로젝트 썸네일" />
+                  ) : (
+                    <img src="/img/degether.png" alt="기본 이미지" />
+                  )}
+                </CardImg>
+              </Card>
+            </div>
           );
         })}
     </>

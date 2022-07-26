@@ -1,9 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getUserInfo } from "../../redux/UserSlice";
 
 function ZzimCardList() {
+  const navigate = useNavigate();
   const myZzimList = useSelector((state) => state.User.userInfo.zzim);
   console.log(myZzimList);
   const dispatch = useDispatch();
@@ -19,7 +21,12 @@ function ZzimCardList() {
       {myZzimList &&
         myZzimList.map((item, index) => {
           return (
-            <Card key={index}>
+            <Card
+              key={index}
+              onClick={() => {
+                navigate(`/${item.projectId}`);
+              }}
+            >
               <CardText>
                 {item.projectName}
                 <br />

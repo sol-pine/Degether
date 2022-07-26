@@ -7,6 +7,9 @@ import GoogleOAuthRedirectHandler from "./components/side/login/Google";
 import NaverOAuthRedirectHandler from "./components/side/login/Naver";
 import ProjectCreateModal from "./components/create_modal/ProjectCreateModal";
 import Mypage from "./pages/Mypage";
+import Projectpage from "./pages/Projectpage";
+import Adminpage from "./pages/Adminpage";
+import Videopage from "./pages/Videopage";
 
 function App() {
   return (
@@ -17,6 +20,9 @@ function App() {
           <Route path="/create" element={<ProjectCreateModal />} />
         </Route>
         <Route path="/mypage/:userId" element={<Mypage />} />
+        <Route path="/project/:myProjectId" element={<Projectpage />} />
+        <Route path="/video/:myProjectId" element={<Videopage />} />
+        <Route path="/admin/:myProjectId" element={<Adminpage />} />
         <Route
           path="/auth/kakao/callback"
           element={<KakaoOAuthRedirectHandler />}
