@@ -7,6 +7,7 @@ import Login from "../components/side/main/Login";
 import Myproject from "../components/side/main/Myproject";
 import SearchTab from "../components/main_page/SearchTab";
 import SortTag from "../components/main_page/SortTag";
+import { Outlet } from "react-router-dom";
 
 function Mainpage() {
   const token = localStorage.getItem("token");
@@ -16,6 +17,7 @@ function Mainpage() {
       <MainHeader />
       <MainContainer>
         {searchButton ? <SearchTab /> : null}
+        <Outlet />
         <SortTag />
         <CardGrid />
         {token ? <Myproject /> : <Login />}

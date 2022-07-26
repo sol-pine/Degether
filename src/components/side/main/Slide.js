@@ -22,11 +22,11 @@ function Slide(props) {
       }}
     >
       {mouseEvent ? (
-        <ProjectHoverImg src="/img/project-enter.svg" alt="project image" />
+        <ProjectHoverImg src="/img/project-enter.svg" alt="project" />
       ) : null}
 
       <Project>
-        <img src={myProjectList.thumbnail} alt="project image" />
+        <img src={myProjectList.thumbnail} alt="project" />
         <p>{myProjectList.projectName}</p>
         <p>
           참여인원 [개발자 /{myProjectList.devCount}명] [디자이너 /

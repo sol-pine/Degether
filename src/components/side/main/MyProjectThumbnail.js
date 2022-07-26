@@ -8,9 +8,12 @@ function MyProjectThumbnail(props) {
   const slideRef = useRef(null);
   const myProjectList = props.myProjectList;
 
-  const Slide = lazy(() => import("./Slide"));
-
-  // const Slide = lazy(() => {return Promise.all([import()""])});
+  const Slide = lazy(() => {
+    return Promise.all([
+      import("./Slide"),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
+    ]).then(([moduleExports]) => moduleExports);
+  });
 
   // Next 버튼 클릭
   const NextSlide = () => {

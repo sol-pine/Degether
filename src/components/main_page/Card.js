@@ -6,7 +6,6 @@ import styled from "styled-components";
 import { getProjectPage } from "../../redux/ProjectSlice";
 import Dday from "./Dday";
 import Pin from "./Pin";
-import Spinner from "../Spinner";
 function Card() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -46,9 +45,6 @@ function Card() {
     }
   }, [inView, loading]);
 
-  if (!projectList) {
-    <Spinner />;
-  }
   return (
     <>
       {projectList.map((item, index) => {
@@ -76,7 +72,7 @@ function Card() {
                 <CardImg src="/img/default-card.png" alt="default image" />
               )}
               <Dday />
-              <Pin />
+              <Pin projectList={projectList} />
             </CardWrapper>
           </CardContainer>
         );
