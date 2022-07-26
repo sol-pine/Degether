@@ -52,6 +52,16 @@ export const getProjectPage = createAsyncThunk(
       .catch((e) => console.err(e));
   }
 );
+// 프로젝트 상세 보기
+export const getProjectDetails = createAsyncThunk(
+  "GET/getProjectDetails",
+  async (projectId) => {
+    return await axios
+      .get(`${SERVER_URL}/api/project/${projectId}`)
+      .then((res) => res.data.result)
+      .catch((e) => console.error(e));
+  }
+);
 // 프로젝트 찜하기
 export const interestedProject = createAsyncThunk(
   "POST/interestedProject",
@@ -89,7 +99,23 @@ export const applyProject = createAsyncThunk(
     return res.data;
   }
 );
-
+// 프로젝트 수정하기
+export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
+  const res = await axios
+    .put(`${SERVER_URL}/api/project/${args.projectId}`, args.formData, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+        "Content-Type": "multipart/form-data",
+      },
+    })
+    .then((res) => {
+      console.log("Edit ", res.data);
+      alert("프로젝트 수정이 완료되었습니다.");
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+});
 const ProjectSlice = createSlice({
   name: "ProjectSlice",
   initialState: {
@@ -139,12 +165,20 @@ const ProjectSlice = createSlice({
     [getProjectPage.fulfilled]: (state, action) => {
       state.list = [...state.list, ...action.payload];
     },
+    [getProjectDetails.fulfilled]: (state, action) => {
+      state.detail = { ...action.payload };
+      state.projectDetailModal = true;
+      console.log("got detail!");
+    },
     [interestedProject.fulfilled]: (state, action) => {
       console.log("zzim!");
       window.location.reload();
     },
     [applyProject.fulfilled]: (state, action) => {
       console.log("apply!");
+      window.location.reload();
+    },
+    [editProject.fulfilled]: (state, action) => {
       window.location.reload();
     },
   },

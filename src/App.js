@@ -10,6 +10,7 @@ import Mypage from "./pages/Mypage";
 import Projectpage from "./pages/Projectpage";
 import Adminpage from "./pages/Adminpage";
 import Videopage from "./pages/Videopage";
+import MeetingNote from "./pages/Meetingnote";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/project/:myProjectId" element={<Projectpage />} />
         <Route path="/video/:myProjectId" element={<Videopage />} />
         <Route path="/admin/:myProjectId" element={<Adminpage />} />
+        <Route path="/meetingnote/:myProjectId" element={<MeetingNote />} />
         <Route
           path="/auth/kakao/callback"
           element={<KakaoOAuthRedirectHandler />}
