@@ -8,7 +8,7 @@ function CardList() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const myProjectList = useSelector((state) => state.User.userInfo.myProject);
-
+  console.log(myProjectList);
   useEffect(() => {
     dispatch(getUserInfo());
   }, []);

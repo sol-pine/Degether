@@ -61,14 +61,14 @@ function Profile(props) {
 
   function saveProfile() {
     const updateDto = {
-      role: role,
-      nickname: nickname,
-      language: language,
-      github: git,
-      figma: git,
-      intro: comment,
-      phoneNumber: phone,
-      email: email,
+      role: role ? role : myInfo.role,
+      nickname: nickname ? nickname : myInfo.nickname,
+      language: language ? language : myInfo.language,
+      github: git ? git : myInfo.github,
+      figma: git ? git : myInfo.figma,
+      intro: comment ? comment : myInfo.intro,
+      phoneNumber: phone ? phone : myInfo.phoneNumber,
+      email: email ? email : myInfo.email,
     };
     const formData = new FormData();
     formData.append(
@@ -84,7 +84,6 @@ function Profile(props) {
         }
       )
     );
-    console.log(updateDto);
     formData.append("file", thumbnail);
     dispatch(editUser(formData));
   }
@@ -181,7 +180,7 @@ function Profile(props) {
                           name="role"
                           type="radio"
                           value={item}
-                          checked={myInfo.role === item}
+                          defaultChecked={myInfo.role === item}
                           onChange={(e) => setRole(e.target.value)}
                         />
                         <p>{item}</p>
@@ -202,7 +201,7 @@ function Profile(props) {
                           name="language"
                           type="checkbox"
                           value={item}
-                          checked={myInfo.language.includes(item)}
+                          defaultChecked={myInfo.language.includes(item)}
                           onChange={(e) => handleLanguage(e)}
                         />
                         <p>{item}</p>
@@ -404,8 +403,8 @@ const InputBox = styled.div`
     font-size: 12px;
   }
   input {
-    width: 13px;
-    height: 13px;
+    width: 10px;
+    height: 10xpx;
     background: #d9d9d9;
     border-radius: 5px;
     appearance: none;

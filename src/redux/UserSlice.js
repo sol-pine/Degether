@@ -11,6 +11,7 @@ export const getUserInfo = createAsyncThunk("GET/getUserInfo", async () => {
       },
     })
     .then((response) => {
+      console.log(response);
       return response.data.result;
     })
     .catch((error) => console.error(error));
@@ -39,7 +40,7 @@ const UserSlice = createSlice({
   reducers: {},
   extraReducers: {
     [getUserInfo.fulfilled]: (state, action) => {
-      state.userInfo = { ...action.payload };
+      state.userInfo = action.payload;
     },
     [editUser.fulfilled]: (state, action) => {
       state.userInfo = { ...action.payload };

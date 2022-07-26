@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 import styled from "styled-components";
 import Spinner from "../Spinner";
 

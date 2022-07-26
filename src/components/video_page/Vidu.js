@@ -353,7 +353,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 240px;
-  margin-top: -400px;
+  margin-top: -500px;
 `;
 
 const ViduBox = styled.div`

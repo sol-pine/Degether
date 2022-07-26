@@ -12,11 +12,10 @@ import Spinner from "../components/Spinner";
 function Mypage() {
   const dispatch = useDispatch();
   const myInfo = useSelector((state) => state.User.userInfo);
-
   const Profile = lazy(() => {
     return Promise.all([
       import("../components/my_page/Profile"),
-      new Promise((resolve) => setTimeout(resolve, 800)),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
     ]).then(([moduleExports]) => moduleExports);
   });
 
