@@ -8,7 +8,7 @@ function ProjectImgBox({ projectDetails }) {
         {projectDetails.thumbnail ? (
           <img src={projectDetails.thumbnail} alt="project thumbnail image" />
         ) : (
-          <img src="/img/degether.png" alt="default thumbnail image" />
+          <img src="/img/default-card.png" alt="default thumbnail image" />
         )}
       </MainContainer>
     </>

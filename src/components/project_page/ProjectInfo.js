@@ -110,7 +110,8 @@ const GitLink = styled.a`
   border-radius: 10px;
   font-weight: 400;
   font-size: 22px;
-  color: #efefef;
+  color: #fff;
+  text-decoration: none;
   cursor: pointer;
   img {
     width: 20px;

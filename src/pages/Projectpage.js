@@ -1,9 +1,10 @@
 import React, { lazy, Suspense, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import LeftInfoBar from "../components/common/LeftInfoBar";
 import { Header } from "../components/header/Header";
+import ChatSide from "../components/side/chat/ChatSide";
 import UserSidebar from "../components/side/project/UserSidebar";
 import Spinner from "../components/Spinner";
 import { getProjectDetails } from "../redux/ProjectSlice";
@@ -31,7 +32,8 @@ function Projectpage() {
         <Suspense fallback={<Spinner />}>
           <ProjectInfo projectDetails={projectDetails} />
         </Suspense>
-        <UserSidebar />
+        <ChatSide />
+        {/* <UserSidebar /> */}
       </MainContainer>
     </>
   );
