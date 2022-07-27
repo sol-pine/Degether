@@ -20,6 +20,7 @@ function TeamMember({ projectMembersData, projectData }) {
     }
   }, [leader, projectMembersData]);
 
+  // 강퇴 & 탈퇴
   function kickMember(userId) {
     axios
       .delete(`${SERVER_URL}/api/kickUser/${myProjectId}/${userId}`, {

@@ -11,7 +11,7 @@ function MyProjectThumbnail(props) {
   const Slide = lazy(() => {
     return Promise.all([
       import("./Slide"),
-      new Promise((resolve) => setTimeout(resolve, 1000)),
+      new Promise((resolve) => setTimeout(resolve, 500)),
     ]).then(([moduleExports]) => moduleExports);
   });
 

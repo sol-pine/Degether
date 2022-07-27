@@ -47,7 +47,7 @@ function ImgUpload() {
         {imageSrc ? (
           <ThumbnailImg src={imageSrc} alt="preview" />
         ) : (
-          <ThumbnailImg src="/img/degether.png" alt="default thumbnail" />
+          <ThumbnailImg src="/img/default-card.png" alt="default thumbnail" />
         )}
       </ImageBox>
     </>

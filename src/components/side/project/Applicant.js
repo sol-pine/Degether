@@ -21,6 +21,7 @@ function Applicant({ applicantsData, projectData }) {
     }
   }, [leader, applicantsData]);
 
+  // 지원 수락
   function addMember(userId) {
     axios
       .post(
@@ -39,6 +40,20 @@ function Applicant({ applicantsData, projectData }) {
       .catch((e) => console.error(e));
   }
 
+  // 지원 거절
+  function kickMember(userId) {
+    axios
+      .delete(`${SERVER_URL}/api/kickUser/${myProjectId}/${userId}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        window.location.replace("");
+      })
+      .catch((e) => console.error(e));
+  }
   if (applicantsData !== null) {
     return (
       <>
@@ -75,15 +90,24 @@ function Applicant({ applicantsData, projectData }) {
               {/* 토글 버튼 활성화 */}
               {toggle === index ? (
                 <div>
-                  {/* 본인이 리더이고 선택한 팀원이 리더가 아니면 강퇴 버튼 활성화*/}
+                  {/* 본인이 리더이고 선택한 팀원이 리더가 아니면 초대/거절 버튼 활성화*/}
                   {leader ? (
-                    <MemberBoxGray
-                      onClick={() => {
-                        addMember(list.userId);
-                      }}
-                    >
-                      팀원으로 초대
-                    </MemberBoxGray>
+                    <div>
+                      <MemberBoxGray
+                        onClick={() => {
+                          addMember(list.userId);
+                        }}
+                      >
+                        팀원으로 초대
+                      </MemberBoxGray>
+                      <MemberBoxGray
+                        onClick={() => {
+                          kickMember(list.userId);
+                        }}
+                      >
+                        지원 거절
+                      </MemberBoxGray>
+                    </div>
                   ) : null}
                 </div>
               ) : null}

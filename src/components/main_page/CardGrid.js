@@ -6,7 +6,7 @@ function CardGrid() {
   const Card = lazy(() => {
     return Promise.all([
       import("./Card"),
-      new Promise((resolve) => setTimeout(resolve, 800)),
+      new Promise((resolve) => setTimeout(resolve, 300)),
     ]).then(([moduleExports]) => moduleExports);
   });
 
