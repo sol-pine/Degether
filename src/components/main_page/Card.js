@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getProjectPage } from "../../redux/ProjectSlice";
-import Dday from "./Dday";
-import Pin from "./Pin";
+
 function Card() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,8 +70,19 @@ function Card() {
               ) : (
                 <CardImg src="/img/default-card.png" alt="default image" />
               )}
-              <Dday />
-              <Pin projectList={projectList} />
+
+              <DdayContainer>
+                <span>D</span>- {item.dDay}
+              </DdayContainer>
+
+              <PinWrapper>
+                {item.isZzim ? (
+                  <img src="/img/pin.svg" alt="pin icon" />
+                ) : (
+                  <img src="/img/unpin.svg" alt="unpin icon" />
+                )}
+                <PinCount>{item.zzimCount}</PinCount>
+              </PinWrapper>
             </CardWrapper>
           </CardContainer>
         );
@@ -120,4 +130,45 @@ const CardImg = styled.img`
   height: 300px;
   object-fit: cover;
   border-radius: 10px;
+`;
+const PinWrapper = styled.div`
+  background: blue;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  width: 50px;
+  height: 25px;
+  background: #efefef;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 7px;
+    height: 10px;
+  }
+`;
+const PinCount = styled.div`
+  margin-left: 8px;
+  font-size: 12px;
+  font-weight: 700;
+`;
+const DdayContainer = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 50px;
+  height: 25px;
+  background: #09120e;
+  border: 1px solid #000;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: #efefef;
+  span {
+    color: #eb3223;
+  }
 `;

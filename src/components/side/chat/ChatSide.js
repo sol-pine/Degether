@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { ChatBtn, UserBtn } from "./Btns";
 import ChatRoom from "./ChatRoom";
 
 function ChatSide() {
   return (
     <>
       <Container>
+        <BtnWrapper>
+          <UserBtn />
+          <ChatBtn />
+        </BtnWrapper>
         <ChatRoom />
       </Container>
     </>
@@ -25,4 +30,9 @@ const Container = styled.div`
   margin-left: 1435px;
   position: fixed;
   z-index: 3;
+`;
+const BtnWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
 `;

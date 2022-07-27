@@ -20,6 +20,7 @@ export const addProject = createAsyncThunk(
 
 // 프로젝트 리스트 받아오기
 export const getProject = createAsyncThunk("GET/getProject", async (args) => {
+  const token = localStorage.getItem("token");
   return await axios
     .get(`${SERVER_URL}/api/projects?`, {
       params: {
@@ -29,8 +30,11 @@ export const getProject = createAsyncThunk("GET/getProject", async (args) => {
         sorted: args.sorted,
         page: args.page ? Number(args.page) : 0,
       },
+      headers: {
+        Authorization: token ? token : null,
+      },
     })
-    .then((respose) => respose.data.result)
+    .then((response) => response.data.result)
     .catch((error) => console.error(error));
 });
 
@@ -38,6 +42,7 @@ export const getProject = createAsyncThunk("GET/getProject", async (args) => {
 export const getProjectPage = createAsyncThunk(
   "GET/getProjectPage",
   async (args) => {
+    const token = localStorage.getItem("token");
     return await axios
       .get(`${SERVER_URL}/api/projects?`, {
         params: {
@@ -46,6 +51,9 @@ export const getProjectPage = createAsyncThunk(
           genre: args.genre ? args.genre : null,
           sorted: args.sorted,
           page: args.page ? Number(args.page) : 0,
+        },
+        headers: {
+          Authorization: token ? token : null,
         },
       })
       .then((res) => res.data.result.list)
@@ -168,7 +176,6 @@ const ProjectSlice = createSlice({
     [getProjectDetails.fulfilled]: (state, action) => {
       state.detail = { ...action.payload };
       state.projectDetailModal = true;
-      console.log("got detail!");
     },
     [interestedProject.fulfilled]: (state, action) => {
       console.log("zzim!");

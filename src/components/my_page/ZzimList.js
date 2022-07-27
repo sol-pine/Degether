@@ -44,6 +44,7 @@ const Container = styled.div`
   height: 495px;
   margin-top: 32px;
   margin-left: 32px;
+  padding-bottom: 200px;
   font-weight: 700;
   font-size: 22px;
   color: #000;

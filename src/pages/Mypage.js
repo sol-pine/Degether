@@ -26,12 +26,14 @@ function Mypage() {
     <>
       <Header />
       <MainContainer>
-        <Suspense fallback={<Spinner />}>
-          <Profile myInfo={myInfo} />
-        </Suspense>
-        <Notice />
-        <MyProject />
-        <ZzimList />
+        <ContentWrapper>
+          <Suspense fallback={<Spinner />}>
+            <Profile myInfo={myInfo} />
+          </Suspense>
+          <Notice />
+          <MyProject />
+          <ZzimList />
+        </ContentWrapper>
         <MypageSide />
       </MainContainer>
     </>
@@ -42,6 +44,9 @@ export default Mypage;
 const MainContainer = styled.div`
   width: 1888px;
   margin: 0 auto;
+  display: flex;
+`;
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
 `;

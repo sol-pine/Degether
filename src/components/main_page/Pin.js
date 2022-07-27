@@ -1,7 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
-import Spinner from "../Spinner";
 function Pin({ projectList }) {
   return (
     <>

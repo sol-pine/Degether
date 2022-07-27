@@ -20,14 +20,12 @@ export default Login;
 const MainContainer = styled.div`
   box-sizing: border-box;
   width: 453px;
-  height: 100vh;
+  height: 1500px;
   background-color: #09120e;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 1435px;
   z-index: 3;
-  position: fixed;
   p {
     width: 125px;
     height: 22px;

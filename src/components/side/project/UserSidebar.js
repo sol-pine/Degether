@@ -2,12 +2,18 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TeamMembers from "./TeamMembers";
 import Applicants from "./Applicants";
+import { ChatBtn, UserBtn } from "../chat/Btns";
+
 function UserSidebar() {
   const [openMembersList, setOpenMembersList] = useState(true);
   const [openApplicantsList, setOpenApplicantsList] = useState(true);
 
   return (
     <ProjectSidebarContainerWrap>
+      <BtnWrapper>
+        <UserBtn />
+        <ChatBtn />
+      </BtnWrapper>
       <TeamMemberListSection>
         <TeamMemberList>
           <TeamMemberIcon src="/img/user-icon.svg" alt="user icon" />
@@ -82,4 +88,9 @@ const ToggleIcon = styled.img`
 const ToggleIcon2 = styled.img`
   margin-left: 270px;
   cursor: pointer;
+`;
+const BtnWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
 `;

@@ -13,7 +13,7 @@ function Projectpage() {
   const { myProjectId } = useParams();
   const dispatch = useDispatch();
   const projectDetails = useSelector((state) => state.Project.detail);
-
+  const chat = useSelector((state) => state.Chat.projectChat);
   useEffect(() => {
     dispatch(getProjectDetails(myProjectId));
   }, []);
@@ -32,8 +32,7 @@ function Projectpage() {
         <Suspense fallback={<Spinner />}>
           <ProjectInfo projectDetails={projectDetails} />
         </Suspense>
-        <ChatSide />
-        {/* <UserSidebar /> */}
+        {chat ? <ChatSide /> : <UserSidebar />}
       </MainContainer>
     </>
   );

@@ -1,19 +1,34 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import styled from "styled-components";
+import Spinner from "../../Spinner";
 
-function ChatMessageBox() {
+function ChatMessageBox({ chatList }) {
+  const ChatBubble = lazy(() => {
+    return Promise.all([
+      import("./ChatBubble"),
+      new Promise((resolve) => setTimeout(resolve, 800)),
+    ]).then(([moduleExports]) => moduleExports);
+  });
   return (
     <>
-      <MsgContainer></MsgContainer>
+      <MsgContainer>
+        <Suspense fallback={<Spinner />}>
+          <ChatBubble chatList={chatList} />
+        </Suspense>
+      </MsgContainer>
     </>
   );
 }
 export default ChatMessageBox;
 
 const MsgContainer = styled.div`
-  width: 420px;
+  width: 380px;
   height: 800px;
   background: #2f4a3b;
-  margin-top: 100px;
+  margin-top: 30px;
   border-radius: 5px;
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 `;
