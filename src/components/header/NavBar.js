@@ -36,11 +36,7 @@ export function NavBar() {
       <MainContainer>
         <NavContainer>
           <ButtonContainer>
-            <HomeBtn
-            // onClick={() => {
-            //   navigate("/");
-            // }}
-            />
+            <HomeBtn />
             {token ? (
               <>
                 <NoticeIcon />
@@ -68,6 +64,7 @@ const NavContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
+  background: #09120e;
 `;
 const ButtonContainer = styled.div`
   position: absolute;

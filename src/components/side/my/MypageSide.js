@@ -41,16 +41,17 @@ export default MypageSide;
 const MypageSideBar = styled.div`
   box-sizing: border-box;
   width: 453px;
-  height: 1100px;
+  height: 2000px;
   background: #efefef;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 180px;
   margin-left: 20px;
   z-index: 1;
-  position: sticky;
+  position: fixed;
   top: 180px;
+
+  margin-left: 1450px;
   button {
     width: 98px;
     height: 33px;

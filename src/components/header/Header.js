@@ -28,8 +28,13 @@ export function Header() {
 const MainContainer = styled.div`
   width: 100%;
   height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0px;
   margin: 0 auto;
   z-index: 5;
+  background: #2f4a3b;
 `;

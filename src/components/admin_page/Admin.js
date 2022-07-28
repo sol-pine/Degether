@@ -1,12 +1,13 @@
 import axios from "axios";
 import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { editProject } from "../../redux/ProjectSlice";
 import { SERVER_URL } from "../../shared/api";
 
 function Admin(props) {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const details = props.details;
   const file = props.file;
@@ -168,7 +169,7 @@ function Admin(props) {
         },
       })
       .then((res) => {
-        console.log(res);
+        navigate("/");
       })
       .catch((error) => console.error(error.message));
   };

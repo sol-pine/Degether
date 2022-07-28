@@ -3,10 +3,10 @@ import styled from "styled-components";
 import Spinner from "../../Spinner";
 
 function MyProjectThumbnail(props) {
-  const TOTAL_SLIDES = 2; // 전체 슬라이드 개수 (총3개. 배열로 계산)
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const myProjectList = props.myProjectList;
+  const TOTAL_SLIDES = myProjectList.length; // 전체 슬라이드 개수는 프로젝트 갯수만큼
 
   const Slide = lazy(() => {
     return Promise.all([
@@ -33,7 +33,7 @@ function MyProjectThumbnail(props) {
   };
   useEffect(() => {
     slideRef.current.style.transition = "all 0.5s ease-in-out";
-    slideRef.current.style.transform = `translateX(-${currentSlide}00%)`; // 백틱을 사용하여 슬라이드로 이동하는 에니메이션을 만듭니다.
+    slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   }, [currentSlide]);
 
   return (
@@ -41,9 +41,15 @@ function MyProjectThumbnail(props) {
       <MainContainer>
         <SlideContainer ref={slideRef}>
           <Suspense fallback={<Spinner />}>
-            <Slide myProjectList={myProjectList[0]} />
-            <Slide myProjectList={myProjectList[1]} />
-            <Slide myProjectList={myProjectList[2]} />
+            {myProjectList[0] ? (
+              <Slide myProjectList={myProjectList[0]} />
+            ) : null}
+            {myProjectList[1] ? (
+              <Slide myProjectList={myProjectList[1]} />
+            ) : null}
+            {myProjectList[2] ? (
+              <Slide myProjectList={myProjectList[2]} />
+            ) : null}
           </Suspense>
         </SlideContainer>
         <ButtonWrap>

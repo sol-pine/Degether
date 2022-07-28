@@ -26,8 +26,8 @@ export const editUser = createAsyncThunk("PUT/editUser", async (formData) => {
       },
     })
     .then((response) => {
-      console.log("editUser", response.data);
       alert("프로필 정보가 변경되었습니다.");
+      window.location.replace("");
     })
     .catch((error) => console.error(error.message));
 });

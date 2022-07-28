@@ -14,19 +14,23 @@ function Mainpage() {
   const searchButton = useSelector((state) => state.Project.searchButton);
   return (
     <>
-      <MainHeader />
-      <MainContainer>
-        {searchButton ? <SearchTab /> : null}
-        <Outlet />
-        <SortTag />
-        <CardGrid />
-        {token ? <Myproject /> : <Login />}
-      </MainContainer>
+      <MainWrapper>
+        <MainHeader />
+        <MainContainer>
+          {searchButton ? <SearchTab /> : null}
+          <Outlet />
+          <SortTag />
+          <CardGrid />
+          {token ? <Myproject /> : <Login />}
+        </MainContainer>
+      </MainWrapper>
     </>
   );
 }
 export default Mainpage;
-
+const MainWrapper = styled.div`
+  width: 100%;
+`;
 const MainContainer = styled.div`
   width: 1888px;
   margin: 0 auto;

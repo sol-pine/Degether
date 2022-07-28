@@ -6,6 +6,7 @@ function Slide(props) {
   const navigate = useNavigate();
   const [mouseEvent, setMouseEvent] = useState(false);
   const myProjectList = props.myProjectList;
+  console.log(myProjectList);
   if (!myProjectList) {
     <div></div>;
   }
@@ -26,7 +27,12 @@ function Slide(props) {
       ) : null}
 
       <Project>
-        <img src={myProjectList.thumbnail} alt="project" />
+        {myProjectList.thumbnail ? (
+          <img src={myProjectList.thumbnail} alt="project" />
+        ) : (
+          <img src="/img/default-card.png" alt="project" />
+        )}
+
         <p>{myProjectList.projectName}</p>
         <p>
           참여인원 [개발자 /{myProjectList.devCount}명] [디자이너 /

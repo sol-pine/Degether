@@ -24,7 +24,7 @@ function Adminpage() {
     ]).then(([moduleExports]) => moduleExports);
   });
   return (
-    <div>
+    <Wrapper>
       <Header />
       <Container>
         <LeftInfoBar />
@@ -33,11 +33,15 @@ function Adminpage() {
         </Suspense>
         <UserSidebar />
       </Container>
-    </div>
+    </Wrapper>
   );
 }
 
 export default Adminpage;
+const Wrapper = styled.div`
+  width: 100%;
+  overflow: auto;
+`;
 const Container = styled.div`
   width: 1920px;
   height: 1080px;

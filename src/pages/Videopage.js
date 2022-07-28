@@ -8,18 +8,23 @@ import UserSidebar from "../components/side/project/UserSidebar";
 function Videopage() {
   return (
     <>
-      <Header />
-      <MainContainer>
-        <LeftInfoBar />
-        <Vidu />
-        <UserSidebar />
-      </MainContainer>
+      <Wrapper>
+        <Header />
+        <MainContainer>
+          <LeftInfoBar />
+          <Vidu />
+          <UserSidebar />
+        </MainContainer>
+      </Wrapper>
     </>
   );
 }
 
 export default Videopage;
-
+const Wrapper = styled.div`
+  width: 100%;
+  overflow: auto;
+`;
 const MainContainer = styled.div`
   width: 1888px;
   margin: 0 auto;

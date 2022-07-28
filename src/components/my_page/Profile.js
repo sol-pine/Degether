@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { editUser } from "../../redux/UserSlice";
 
 function Profile(props) {
   const myInfo = props.myInfo;
+
+  useEffect(() => {
+    if (myInfo.profileUrl) {
+      setThumbnail(myInfo.profileUrl);
+    } else {
+      setThumbnail("/img/user-profile.gif");
+    }
+  }, []);
+
   const dispatch = useDispatch();
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
@@ -27,9 +36,10 @@ function Profile(props) {
 
   // 프로필 썸네일 이미지
   const [thumbnail, setThumbnail] = useState(null);
-  const [imageSrc, setImageSrc] = useState(null);
+  // const [imageSrc, setImageSrc] = useState(null);
 
   // 썸네일 미리보기
+  const [imageSrc, setImageSrc] = useState(thumbnail);
   const encodeFileToBase64 = (fileBlob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -84,7 +94,11 @@ function Profile(props) {
       )
     );
     formData.append("file", thumbnail);
+    console.log(thumbnail);
     dispatch(editUser(formData));
+  }
+  if (!thumbnail) {
+    <Container></Container>;
   }
 
   return (
@@ -100,13 +114,13 @@ function Profile(props) {
                   <img
                     className="previewImage"
                     src={imageSrc}
-                    alt="미리보기 이미지"
+                    alt="프로필 이미지"
                   />
                 ) : (
                   <img
                     className="previewImage"
-                    src={myInfo.profileUrl}
-                    alt="기존 이미지"
+                    src={thumbnail}
+                    alt="프로필 이미지"
                   />
                 )}
               </Preview>
@@ -171,43 +185,80 @@ function Profile(props) {
             <section>
               <InputWrapper>
                 <p>업무 파트</p>
-                <InputBox>
-                  {roleList.map((item, index) => {
-                    return (
-                      <>
-                        <input
-                          name="role"
-                          type="radio"
-                          value={item}
-                          defaultChecked={myInfo.role === item}
-                          onChange={(e) => setRole(e.target.value)}
-                        />
-                        <p>{item}</p>
-                      </>
-                    );
-                  })}
-                </InputBox>
+
+                {myInfo.role ? (
+                  <InputBox>
+                    {roleList.map((item, index) => {
+                      return (
+                        <>
+                          <input
+                            name="role"
+                            type="radio"
+                            value={item}
+                            defaultChecked={myInfo.role === item}
+                            onChange={(e) => setRole(e.target.value)}
+                          />
+                          <p>{item}</p>
+                        </>
+                      );
+                    })}
+                  </InputBox>
+                ) : (
+                  <InputBox>
+                    {roleList.map((item, index) => {
+                      return (
+                        <>
+                          <input
+                            name="role"
+                            type="radio"
+                            value={item}
+                            onChange={(e) => setRole(e.target.value)}
+                          />
+                          <p>{item}</p>
+                        </>
+                      );
+                    })}
+                  </InputBox>
+                )}
               </InputWrapper>
             </section>
             <section>
               <InputWrapper>
                 <p>사용 가능한 개발 언어</p>
-                <InputBox>
-                  {languageList.map((item, index) => {
-                    return (
-                      <>
-                        <input
-                          name="language"
-                          type="checkbox"
-                          value={item}
-                          defaultChecked={myInfo.language.includes(item)}
-                          onChange={(e) => handleLanguage(e)}
-                        />
-                        <p>{item}</p>
-                      </>
-                    );
-                  })}
-                </InputBox>
+                {myInfo.language ? (
+                  <InputBox>
+                    {languageList.map((item, index) => {
+                      return (
+                        <>
+                          <input
+                            name="language"
+                            type="checkbox"
+                            value={item}
+                            defaultChecked={myInfo.language.includes(item)}
+                            onChange={(e) => handleLanguage(e)}
+                          />
+                          <p>{item}</p>
+                        </>
+                      );
+                    })}
+                  </InputBox>
+                ) : (
+                  <InputBox>
+                    {languageList.map((item, index) => {
+                      return (
+                        <>
+                          <input
+                            name="language"
+                            type="checkbox"
+                            value={item}
+                            onChange={(e) => handleLanguage(e)}
+                          />
+                          <p>{item}</p>
+                        </>
+                      );
+                    })}
+                  </InputBox>
+                )}
               </InputWrapper>
             </section>
             <section>
@@ -315,7 +366,7 @@ const Preview = styled.div`
     font-size: 22px;
     color: #6d8663;
   }
-  &.previewImage {
+  img {
     object-fit: cover;
     width: 431px;
     height: 431px;

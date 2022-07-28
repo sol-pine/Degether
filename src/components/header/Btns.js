@@ -80,11 +80,7 @@ export function NoticeIcon() {
 
   return (
     <>
-      <BellButton
-        onClick={() => {
-          navigate(`/mypage/${userId}`);
-        }}
-      >
+      <BellButton>
         {haveNotice ? (
           <img src="/img/bell-on-icon.svg" alt="bell icon" />
         ) : (
@@ -126,5 +122,4 @@ const GrayButton = styled.button`
 const BellButton = styled.button`
   background: none;
   border: none;
-  cursor: pointer;
 `;

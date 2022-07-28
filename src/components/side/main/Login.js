@@ -7,7 +7,7 @@ function Login() {
     <>
       <MainContainer>
         <p>LOGIN</p>
-        <LoginImg src="/img/degether.png" alt="login image" />
+        <LoginImg src="/img/Degether.png" alt="login image" />
         <KakaoBtn />
         <GoogleBtn />
         <NaverBtn />

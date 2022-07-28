@@ -7,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 function Myproject() {
   const navigate = useNavigate();
-  const [myProjectList, setMyProjectList] = useState([]);
-  const [noProject, setNoProject] = useState(false);
+  const [myProjectList, setMyProjectList] = useState(null);
 
   const MyProjectThumbnail = lazy(() => {
     return Promise.all([
@@ -27,8 +26,6 @@ function Myproject() {
       .then((res) => {
         if (res.data.result) {
           setMyProjectList(res.data.result);
-        } else {
-          setNoProject(true);
         }
       })
       .catch((error) => console.error(error.message));
@@ -50,13 +47,13 @@ function Myproject() {
           <p>나의 프로젝트</p>
         </MyProjectText>
         <Suspense fallback={<Spinner />}>
-          {noProject ? (
+          {myProjectList ? (
+            <MyProjectThumbnail myProjectList={myProjectList} />
+          ) : (
             <WelcomMsg>
               참여 중인 프로젝트가 없습니다! <br />
               관심있는 프로젝트를 찾아 참여해보세요😊
             </WelcomMsg>
-          ) : (
-            <MyProjectThumbnail myProjectList={myProjectList} />
           )}
         </Suspense>
       </MainContainer>

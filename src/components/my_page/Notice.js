@@ -17,15 +17,19 @@ function Notice() {
   // 알림 확인 처리
   function okayNotice(notificationId) {
     axios
-      .put(`${SERVER_URL}/api/sse/${notificationId}`)
-      .then((response) => console.log(response))
+      .put(`${SERVER_URL}/api/sse/${notificationId}`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((response) => window.location.replace(""))
       .catch((error) => console.error(error.message));
   }
   // 알림 삭제
   function deleteNotice(notificationId) {
     axios
-      .delete(`${SERVER_URL}/api/sse/${notificationId}`)
-      .then((response) => console.log(response))
+      .delete(`${SERVER_URL}/api/sse/${notificationId}`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((response) => window.location.replace(""))
       .catch((error) => console.error(error.message));
   }
 
@@ -125,6 +129,7 @@ const NoticeIconBox = styled.div`
 const RightBox = styled.div`
   width: 940px;
   height: 788px;
+  overflow-y: auto;
 `;
 const TextContainer = styled.div`
   width: 908px;
@@ -132,7 +137,6 @@ const TextContainer = styled.div`
   margin: 16px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 35px;
 `;
 const MsgBox = styled.div`
   width: 908px;
@@ -145,6 +149,7 @@ const MsgBox = styled.div`
   display: flex;
   align-items: center;
   padding: 10px 0;
+  position: relative;
   p {
     margin-left: 16px;
     &.bold {
@@ -157,8 +162,9 @@ const BtnWrap = styled.div`
   height: 29px;
   display: flex;
   align-items: center;
-  margin-left: 400px;
   gap: 15px;
+  right: 10px;
+  position: absolute;
   button {
     width: 98px;
     height: 33px;

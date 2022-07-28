@@ -25,7 +25,6 @@ export default LogoBar;
 const MainContainer = styled.div`
   width: 100%;
   height: 60px;
-  margin: 0 auto;
   background: #2f4a3b;
 `;
 const LogoContainer = styled.div`
@@ -34,6 +33,7 @@ const LogoContainer = styled.div`
   margin: 0 auto;
   display: flex;
   align-items: center;
+  background: #2f4a3b;
 `;
 const Logo = styled.img`
   margin-left: 32px;

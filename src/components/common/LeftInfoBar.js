@@ -1,10 +1,28 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { SERVER_URL } from "../../shared/api";
 
 function LeftInfoBar() {
   const { myProjectId } = useParams();
   const navigate = useNavigate();
+  const [projectData, setProjectData] = useState(null);
+  const id = localStorage.getItem("id");
+  console.log(projectData);
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/api/projectMain/${myProjectId}`, {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setProjectData(res.data.result);
+      })
+      .catch((error) => console.error(error.message));
+  }, []);
+
   return (
     <div>
       <Container>
@@ -35,7 +53,11 @@ function LeftInfoBar() {
         <ProjectNav
           onClick={() => {
             // 프로젝트 아이디를 이용해 해당 관리자 프로젝트 페이지로 이동
-            navigate(`/admin/${myProjectId}`);
+            if (projectData.leaderId === Number(id)) {
+              navigate(`/admin/${myProjectId}`);
+            } else {
+              alert("권한이 없습니다.");
+            }
           }}
         >
           프로젝트 관리
