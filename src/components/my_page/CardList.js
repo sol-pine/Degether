@@ -24,8 +24,7 @@ function CardList() {
             <div key={index}>
               <Card
                 onClick={() => {
-                  console.log(item.projectId);
-                  navigate(`/project/${item.projectId}`);
+                  navigate(`/project/${item.id}`);
                 }}
               >
                 <CardText>
@@ -33,7 +32,9 @@ function CardList() {
                   <br />
                   <HeadCount>
                     참여인원
-                    <span>[개발자 / 명] [디자이너 / 명]</span>
+                    <span>
+                      [개발자 / {item.devCount}명] [디자이너 / {item.deCount}명]
+                    </span>
                   </HeadCount>
                 </CardText>
                 <CardImg>

@@ -5,7 +5,6 @@ import { editUser } from "../../redux/UserSlice";
 
 function Profile(props) {
   const myInfo = props.myInfo;
-  console.log(myInfo);
   const dispatch = useDispatch();
   const [nickname, setNickname] = useState("");
   const [phone, setPhone] = useState("");
@@ -346,6 +345,7 @@ const ImgUpload = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
+    cursor: pointer;
   }
 `;
 const RightBox = styled.div`

@@ -6,7 +6,7 @@ export const getChat = createAsyncThunk("GET/getChat", async (myProjectId) => {
   return await axios
     .get(`${SERVER_URL}/chat/message/${myProjectId}`)
     .then((response) => response.data)
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error.message));
 });
 
 const ChatSlice = createSlice({

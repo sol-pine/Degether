@@ -18,7 +18,7 @@ function MypageSide() {
       .then((res) => {
         console.log(res.data);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   };
   return (
     <MypageSideBar>
@@ -47,6 +47,7 @@ const MypageSideBar = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 180px;
+  margin-left: 20px;
   z-index: 1;
   position: sticky;
   top: 180px;

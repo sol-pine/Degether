@@ -1,23 +1,38 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import styled from "styled-components";
 import { Header } from "../components/header/Header";
-import MyProject from "../components/my_page/MyProject";
-import Notice from "../components/my_page/Notice";
 import MypageSide from "../components/side/my/MypageSide";
-import ZzimList from "../components/my_page/ZzimList";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../redux/UserSlice";
-import Spinner from "../components/Spinner";
+
+const Profile = lazy(() => {
+  return Promise.all([
+    import("../components/my_page/Profile"),
+    new Promise((resolve) => setTimeout(resolve, 800)),
+  ]).then(([moduleExports]) => moduleExports);
+});
+const Notice = lazy(() => {
+  return Promise.all([
+    import("../components/my_page/Notice"),
+    new Promise((resolve) => setTimeout(resolve, 800)),
+  ]).then(([moduleExports]) => moduleExports);
+});
+const MyProject = lazy(() => {
+  return Promise.all([
+    import("../components/my_page/MyProject"),
+    new Promise((resolve) => setTimeout(resolve, 800)),
+  ]).then(([moduleExports]) => moduleExports);
+});
+const ZzimList = lazy(() => {
+  return Promise.all([
+    import("../components/my_page/ZzimList"),
+    new Promise((resolve) => setTimeout(resolve, 800)),
+  ]).then(([moduleExports]) => moduleExports);
+});
 
 function Mypage() {
   const dispatch = useDispatch();
   const myInfo = useSelector((state) => state.User.userInfo);
-  const Profile = lazy(() => {
-    return Promise.all([
-      import("../components/my_page/Profile"),
-      new Promise((resolve) => setTimeout(resolve, 2000)),
-    ]).then(([moduleExports]) => moduleExports);
-  });
 
   useEffect(() => {
     dispatch(getUserInfo());
@@ -27,12 +42,12 @@ function Mypage() {
       <Header />
       <MainContainer>
         <ContentWrapper>
-          <Suspense fallback={<Spinner />}>
+          <Suspense fallback={<Container></Container>}>
             <Profile myInfo={myInfo} />
+            <Notice />
+            <MyProject />
+            <ZzimList />
           </Suspense>
-          <Notice />
-          <MyProject />
-          <ZzimList />
         </ContentWrapper>
         <MypageSide />
       </MainContainer>
@@ -49,4 +64,13 @@ const MainContainer = styled.div`
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
+`;
+const Container = styled.div`
+  width: 1371px;
+  height: 836px;
+  margin-top: 280px;
+  margin-left: 32px;
+  font-weight: 700;
+  font-size: 22px;
+  color: #000;
 `;

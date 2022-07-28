@@ -32,7 +32,9 @@ function ZzimCardList() {
                 <br />
                 <HeadCount>
                   모집인원
-                  <span>[개발자 / 명] [디자이너 / 명]</span>
+                  <span>
+                    [개발자 / {item.devCount}명] [디자이너 / {item.deCount}명]
+                  </span>
                 </HeadCount>
               </CardText>
               <CardImg>

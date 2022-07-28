@@ -1,14 +1,7 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import styled from "styled-components";
-import Spinner from "../Spinner";
-
+import ZzimCardList from "./ZzimCardList";
 function ZzimList() {
-  const ZzimCardList = lazy(() => {
-    return Promise.all([
-      import("./ZzimCardList"),
-      new Promise((resolve) => setTimeout(resolve, 1000)),
-    ]).then(([moduleExports]) => moduleExports);
-  });
   return (
     <>
       <Link name="zzimproject" />
@@ -21,9 +14,7 @@ function ZzimList() {
           </Title>
           <CardGridContainer>
             <CardGrid>
-              <Suspense fallback={<Spinner />}>
-                <ZzimCardList />
-              </Suspense>
+              <ZzimCardList />
             </CardGrid>
           </CardGridContainer>
         </GrayLineBox>

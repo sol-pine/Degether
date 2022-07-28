@@ -159,6 +159,7 @@ function Vidu() {
     localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
     setCam(localUser.isVideoActive());
+    console.log(localUser.isVideoActive());
   }
   // 마이크 상태 변경 (on & off)
   function micStatusChanged() {
@@ -353,7 +354,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   margin-left: 240px;
-  margin-top: -500px;
+  margin-top: -650px;
 `;
 
 const ViduBox = styled.div`

@@ -23,7 +23,7 @@ function NaverOAuthRedirectHandler() {
           navigate(`/mypage/${userId}`);
         }
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error.message));
   }, []);
 
   return <></>;

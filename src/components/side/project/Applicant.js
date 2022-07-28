@@ -37,7 +37,7 @@ function Applicant({ applicantsData, projectData }) {
         console.log(res);
         window.location.replace("");
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }
 
   // 지원 거절
@@ -52,7 +52,7 @@ function Applicant({ applicantsData, projectData }) {
         console.log(res);
         window.location.replace("");
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }
   if (applicantsData !== null) {
     return (

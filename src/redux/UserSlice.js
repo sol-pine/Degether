@@ -14,7 +14,7 @@ export const getUserInfo = createAsyncThunk("GET/getUserInfo", async () => {
       console.log(response);
       return response.data.result;
     })
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error.message));
 });
 // 마이페이지 유저 정보 편집
 export const editUser = createAsyncThunk("PUT/editUser", async (formData) => {
@@ -29,7 +29,7 @@ export const editUser = createAsyncThunk("PUT/editUser", async (formData) => {
       console.log("editUser", response.data);
       alert("프로필 정보가 변경되었습니다.");
     })
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error.message));
 });
 
 const UserSlice = createSlice({

@@ -32,7 +32,7 @@ function TeamMember({ projectMembersData, projectData }) {
         console.log(res);
         window.location.replace("");
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }
 
   if (projectMembersData !== null) {

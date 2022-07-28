@@ -5,7 +5,6 @@ import { HomeBtn, MyBtn, NoticeIcon, LogoutBtn } from "./Btns";
 import SearchBar from "./SearchBar";
 
 export function MainNavBar() {
-  const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
   return (
@@ -14,11 +13,6 @@ export function MainNavBar() {
         <NavContainer>
           <SearchBar />
           <ButtonContainer>
-            <HomeBtn
-              onClick={() => {
-                navigate("/");
-              }}
-            />
             {token ? (
               <>
                 <NoticeIcon />
@@ -43,9 +37,9 @@ export function NavBar() {
         <NavContainer>
           <ButtonContainer>
             <HomeBtn
-              onClick={() => {
-                navigate("/");
-              }}
+            // onClick={() => {
+            //   navigate("/");
+            // }}
             />
             {token ? (
               <>
@@ -79,6 +73,6 @@ const ButtonContainer = styled.div`
   position: absolute;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 15px;
   right: 16px;
 `;

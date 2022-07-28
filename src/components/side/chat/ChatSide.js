@@ -21,7 +21,7 @@ export default ChatSide;
 const Container = styled.div`
   box-sizing: border-box;
   width: 453px;
-  height: 100vh;
+  min-height: 900px;
   background-color: #09120e;
   display: flex;
   flex-direction: column;

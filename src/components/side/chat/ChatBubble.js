@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React from "react";
 import styled from "styled-components";
 
 function ChatBubble({ chatList }) {
   const id = Number(localStorage.getItem("id"));
-  console.log(chatList);
+
   return (
     <ChatContainer>
       {chatList.map((item, index) => {
@@ -40,7 +40,7 @@ function ChatBubble({ chatList }) {
 export default ChatBubble;
 const ChatContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 `;
 const Bubble = styled.div`
   display: flex;

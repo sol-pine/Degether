@@ -1,7 +1,34 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { SERVER_URL } from "../../shared/api";
 
 function Notice() {
+  const [noticeList, setNoticeList] = useState(null);
+  console.log(noticeList);
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/api/sse`, {
+        headers: { Authorization: localStorage.getItem("token") },
+      })
+      .then((response) => setNoticeList(response.data.result))
+      .catch((error) => console.error(error.message));
+  }, []);
+  // 알림 확인 처리
+  function okayNotice(notificationId) {
+    axios
+      .put(`${SERVER_URL}/api/sse/${notificationId}`)
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error.message));
+  }
+  // 알림 삭제
+  function deleteNotice(notificationId) {
+    axios
+      .delete(`${SERVER_URL}/api/sse/${notificationId}`)
+      .then((response) => console.log(response))
+      .catch((error) => console.error(error.message));
+  }
+
   return (
     <>
       <Link name="notice" />
@@ -23,30 +50,37 @@ function Notice() {
             </svg>
           </NoticeIconBox>
           <RightBox>
-            <TextContainer>
-              <DateText>
-                22-06-30 <span>|</span> Degether
-              </DateText>
-              <MsgBox>
-                <p>😊 HOUSE님 프로젝트 참여를 환영합니다.</p>
-                <BtnWrap>
-                  <button>삭제</button>
-                  <button>바로가기</button>
-                </BtnWrap>
-              </MsgBox>
-            </TextContainer>
-            <TextContainer>
-              <DateText>
-                22-06-30 <span>|</span> Degether
-              </DateText>
-              <MsgBox>
-                <p>😊 HOUSE님 프로젝트 참여를 환영합니다.</p>
-                <BtnWrap>
-                  <button>삭제</button>
-                  <button>바로가기</button>
-                </BtnWrap>
-              </MsgBox>
-            </TextContainer>
+            {noticeList &&
+              noticeList.map((item, index) => {
+                return (
+                  <TextContainer key={index}>
+                    <MsgBox>
+                      {item.isRead ? (
+                        <p className="bold">{item.content}</p>
+                      ) : (
+                        <p>{item.content}</p>
+                      )}
+
+                      <BtnWrap>
+                        <button
+                          onClick={() => {
+                            okayNotice(item.id);
+                          }}
+                        >
+                          확인
+                        </button>
+                        <button
+                          onClick={() => {
+                            deleteNotice(item.id);
+                          }}
+                        >
+                          삭제
+                        </button>
+                      </BtnWrap>
+                    </MsgBox>
+                  </TextContainer>
+                );
+              })}
           </RightBox>
         </NoticeBoxWrap>
       </NoticeContainer>
@@ -100,14 +134,6 @@ const TextContainer = styled.div`
   flex-direction: column;
   margin-bottom: 35px;
 `;
-const DateText = styled.div`
-  font-weight: 700;
-  font-size: 12px;
-  color: #09120e;
-  span {
-    color: #d9d9d9;
-  }
-`;
 const MsgBox = styled.div`
   width: 908px;
   height: 49px;
@@ -121,6 +147,9 @@ const MsgBox = styled.div`
   padding: 10px 0;
   p {
     margin-left: 16px;
+    &.bold {
+      font-weight: 600;
+    }
   }
 `;
 const BtnWrap = styled.div`
@@ -128,7 +157,7 @@ const BtnWrap = styled.div`
   height: 29px;
   display: flex;
   align-items: center;
-  margin-left: 470px;
+  margin-left: 400px;
   gap: 15px;
   button {
     width: 98px;

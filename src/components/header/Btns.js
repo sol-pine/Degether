@@ -1,11 +1,20 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { SERVER_URL } from "../../shared/api";
 
 export function HomeBtn() {
+  const navigate = useNavigate();
   return (
     <>
-      <HomeButton src="/img/home-icon.svg" />
+      <HomeButton
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        <Home src="/img/home-icon.svg" />
+      </HomeButton>
     </>
   );
 }
@@ -42,14 +51,54 @@ export function LogoutBtn() {
 }
 
 export function NoticeIcon() {
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("id");
+  const [haveNotice, setHaveNotice] = useState(false);
+
+  useEffect(() => {
+    const eventSource = new EventSource(`${SERVER_URL}/subscribe/${userId}`);
+    // sse 연결
+    eventSource.onopen = function () {
+      axios
+        .get(`${SERVER_URL}/api/readsse`, {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        })
+
+        .then((response) => setHaveNotice(response.data.result));
+    };
+    // sse 응답
+    eventSource.addEventListener("sse", function (e) {
+      console.log(e);
+    });
+    // sse 에러
+    eventSource.onerror = function (error) {
+      console.error(error.message);
+    };
+  }, []);
+
   return (
     <>
-      <img src="/img/bell-icon.svg" alt="bell icon"></img>
+      <BellButton
+        onClick={() => {
+          navigate(`/mypage/${userId}`);
+        }}
+      >
+        {haveNotice ? (
+          <img src="/img/bell-on-icon.svg" alt="bell icon" />
+        ) : (
+          <img src="/img/bell-icon.svg" alt="bell icon" />
+        )}
+      </BellButton>
     </>
   );
 }
-
-const HomeButton = styled.img`
+const HomeButton = styled.button`
+  background: none;
+  border: none;
+`;
+const Home = styled.img`
   width: 45px;
   height: 40px;
   :hover {
@@ -73,4 +122,9 @@ const GrayButton = styled.button`
     background: #efefef;
     color: #09120e;
   }
+`;
+const BellButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
 `;

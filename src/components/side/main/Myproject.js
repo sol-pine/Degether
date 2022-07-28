@@ -13,7 +13,7 @@ function Myproject() {
   const MyProjectThumbnail = lazy(() => {
     return Promise.all([
       import("./MyProjectThumbnail"),
-      new Promise((resolve) => setTimeout(resolve, 800)),
+      new Promise((resolve) => setTimeout(resolve, 1000)),
     ]).then(([moduleExports]) => moduleExports);
   });
 
@@ -31,7 +31,7 @@ function Myproject() {
           setNoProject(true);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }, []);
 
   return (

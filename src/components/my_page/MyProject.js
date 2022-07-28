@@ -1,15 +1,8 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import styled from "styled-components";
-import Spinner from "../Spinner";
+import CardList from "./CardList";
 
 function MyProject() {
-  const CardList = lazy(() => {
-    return Promise.all([
-      import("./CardList"),
-      new Promise((resolve) => setTimeout(resolve, 1000)),
-    ]).then(([moduleExports]) => moduleExports);
-  });
-
   return (
     <>
       <Link name="myproject" />
@@ -22,9 +15,7 @@ function MyProject() {
           </Title>
           <CardGridContainer>
             <CardGrid>
-              <Suspense fallback={<Spinner />}>
-                <CardList />
-              </Suspense>
+              <CardList />
             </CardGrid>
           </CardGridContainer>
         </GrayLineBox>

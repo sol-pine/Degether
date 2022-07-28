@@ -14,7 +14,7 @@ export const addProject = createAsyncThunk(
         },
       })
       .then((response) => console.log(response.data.result))
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error.message));
   }
 );
 
@@ -35,7 +35,7 @@ export const getProject = createAsyncThunk("GET/getProject", async (args) => {
       },
     })
     .then((response) => response.data.result)
-    .catch((error) => console.error(error));
+    .catch((error) => console.error(error.message));
 });
 
 // 프로젝트 리스트 무한스크롤
@@ -67,7 +67,7 @@ export const getProjectDetails = createAsyncThunk(
     return await axios
       .get(`${SERVER_URL}/api/project/${projectId}`)
       .then((res) => res.data.result)
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }
 );
 // 프로젝트 찜하기
@@ -85,7 +85,7 @@ export const interestedProject = createAsyncThunk(
         }
       )
       .then((res) => res.data)
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
     return res.data;
   }
 );
@@ -103,7 +103,7 @@ export const applyProject = createAsyncThunk(
         }
       )
       .then((res) => res.data)
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
     return res.data;
   }
 );
@@ -120,8 +120,8 @@ export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
       console.log("Edit ", res.data);
       alert("프로젝트 수정이 완료되었습니다.");
     })
-    .catch((e) => {
-      console.error(e);
+    .catch((error) => {
+      console.error(error.message);
     });
 });
 const ProjectSlice = createSlice({

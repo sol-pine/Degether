@@ -49,7 +49,7 @@ const Container = styled.div`
   width: 212px;
   height: 400px;
   background: #2f4a3b;
-  margin-top: 180px;
+  margin-top: 300px;
 `;
 const ProjectNav = styled.div`
   width: 212px;

@@ -5,22 +5,23 @@ import { SERVER_URL } from "../../../shared/api";
 import { useParams } from "react-router-dom";
 import ChatMessageBox from "./ChatMessageBox";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { getChat } from "../../../redux/ChatSlice";
+import axios from "axios";
 
 function ChatRoom() {
-  const chatList = useSelector((state) => state.Chat.chatList);
+  const [chatList, setChatList] = useState([]);
   const { myProjectId } = useParams();
-  const dispatch = useDispatch();
   const sock = new SockJS(`${SERVER_URL}/wss/chat`);
   const client = StompJS.over(sock);
   const [chat, setChat] = useState("");
-  const [_chatList, _setChatList] = useState([...chatList]);
   const token = { Authorization: localStorage.getItem("token") };
+
   // 채팅 소켓 연결
   useEffect(() => {
     if (myProjectId !== undefined) {
-      dispatch(getChat(myProjectId));
+      axios
+        .get(`${SERVER_URL}/chat/message/${myProjectId}`)
+        .then((response) => setChatList(response.data))
+        .catch((error) => console.error(error.message));
       connect();
     }
     return () => {
@@ -39,17 +40,17 @@ function ChatRoom() {
       `/sub/chat/room/${myProjectId}`,
       function (chat) {
         console.log(chat);
-        // let chatData = JSON.parse(chat.body);
-        // let copy = _chatList;
-        // copy.push(chatData);
-        // console.log(copy);
-        // _setChatList(copy);
+        let chatData = JSON.parse(chat.body);
+        let copy = chatList;
+        copy.push(chatData);
+        console.log(copy);
+        setChatList(copy);
       },
       token
     );
   };
-  const onError = (err) => {
-    console.error(err);
+  const onError = (error) => {
+    console.error(error.message);
   };
 
   // SEND CHAT (chat 전송)
@@ -57,7 +58,7 @@ function ChatRoom() {
     client.send(
       `/pub/chat/message`,
       token,
-      JSON.stringify({ message: chat, projectId: myProjectId })
+      JSON.stringify({ message: chat, type: "TALK", projectId: myProjectId })
     );
     setChat("");
   };
@@ -66,12 +67,13 @@ function ChatRoom() {
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
       sendChat();
+      setChat("");
     }
   };
   return (
     <>
       <MainContainer>
-        <ChatMessageBox chatList={_chatList} />
+        <ChatMessageBox chatList={chatList} />
         <ChatInputWrapper>
           <input
             type="text"
@@ -89,7 +91,11 @@ function ChatRoom() {
 }
 export default ChatRoom;
 
-const MainContainer = styled.div``;
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const ChatInputWrapper = styled.div`
   width: 420px;
   height: 70px;
@@ -98,6 +104,7 @@ const ChatInputWrapper = styled.div`
   background: #fff;
   display: flex;
   align-items: center;
+
   input {
     width: 300px;
     padding: 10px;

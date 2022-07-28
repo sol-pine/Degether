@@ -1,6 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from "../shared/api";
+import {
+  OPENVIDU_SERVER_SECRET,
+  OPENVIDU_SERVER_URL,
+  SERVER_URL,
+} from "../shared/api";
 
 // 세션 생성
 export const createSession = createAsyncThunk(
@@ -10,6 +14,7 @@ export const createSession = createAsyncThunk(
     return await axios
       .post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, data, {
         headers: {
+          token: localStorage.getItem("token"),
           Authorization:
             "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
           "Content-Type": "application/json",
@@ -33,6 +38,7 @@ export const createViduToken = createAsyncThunk(
         {
           headers: {
             "Content-Type": "application/json",
+            token: localStorage.getItem("token"),
             Authorization:
               "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
           },

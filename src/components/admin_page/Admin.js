@@ -104,7 +104,7 @@ function Admin(props) {
         console.log(res.data.result);
         setFileStatus(true);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   };
 
   function removeFile() {
@@ -123,7 +123,7 @@ function Admin(props) {
       .then((res) => {
         console.log(res);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }
 
   function submit() {
@@ -170,7 +170,7 @@ function Admin(props) {
       .then((res) => {
         console.log(res);
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   };
   return (
     <div>

@@ -30,7 +30,7 @@ function TeamMembers() {
           setProjectMembersData(res.data.result.user);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }, []);
 
   return (

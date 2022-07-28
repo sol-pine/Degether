@@ -3,10 +3,11 @@ import styled from "styled-components";
 import Spinner from "../../Spinner";
 
 function ChatMessageBox({ chatList }) {
+  console.log(chatList);
   const ChatBubble = lazy(() => {
     return Promise.all([
       import("./ChatBubble"),
-      new Promise((resolve) => setTimeout(resolve, 800)),
+      new Promise((resolve) => setTimeout(resolve, 1200)),
     ]).then(([moduleExports]) => moduleExports);
   });
   return (
@@ -23,7 +24,7 @@ export default ChatMessageBox;
 
 const MsgContainer = styled.div`
   width: 380px;
-  height: 800px;
+  height: 600px;
   background: #2f4a3b;
   margin-top: 30px;
   border-radius: 5px;

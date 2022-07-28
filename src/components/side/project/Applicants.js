@@ -28,7 +28,7 @@ function Applicants() {
           setApplicantsData(res.data.result.applyUser);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((error) => console.error(error.message));
   }, []);
 
   return (

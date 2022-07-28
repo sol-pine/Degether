@@ -28,7 +28,7 @@ function ProjectDetailModal() {
     axios
       .get(`${SERVER_URL}/api/project/${projectId}`)
       .then((response) => setProjectDetails(response.data.result))
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error.message));
   }, []);
 
   // 모달 열렸을 때 스크롤 막기
