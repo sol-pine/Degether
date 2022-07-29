@@ -1,7 +1,11 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { SERVER_URL, REACT_APP_NAVER_REDIRECT_URL } from "../../../shared/api";
+import {
+  SERVER_URL,
+  REACT_APP_NAVER_REDIRECT_URL,
+  REACT_APP_NAVER_STATE,
+} from "../../../shared/api";
 
 function NaverOAuthRedirectHandler() {
   const navigate = useNavigate();
@@ -9,7 +13,7 @@ function NaverOAuthRedirectHandler() {
   useEffect(() => {
     axios
       .post(
-        `${SERVER_URL}/user/naver?code=${code}&redirectUrl=${REACT_APP_NAVER_REDIRECT_URL}`
+        `${SERVER_URL}/user/naver?code=${code}&redirectUrl=${REACT_APP_NAVER_REDIRECT_URL}/${REACT_APP_NAVER_STATE}`
       )
       .then((response) => {
         const userId = response.data.result.userId;

@@ -6,7 +6,6 @@ function Slide(props) {
   const navigate = useNavigate();
   const [mouseEvent, setMouseEvent] = useState(false);
   const myProjectList = props.myProjectList;
-  console.log(myProjectList);
   if (!myProjectList) {
     <div></div>;
   }

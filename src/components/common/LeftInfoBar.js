@@ -70,7 +70,11 @@ const Container = styled.div`
   width: 212px;
   height: 400px;
   background: #2f4a3b;
-  margin-top: 300px;
+  margin-top: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
 `;
 const ProjectNav = styled.div`
   width: 212px;
@@ -78,11 +82,9 @@ const ProjectNav = styled.div`
   font-weight: 400;
   font-size: 22px;
   color: #fff;
-  padding-top: 20px;
-  margin-top: 30px;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
+  :hover {
+    color: #d6e5d0;
+  }
 `;

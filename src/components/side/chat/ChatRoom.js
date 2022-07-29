@@ -9,23 +9,21 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, getChat } from "../../../redux/ChatSlice";
 let client = null;
-
+const id = Number(localStorage.getItem("id"));
 function ChatRoom() {
   const dispatch = useDispatch();
-  const [chatList, setChatList] = useState([]);
-  console.log(chatList);
-  // const chatList = useSelector((state) => state.Chat.chatList);
+  // const [chatList, setChatList] = useState([]);
+
+  const chatList = useSelector((state) => state.Chat.chatList);
+  // console.log(chatList);
+  console.log(chatList.length);
   const { myProjectId } = useParams();
   const [chat, setChat] = useState("");
   const token = { Authorization: localStorage.getItem("token") };
-  const id = Number(localStorage.getItem("id"));
+
   // 채팅 소켓 연결
   useEffect(() => {
     if (myProjectId !== undefined) {
-      // axios
-      //   .get(`${SERVER_URL}/chat/message/${myProjectId}`)
-      //   .then((response) => setChatList(response.data))
-      //   .catch((error) => console.error(error.message));
       connect();
       dispatch(getChat(myProjectId));
     }
@@ -33,13 +31,6 @@ function ChatRoom() {
       client.disconnect();
     };
   }, [myProjectId]);
-
-  useEffect(() => {
-    axios
-      .get(`${SERVER_URL}/chat/message/${myProjectId}`)
-      .then((response) => setChatList(response.data))
-      .catch((error) => console.error(error.message));
-  }, []);
 
   // CONNECT
   const connect = () => {
@@ -53,13 +44,7 @@ function ChatRoom() {
     client.subscribe(
       `/sub/chat/room/${myProjectId}`,
       function (chat) {
-        // dispatch(addChat(JSON.parse(chat.body)));
-        console.log(chat);
-        let chatData = JSON.parse(chat.body);
-        let copy = chatList;
-        copy.push(chatData);
-        console.log(copy);
-        setChatList(copy);
+        dispatch(addChat(JSON.parse(chat.body)));
       },
       token
     );
@@ -84,6 +69,16 @@ function ChatRoom() {
       sendChat();
     }
   };
+
+  if (chatList.length < 2) {
+    return (
+      <MainContainer>
+        <MsgContainer>
+          <ChatContainer></ChatContainer>
+        </MsgContainer>
+      </MainContainer>
+    );
+  }
   return (
     <>
       <MainContainer>
@@ -179,7 +174,7 @@ const ChatInputWrapper = styled.div`
     margin-left: 10px;
     background: #fff;
     cursor: pointer;
-    :hover {
+    :focus {
       outline: none;
     }
   }

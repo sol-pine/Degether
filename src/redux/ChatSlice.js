@@ -5,7 +5,7 @@ import { SERVER_URL } from "../shared/api";
 export const getChat = createAsyncThunk("GET/getChat", async (myProjectId) => {
   return await axios
     .get(`${SERVER_URL}/chat/message/${myProjectId}`)
-    .then((response) => console.log(response.data))
+    .then((response) => response.data)
     .catch((error) => console.error(error));
 });
 
@@ -30,7 +30,8 @@ const ChatSlice = createSlice({
     },
     [getChat.fulfilled]: (state, action) => {
       console.log("FULFILLED", action.payload);
-      // state.chatList = action.payload;
+      state.chatList = action.payload;
+      console.log(state.chatList);
     },
   },
 });
