@@ -32,6 +32,9 @@ function MeetingNote() {
     console.log(note);
     setNote(note);
   }
+  function test() {
+    console.log(notes);
+  }
   return (
     <div>
       <Header />
@@ -39,8 +42,8 @@ function MeetingNote() {
         <LeftInfoBar />
         <NoteList>
           <NoteListNav>회의록</NoteListNav>
-
           {notes.map((note, idx) => {
+            console.log(note);
             return (
               <div
                 className="noteList"
@@ -71,12 +74,12 @@ const NoteList = styled.div`
   width: 150px;
   height: 580px;
   background: #d6e5d0;
-  display: flex;
+  display: block;
   justify-content: center;
+  margin-top: 180px;
 `;
 const NoteListNav = styled.div`
-  margin-top: 200px;
-  width: 212px;
+  width: 150px;
   height: 42px;
   font-weight: 400;
   font-size: 22px;

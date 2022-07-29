@@ -3,20 +3,18 @@ import * as StompJS from "stompjs";
 import * as SockJS from "sockjs-client";
 import { SERVER_URL } from "../../../shared/api";
 import { useParams } from "react-router-dom";
-import ChatMessageBox from "./ChatMessageBox";
 import styled from "styled-components";
-import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { addChat, getChat } from "../../../redux/ChatSlice";
+
 let client = null;
-const id = Number(localStorage.getItem("id"));
+
 function ChatRoom() {
   const dispatch = useDispatch();
-  // const [chatList, setChatList] = useState([]);
+  const id = Number(localStorage.getItem("id"));
 
   const chatList = useSelector((state) => state.Chat.chatList);
-  // console.log(chatList);
-  console.log(chatList.length);
+
   const { myProjectId } = useParams();
   const [chat, setChat] = useState("");
   const token = { Authorization: localStorage.getItem("token") };
@@ -70,15 +68,6 @@ function ChatRoom() {
     }
   };
 
-  if (chatList.length < 2) {
-    return (
-      <MainContainer>
-        <MsgContainer>
-          <ChatContainer></ChatContainer>
-        </MsgContainer>
-      </MainContainer>
-    );
-  }
   return (
     <>
       <MainContainer>
@@ -188,7 +177,7 @@ const MsgContainer = styled.div`
   padding: 20px;
   overflow: auto;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 `;
 const ChatContainer = styled.div`
   display: flex;

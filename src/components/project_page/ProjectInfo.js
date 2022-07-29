@@ -29,7 +29,7 @@ function ProjectInfo({ projectDetails }) {
             </p>
             <LinkWrapper>
               {projectDetails.github ? (
-                <GitLink href={projectDetails.github}>
+                <GitLink href={projectDetails.github} target="_blank">
                   깃허브 링크 <img src="/img/link.svg" alt="링크 아이콘" />
                 </GitLink>
               ) : (
@@ -38,7 +38,7 @@ function ProjectInfo({ projectDetails }) {
                 </GitLink>
               )}
               {projectDetails.figma ? (
-                <GitLink href={projectDetails.figma}>
+                <GitLink href={projectDetails.figma} target="_blank">
                   피그마 링크 <img src="/img/link.svg" alt="링크 아이콘" />
                 </GitLink>
               ) : (

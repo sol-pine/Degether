@@ -13,7 +13,7 @@ const ChatSlice = createSlice({
   name: "ChatSlice",
   initialState: {
     projectChat: false,
-    chatList: [{}],
+    chatList: [],
   },
   reducers: {
     openChat: (state, action) => {
@@ -25,13 +25,9 @@ const ChatSlice = createSlice({
     },
   },
   extraReducers: {
-    [getChat.pending]: (state, action) => {
-      console.log("PENDING", action.payload);
-    },
+    [getChat.pending]: (state, action) => {},
     [getChat.fulfilled]: (state, action) => {
-      console.log("FULFILLED", action.payload);
-      state.chatList = action.payload;
-      console.log(state.chatList);
+      state.chatList = action.payload.reverse();
     },
   },
 });
