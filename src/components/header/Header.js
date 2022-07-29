@@ -26,13 +26,15 @@ export function Header() {
 }
 
 const MainContainer = styled.div`
-  width: 100%;
+  width: 1888px;
   height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   position: fixed;
+  left: 50%;
+  transform: translate(-50%, 0);
   top: 0px;
   margin: 0 auto;
   z-index: 5;

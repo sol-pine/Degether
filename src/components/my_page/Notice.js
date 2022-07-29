@@ -5,6 +5,7 @@ import { SERVER_URL } from "../../shared/api";
 
 function Notice() {
   const [noticeList, setNoticeList] = useState(null);
+
   console.log(noticeList);
   useEffect(() => {
     axios
@@ -54,7 +55,7 @@ function Notice() {
             </svg>
           </NoticeIconBox>
           <RightBox>
-            {noticeList &&
+            {/* {noticeList &&
               noticeList.map((item, index) => {
                 return (
                   <TextContainer key={index}>
@@ -84,7 +85,7 @@ function Notice() {
                     </MsgBox>
                   </TextContainer>
                 );
-              })}
+              })} */}
           </RightBox>
         </NoticeBoxWrap>
       </NoticeContainer>

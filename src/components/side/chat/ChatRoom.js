@@ -6,31 +6,45 @@ import { useParams } from "react-router-dom";
 import ChatMessageBox from "./ChatMessageBox";
 import styled from "styled-components";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addChat, getChat } from "../../../redux/ChatSlice";
+let client = null;
 
 function ChatRoom() {
+  const dispatch = useDispatch();
   const [chatList, setChatList] = useState([]);
+  console.log(chatList);
+  // const chatList = useSelector((state) => state.Chat.chatList);
   const { myProjectId } = useParams();
-  const sock = new SockJS(`${SERVER_URL}/wss/chat`);
-  const client = StompJS.over(sock);
   const [chat, setChat] = useState("");
   const token = { Authorization: localStorage.getItem("token") };
-
+  const id = Number(localStorage.getItem("id"));
   // 채팅 소켓 연결
   useEffect(() => {
     if (myProjectId !== undefined) {
-      axios
-        .get(`${SERVER_URL}/chat/message/${myProjectId}`)
-        .then((response) => setChatList(response.data))
-        .catch((error) => console.error(error.message));
+      // axios
+      //   .get(`${SERVER_URL}/chat/message/${myProjectId}`)
+      //   .then((response) => setChatList(response.data))
+      //   .catch((error) => console.error(error.message));
       connect();
+      dispatch(getChat(myProjectId));
     }
     return () => {
       client.disconnect();
     };
   }, [myProjectId]);
 
+  useEffect(() => {
+    axios
+      .get(`${SERVER_URL}/chat/message/${myProjectId}`)
+      .then((response) => setChatList(response.data))
+      .catch((error) => console.error(error.message));
+  }, []);
+
   // CONNECT
   const connect = () => {
+    const sock = new SockJS(`${SERVER_URL}/wss/chat`);
+    client = StompJS.over(sock);
     client.connect(token, subscribe, onError);
   };
 
@@ -39,6 +53,7 @@ function ChatRoom() {
     client.subscribe(
       `/sub/chat/room/${myProjectId}`,
       function (chat) {
+        // dispatch(addChat(JSON.parse(chat.body)));
         console.log(chat);
         let chatData = JSON.parse(chat.body);
         let copy = chatList;
@@ -67,13 +82,47 @@ function ChatRoom() {
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
       sendChat();
-      setChat("");
     }
   };
   return (
     <>
       <MainContainer>
-        <ChatMessageBox chatList={chatList} />
+        <MsgContainer>
+          <ChatContainer>
+            {chatList.map((item, index) => {
+              return (
+                <div key={index}>
+                  {item.user.id === id ? (
+                    <Bubble className="sendBubble">
+                      <ProfileImg
+                        src={item.user.profileUrl}
+                        className="sendProfile"
+                      />
+                      <ChatWrapper>
+                        <Talker className="sendChat">
+                          {item.user.nickname}
+                        </Talker>
+                        <ChatMsg className="sendChat">{item.message}</ChatMsg>
+                        <ChatTime className="sendChat">
+                          {item.createdAt}
+                        </ChatTime>
+                      </ChatWrapper>
+                    </Bubble>
+                  ) : (
+                    <Bubble>
+                      <ProfileImg src={item.user.profileUrl} />
+                      <ChatWrapper>
+                        <Talker>{item.user.nickname}</Talker>
+                        <ChatMsg>{item.message}</ChatMsg>
+                        <ChatTime>{item.createdAt}</ChatTime>
+                      </ChatWrapper>
+                    </Bubble>
+                  )}
+                </div>
+              );
+            })}
+          </ChatContainer>
+        </MsgContainer>
         <ChatInputWrapper>
           <input
             type="text"
@@ -130,5 +179,73 @@ const ChatInputWrapper = styled.div`
     margin-left: 10px;
     background: #fff;
     cursor: pointer;
+    :hover {
+      outline: none;
+    }
+  }
+`;
+const MsgContainer = styled.div`
+  width: 380px;
+  height: 600px;
+  background: #2f4a3b;
+  margin-top: 30px;
+  border-radius: 5px;
+  padding: 20px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+`;
+const ChatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Bubble = styled.div`
+  display: flex;
+  margin: 10px;
+  gap: 10px;
+  &.sendBubble {
+    position: relative;
+    justify-content: flex-end;
+  }
+`;
+const ProfileImg = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  &.sendProfile {
+    position: absolute;
+    right: 0px;
+  }
+`;
+const ChatWrapper = styled.div`
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+`;
+const Talker = styled.div`
+  width: 240px;
+  height: 20px;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 14px;
+  color: #fff;
+  &.sendChat {
+    text-align: right;
+  }
+`;
+const ChatMsg = styled.div`
+  width: 240px;
+  font-size: 14px;
+  color: #fff;
+  &.sendChat {
+    text-align: right;
+  }
+`;
+const ChatTime = styled.div`
+  width: 240px;
+  font-size: 14px;
+  color: #d6e5d0;
+  &.sendChat {
+    text-align: right;
   }
 `;

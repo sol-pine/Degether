@@ -50,33 +50,35 @@ export function LogoutBtn() {
   );
 }
 
-export function NoticeIcon() {
-  const navigate = useNavigate();
-  const userId = localStorage.getItem("id");
-  const [haveNotice, setHaveNotice] = useState(false);
+// export function NoticeIcon() {
+//   const navigate = useNavigate();
+//   const userId = localStorage.getItem("id");
+//   const [haveNotice, setHaveNotice] = useState(false);
 
-  useEffect(() => {
-    const eventSource = new EventSource(`${SERVER_URL}/subscribe/${userId}`);
-    // sse 연결
-    eventSource.onopen = function () {
-      axios
-        .get(`${SERVER_URL}/api/readsse`, {
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        })
+  // useEffect(() => {
+  //   const eventSource = new EventSource(
+  //     `http://degether-back.shop/subscribe/${userId}`
+  //   );
+  // sse 연결
+  // eventSource.onopen = function () {
+  //   axios
+  //     .get(`${SERVER_URL}/api/readsse`, {
+  //       headers: {
+  //         Authorization: localStorage.getItem("token"),
+  //       },
+  //     })
 
-        .then((response) => setHaveNotice(response.data.result));
-    };
-    // sse 응답
-    eventSource.addEventListener("sse", function (e) {
-      console.log(e);
-    });
-    // sse 에러
-    eventSource.onerror = function (error) {
-      console.error(error.message);
-    };
-  }, []);
+  //     .then((response) => setHaveNotice(response.data.result));
+  // };
+  // sse 응답
+  // eventSource.addEventListener("sse", function (e) {
+  //   console.log(e);
+  // });
+  // sse 에러
+  //   eventSource.onerror = function (error) {
+  //     console.error(error.message);
+  //   };
+  // }, []);
 
   return (
     <>

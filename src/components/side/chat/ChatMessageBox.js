@@ -3,11 +3,10 @@ import styled from "styled-components";
 import Spinner from "../../Spinner";
 
 function ChatMessageBox({ chatList }) {
-  console.log(chatList);
   const ChatBubble = lazy(() => {
     return Promise.all([
       import("./ChatBubble"),
-      new Promise((resolve) => setTimeout(resolve, 1200)),
+      new Promise((resolve) => setTimeout(resolve, 800)),
     ]).then(([moduleExports]) => moduleExports);
   });
   return (
@@ -31,5 +30,5 @@ const MsgContainer = styled.div`
   padding: 20px;
   overflow: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 `;

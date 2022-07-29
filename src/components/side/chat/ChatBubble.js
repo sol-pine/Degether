@@ -1,9 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getChat } from "../../../redux/ChatSlice";
 
-function ChatBubble({ chatList }) {
+function ChatBubble() {
+  const dispatch = useDispatch();
+  const { myProjectId } = useParams();
   const id = Number(localStorage.getItem("id"));
+  const chatList = useSelector((state) => state.Chat.chatList);
+  // const [loading, setLoading] = useState(true);
+  console.log(chatList);
 
+  // useEffect(() => {
+  //   if (chatList.length > 1) {
+  //     setLoading(false);
+  //   }
+  // }, [chatList]);
+
+  if (!chatList.length > 1) {
+    <ChatContainer></ChatContainer>;
+  }
   return (
     <ChatContainer>
       {chatList.map((item, index) => {

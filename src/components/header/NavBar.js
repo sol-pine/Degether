@@ -15,7 +15,7 @@ export function MainNavBar() {
           <ButtonContainer>
             {token ? (
               <>
-                <NoticeIcon />
+                {/* <NoticeIcon /> */}
                 <MyBtn />
                 <LogoutBtn />
               </>
@@ -39,7 +39,7 @@ export function NavBar() {
             <HomeBtn />
             {token ? (
               <>
-                <NoticeIcon />
+                {/* <NoticeIcon /> */}
                 <MyBtn />
                 <LogoutBtn />
               </>

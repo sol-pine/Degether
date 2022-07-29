@@ -9,7 +9,6 @@ function LeftInfoBar() {
   const navigate = useNavigate();
   const [projectData, setProjectData] = useState(null);
   const id = localStorage.getItem("id");
-  console.log(projectData);
   useEffect(() => {
     axios
       .get(`${SERVER_URL}/api/projectMain/${myProjectId}`, {
