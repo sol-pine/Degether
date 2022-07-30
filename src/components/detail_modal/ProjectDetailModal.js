@@ -3,6 +3,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SERVER_URL } from "../../shared/api";
+import { handleError } from "../../shared/commonFunction";
 import Spinner from "../Spinner";
 
 function ProjectDetailModal() {
@@ -28,7 +29,7 @@ function ProjectDetailModal() {
     axios
       .get(`${SERVER_URL}/api/project/${projectId}`)
       .then((response) => setProjectDetails(response.data.result))
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   // 모달 열렸을 때 스크롤 막기

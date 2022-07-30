@@ -6,6 +6,7 @@ import {
   REACT_APP_NAVER_REDIRECT_URL,
   REACT_APP_NAVER_STATE,
 } from "../../../shared/api";
+import { handleError } from "../../../shared/commonFunction";
 
 function NaverOAuthRedirectHandler() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ function NaverOAuthRedirectHandler() {
           navigate(`/mypage/${userId}`);
         }
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   return <></>;

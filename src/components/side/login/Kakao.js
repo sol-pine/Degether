@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { SERVER_URL, REACT_APP_KAKAO_REDIRECT_URL } from "../../../shared/api";
+import { handleError } from "../../../shared/commonFunction";
 
 function KakaoOAuthRedirectHandler() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function KakaoOAuthRedirectHandler() {
           navigate(`/mypage/${userId}`);
         }
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   return <></>;

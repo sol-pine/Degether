@@ -4,6 +4,7 @@ import styled from "styled-components";
 import axios from "axios";
 import Spinner from "../../Spinner";
 import { SERVER_URL } from "../../../shared/api";
+import { handleError } from "../../../shared/commonFunction";
 
 const TeamMember = lazy(() => {
   return Promise.all([
@@ -30,7 +31,7 @@ function TeamMembers() {
           setProjectMembersData(res.data.result.user);
         }
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   return (

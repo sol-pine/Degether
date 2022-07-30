@@ -4,8 +4,10 @@ import { Header } from "../components/header/Header";
 import LeftInfoBar from "../components/common/LeftInfoBar";
 import Vidu from "../components/video_page/Vidu";
 import UserSidebar from "../components/side/project/UserSidebar";
-
+import { useSelector } from "react-redux";
+import ChatSide from "../components/side/chat/ChatSide";
 function Videopage() {
+  const chat = useSelector((state) => state.Chat.projectChat);
   return (
     <>
       <Wrapper>
@@ -13,7 +15,8 @@ function Videopage() {
         <MainContainer>
           <LeftInfoBar />
           <Vidu />
-          <UserSidebar />
+
+          {chat ? <ChatSide /> : <UserSidebar />}
         </MainContainer>
       </Wrapper>
     </>

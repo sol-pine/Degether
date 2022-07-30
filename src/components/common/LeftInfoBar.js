@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SERVER_URL } from "../../shared/api";
-
+import { handleError } from "../../shared/commonFunction";
 function LeftInfoBar() {
   const { myProjectId } = useParams();
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ function LeftInfoBar() {
       .then((res) => {
         setProjectData(res.data.result);
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   return (

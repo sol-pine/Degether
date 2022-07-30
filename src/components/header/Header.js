@@ -26,13 +26,13 @@ export function Header() {
 }
 
 const MainContainer = styled.div`
-  width: 1888px;
+  width: 100%;
   height: 180px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
   top: 0px;

@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { editProject } from "../../redux/ProjectSlice";
 import { SERVER_URL } from "../../shared/api";
-
+import { handleError } from "../../shared/commonFunction";
 function Admin(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -105,7 +105,7 @@ function Admin(props) {
         console.log(res.data.result);
         setFileStatus(true);
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   };
 
   function removeFile() {

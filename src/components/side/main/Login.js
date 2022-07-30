@@ -7,7 +7,7 @@ function Login() {
     <>
       <MainContainer>
         <p>LOGIN</p>
-        <LoginImg src="/img/Degether.png" alt="login image" />
+        <LoginImg src="/img/degether.png" alt="login image" />
         <KakaoBtn />
         <GoogleBtn />
         <NaverBtn />
@@ -20,12 +20,14 @@ export default Login;
 const MainContainer = styled.div`
   box-sizing: border-box;
   width: 453px;
-  height: 1500px;
+  height: 100%;
   background-color: #09120e;
+  position: fixed;
+  top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 3;
+  z-index: 1;
   p {
     width: 125px;
     height: 22px;

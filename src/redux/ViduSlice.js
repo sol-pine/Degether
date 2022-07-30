@@ -5,6 +5,7 @@ import {
   OPENVIDU_SERVER_URL,
   SERVER_URL,
 } from "../shared/api";
+import { handleError } from "../shared/commonFunction";
 
 // 세션 생성
 export const createSession = createAsyncThunk(
@@ -23,7 +24,7 @@ export const createSession = createAsyncThunk(
       .then((res) => {
         console.log("CREATE SESSION", res.data.id);
       })
-      .catch((e) => console.log(e));
+      .catch((error) => handleError(error));
   }
 );
 
@@ -47,7 +48,8 @@ export const createViduToken = createAsyncThunk(
       .then((res) => {
         console.log(res.data.token);
         localStorage.setItem("viduToken", res.data.token);
-      });
+      })
+      .catch((error) => handleError(error));
   }
 );
 

@@ -1,12 +1,13 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { SERVER_URL } from "../shared/api";
+import { handleError } from "../shared/commonFunction";
 
 export const getChat = createAsyncThunk("GET/getChat", async (myProjectId) => {
   return await axios
     .get(`${SERVER_URL}/chat/message/${myProjectId}`)
     .then((response) => response.data)
-    .catch((error) => console.error(error));
+    .catch((error) => handleError(error));
 });
 
 const ChatSlice = createSlice({

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { SERVER_URL } from "../../../shared/api";
 import Spinner from "../../Spinner";
 import { useNavigate } from "react-router-dom";
+import { handleError } from "../../../shared/commonFunction";
 
 function Myproject() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ function Myproject() {
           setMyProjectList(res.data.result);
         }
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   return (
@@ -65,8 +66,10 @@ export default Myproject;
 const MainContainer = styled.div`
   box-sizing: border-box;
   width: 453px;
-  height: 1500px;
+  height: 100%;
   background-color: #09120e;
+  position: fixed;
+  top: 0px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -8,6 +8,7 @@ import Video from "./Video";
 import { createSession, createViduToken } from "../../redux/ViduSlice";
 import axios from "axios";
 import { SERVER_URL } from "../../shared/api";
+import { handleError } from "../../shared/commonFunction";
 
 function Vidu() {
   const dispatch = useDispatch();
@@ -236,7 +237,8 @@ function Vidu() {
       })
       .then((res) => {
         console.log(res);
-      });
+      })
+      .catch((error) => handleError(error));
   };
   const stopRecording = () => {
     axios
@@ -254,7 +256,8 @@ function Vidu() {
       )
       .then((res) => {
         console.log(res);
-      });
+      })
+      .catch((error) => handleError(error));
   };
 
   console.log(publisher, subscribers);

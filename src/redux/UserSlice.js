@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { SERVER_URL } from "../shared/api";
+import { handleError } from "../shared/commonFunction";
 
 // 마이페이지 정보 받아오기
 export const getUserInfo = createAsyncThunk("GET/getUserInfo", async () => {
@@ -14,7 +15,7 @@ export const getUserInfo = createAsyncThunk("GET/getUserInfo", async () => {
       console.log(response);
       return response.data.result;
     })
-    .catch((error) => console.error(error.message));
+    .catch((error) => handleError(error));
 });
 // 마이페이지 유저 정보 편집
 export const editUser = createAsyncThunk("PUT/editUser", async (formData) => {
@@ -29,7 +30,7 @@ export const editUser = createAsyncThunk("PUT/editUser", async (formData) => {
       alert("프로필 정보가 변경되었습니다.");
       window.location.replace("");
     })
-    .catch((error) => console.error(error.message));
+    .catch((error) => handleError(error));
 });
 
 const UserSlice = createSlice({
