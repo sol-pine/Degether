@@ -7,13 +7,13 @@ import { Header } from "../components/header/Header";
 import UserSidebar from "../components/side/project/UserSidebar";
 import Spinner from "../components/Spinner";
 import { getProjectDetails } from "../redux/ProjectSlice";
-
+import ChatSide from "../components/side/chat/ChatSide";
 function Adminpage() {
   const dispatch = useDispatch();
   const details = useSelector((state) => state.Project.detail);
   const file = useSelector((state) => state.Project.file);
   const { myProjectId } = useParams();
-
+  const chat = useSelector((state) => state.Chat.projectChat);
   useEffect(() => {
     dispatch(getProjectDetails(myProjectId));
   }, []);
@@ -31,7 +31,7 @@ function Adminpage() {
         <Suspense fallback={<Spinner />}>
           <Admin details={details} file={file} />
         </Suspense>
-        <UserSidebar />
+        {chat ? <ChatSide /> : <UserSidebar />}
       </Container>
     </Wrapper>
   );

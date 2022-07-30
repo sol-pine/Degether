@@ -2,6 +2,7 @@ import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 import { SERVER_URL } from "../../../shared/api";
+import { handleError } from "../../../shared/commonFunction";
 
 function MypageSide() {
   const WithdrawMember = () => {
@@ -17,8 +18,11 @@ function MypageSide() {
       )
       .then((res) => {
         console.log(res.data);
+        localStorage.removeItem("token");
+        window.location.replace("/");
       })
-      .catch((error) => console.error(error.message));
+
+      .catch((error) => handleError(error));
   };
   return (
     <MypageSideBar>
@@ -29,6 +33,7 @@ function MypageSide() {
       <button
         onClick={() => {
           WithdrawMember();
+          window.location.replace("/");
         }}
       >
         회원 탈퇴
@@ -41,7 +46,7 @@ export default MypageSide;
 const MypageSideBar = styled.div`
   box-sizing: border-box;
   width: 453px;
-  height: 2000px;
+  height: 100%;
   background: #efefef;
   display: flex;
   flex-direction: column;
@@ -49,8 +54,9 @@ const MypageSideBar = styled.div`
   margin-left: 20px;
   z-index: 1;
   position: fixed;
-  top: 180px;
-
+  top: 0px;
+  padding-top: 180px;
+  /* position: absolute; */
   margin-left: 1450px;
   button {
     width: 98px;

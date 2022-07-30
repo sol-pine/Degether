@@ -94,7 +94,6 @@ function Profile(props) {
       )
     );
     formData.append("file", thumbnail);
-    console.log(thumbnail);
     dispatch(editUser(formData));
   }
   if (!thumbnail) {

@@ -3,6 +3,7 @@ import React, { lazy, Suspense, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { SERVER_URL } from "../../../shared/api";
+import { handleError } from "../../../shared/commonFunction";
 import Spinner from "../../Spinner";
 
 const Applicant = lazy(() => {
@@ -28,7 +29,7 @@ function Applicants() {
           setApplicantsData(res.data.result.applyUser);
         }
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
 
   return (

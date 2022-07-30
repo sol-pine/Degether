@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-
-import { SERVER_URL } from "../shared/api";
+import { useSelector } from "react-redux";
 import axios from "axios";
+import { SERVER_URL } from "../shared/api";
 import LeftInfoBar from "../components/common/LeftInfoBar";
 import NoteDetail from "../components/project_page/NoteDetail";
 import { Header } from "../components/header/Header";
 import UserSidebar from "../components/side/project/UserSidebar";
+import ChatSide from "../components/side/chat/ChatSide";
 
 function MeetingNote() {
   const { myProjectId } = useParams();
   const [notes, setNotes] = useState([]);
   const [note, setNote] = useState();
-
+  const chat = useSelector((state) => state.Chat.projectChat);
   useEffect(() => {
     axios
       .get(`${SERVER_URL}/api/meetingNotes/` + myProjectId, {
@@ -59,7 +60,7 @@ function MeetingNote() {
           <NoteDetail note={note} />
           {/* {note != null ? <NoteDetail note ={note} /> : null} */}
         </NoteDetailContainer>
-        <UserSidebar />
+        {chat ? <ChatSide /> : <UserSidebar />}
       </Container>
     </div>
   );

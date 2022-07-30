@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { SERVER_URL } from "../shared/api";
+import { handleError } from "../shared/commonFunction";
 
 // 프로젝트 생성하기
 export const addProject = createAsyncThunk(
@@ -14,9 +15,19 @@ export const addProject = createAsyncThunk(
         },
       })
       .then((response) => console.log(response.data.result))
-      .catch((error) => console.error(error.message));
+      .catch((error) => console.error(error.toJson()));
   }
 );
+// addProject.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response && error.response.status === 420) {
+//       localStorage.removeItem("token");
+//     } else if (error.response && error.response.status === 423) {
+//       console.log("423");
+//     }
+//   }
+// );
 
 // 프로젝트 리스트 받아오기
 export const getProject = createAsyncThunk("GET/getProject", async (args) => {
@@ -35,7 +46,7 @@ export const getProject = createAsyncThunk("GET/getProject", async (args) => {
       },
     })
     .then((response) => response.data.result)
-    .catch((error) => console.error(error.message));
+    .catch((error) => handleError(error));
 });
 
 // 프로젝트 리스트 무한스크롤
@@ -57,7 +68,7 @@ export const getProjectPage = createAsyncThunk(
         },
       })
       .then((res) => res.data.result.list)
-      .catch((e) => console.err(e));
+      .catch((error) => handleError(error));
   }
 );
 // 프로젝트 상세 보기
@@ -85,7 +96,7 @@ export const interestedProject = createAsyncThunk(
         }
       )
       .then((res) => res.data)
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
     return res.data;
   }
 );
@@ -103,7 +114,7 @@ export const applyProject = createAsyncThunk(
         }
       )
       .then((res) => res.data)
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
     return res.data;
   }
 );
@@ -120,9 +131,7 @@ export const editProject = createAsyncThunk("PUT/editProject", async (args) => {
       console.log("Edit ", res.data);
       alert("프로젝트 수정이 완료되었습니다.");
     })
-    .catch((error) => {
-      console.error(error.message);
-    });
+    .catch((error) => handleError(error));
 });
 const ProjectSlice = createSlice({
   name: "ProjectSlice",

@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import styled from "styled-components";
 import Spinner from "../Spinner";
+import SortTag from "./SortTag";
 
 function CardGrid() {
   const Card = lazy(() => {
@@ -13,6 +14,7 @@ function CardGrid() {
   return (
     <>
       <MainContainer>
+        <SortTag />
         <Grid>
           <Suspense fallback={<Spinner />}>
             <Card />
@@ -25,10 +27,10 @@ function CardGrid() {
 export default CardGrid;
 
 const MainContainer = styled.div`
-  width: 76%;
+  width: 1435px;
   display: flex;
   justify-content: center;
-  margin-top: 244px;
+  margin-top: 200px;
 `;
 const Grid = styled.div`
   min-width: 1365px;

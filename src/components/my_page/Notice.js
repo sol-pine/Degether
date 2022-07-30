@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SERVER_URL } from "../../shared/api";
+import { handleError } from "../../shared/commonFunction";
 
 function Notice() {
   const [noticeList, setNoticeList] = useState(null);
@@ -13,7 +14,7 @@ function Notice() {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => setNoticeList(response.data.result))
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }, []);
   // 알림 확인 처리
   function okayNotice(notificationId) {
@@ -22,7 +23,7 @@ function Notice() {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => window.location.replace(""))
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }
   // 알림 삭제
   function deleteNotice(notificationId) {
@@ -31,9 +32,8 @@ function Notice() {
         headers: { Authorization: localStorage.getItem("token") },
       })
       .then((response) => window.location.replace(""))
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }
-
   return (
     <>
       <Link name="notice" />
@@ -55,7 +55,7 @@ function Notice() {
             </svg>
           </NoticeIconBox>
           <RightBox>
-            {/* {noticeList &&
+            {noticeList &&
               noticeList.map((item, index) => {
                 return (
                   <TextContainer key={index}>
@@ -85,7 +85,7 @@ function Notice() {
                     </MsgBox>
                   </TextContainer>
                 );
-              })} */}
+              })}
           </RightBox>
         </NoticeBoxWrap>
       </NoticeContainer>

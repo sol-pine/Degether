@@ -33,7 +33,7 @@ function SortTag() {
 export default SortTag;
 
 const MainContainer = styled.div`
-  width: 1888px;
+  width: 1435px;
   height: 60px;
   position: absolute;
   background: #d6e5d0;
