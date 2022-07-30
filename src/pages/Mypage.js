@@ -39,36 +39,43 @@ function Mypage() {
   }, []);
   return (
     <>
-      <Wrapper>
+      <MainContainer>
         <Header />
-        <MainContainer>
-          <ContentWrapper>
+        <ContentContainer>
+          <MainContentSection>
             <Suspense fallback={<Container></Container>}>
               <Profile myInfo={myInfo} />
               <Notice />
               <MyProject />
               <ZzimList />
             </Suspense>
-          </ContentWrapper>
-          <MypageSide />
-        </MainContainer>
-      </Wrapper>
+          </MainContentSection>
+          <SideContentSection>
+            <MypageSide />
+          </SideContentSection>
+        </ContentContainer>
+      </MainContainer>
     </>
   );
 }
 export default Mypage;
-const Wrapper = styled.div`
-  width: 100%;
-  overflow: auto;
-`;
 const MainContainer = styled.div`
   width: 1888px;
+  height: 100%;
   margin: 0 auto;
+`;
+const ContentContainer = styled.div`
+  width: 1888px;
+  height: 100%;
   display: flex;
 `;
-const ContentWrapper = styled.div`
+const MainContentSection = styled.section`
+  width: 1435px;
   display: flex;
   flex-direction: column;
+`;
+const SideContentSection = styled.section`
+  width: 453px;
 `;
 const Container = styled.div`
   width: 1371px;

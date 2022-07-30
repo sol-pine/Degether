@@ -22,7 +22,6 @@ const MainContainer = styled.div`
   width: 453px;
   height: 100%;
   background-color: #09120e;
-  position: fixed;
   top: 0px;
   display: flex;
   flex-direction: column;

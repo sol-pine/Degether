@@ -37,40 +37,59 @@ function MeetingNote() {
     console.log(notes);
   }
   return (
-    <div>
-      <Header />
-      <Container>
-        <LeftInfoBar />
-        <NoteList>
-          <NoteListNav>회의록</NoteListNav>
-          {notes.map((note, idx) => {
-            console.log(note);
-            return (
-              <div
-                className="noteList"
-                onClick={() => noteDetail(note)}
-                key={idx}
-              >
-                {note.title}
-              </div>
-            );
-          })}
-        </NoteList>
-        <NoteDetailContainer>
-          <NoteDetail note={note} />
-          {/* {note != null ? <NoteDetail note ={note} /> : null} */}
-        </NoteDetailContainer>
-        {chat ? <ChatSide /> : <UserSidebar />}
-      </Container>
-    </div>
+    <>
+      <MainContainer>
+        <Header />
+        <ContentContainer>
+          <MainContentSection>
+            <LeftInfoBar />
+            <NoteList>
+              <NoteListNav>회의록</NoteListNav>
+              {notes.map((note, idx) => {
+                console.log(note);
+                return (
+                  <div
+                    className="noteList"
+                    onClick={() => noteDetail(note)}
+                    key={idx}
+                  >
+                    {note.title}
+                  </div>
+                );
+              })}
+            </NoteList>
+            <NoteDetailContainer>
+              <NoteDetail note={note} />
+              {/* {note != null ? <NoteDetail note ={note} /> : null} */}
+            </NoteDetailContainer>
+          </MainContentSection>
+          <SideContentSection>
+            {chat ? <ChatSide /> : <UserSidebar />}
+          </SideContentSection>
+        </ContentContainer>
+      </MainContainer>
+    </>
   );
 }
 export default MeetingNote;
-const Container = styled.div`
+const MainContainer = styled.div`
   width: 1888px;
+  height: 100%;
   margin: 0 auto;
+`;
+const ContentContainer = styled.div`
+  width: 1888px;
+  height: 100%;
   display: flex;
 `;
+const MainContentSection = styled.section`
+  width: 1435px;
+  display: flex;
+`;
+const SideContentSection = styled.section`
+  width: 453px;
+`;
+
 const NoteList = styled.div`
   width: 150px;
   height: 580px;

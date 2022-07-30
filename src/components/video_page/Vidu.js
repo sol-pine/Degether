@@ -350,21 +350,17 @@ function Vidu() {
 
 export default Vidu;
 const Container = styled.div`
-  width: 1150px;
-  height: 1080px;
+  width: 1225px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-left: 240px;
-  margin-top: -650px;
+  margin-top: 250px;
 `;
 
 const ViduBox = styled.div`
   width: 1082px;
   height: 664px;
   border-radius: 10px;
-  margin-top: 40px;
   display: flex;
 `;
 const SubVidu = styled.div`
@@ -433,7 +429,6 @@ const MainVidu = styled.div`
     left: 49px;
     bottom: 49px;
   }
-
   img {
     width: 30.77px;
     height: 30.96px;
@@ -463,7 +458,7 @@ const OffBtn = styled.button`
   width: 55px;
   height: 55px;
   border-radius: 55px;
-  background: #cc0000;
+  background: #333;
   display: flex;
   justify-content: center;
   align-items: center;

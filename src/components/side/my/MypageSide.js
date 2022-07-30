@@ -26,18 +26,20 @@ function MypageSide() {
   };
   return (
     <MypageSideBar>
-      <Menu href="#profile">공개 프로필</Menu>
-      <Menu href="#notice">알림</Menu>
-      <Menu href="#myproject">참여 프로젝트</Menu>
-      <Menu href="#zzimproject">관심 프로젝트</Menu>
-      <button
-        onClick={() => {
-          WithdrawMember();
-          window.location.replace("/");
-        }}
-      >
-        회원 탈퇴
-      </button>
+      <MenuWrapper>
+        <Menu href="#profile">공개 프로필</Menu>
+        <Menu href="#notice">알림</Menu>
+        <Menu href="#myproject">참여 프로젝트</Menu>
+        <Menu href="#zzimproject">관심 프로젝트</Menu>
+        <MyButton
+          onClick={() => {
+            WithdrawMember();
+            window.location.replace("/");
+          }}
+        >
+          회원 탈퇴
+        </MyButton>
+      </MenuWrapper>
     </MypageSideBar>
   );
 }
@@ -51,29 +53,12 @@ const MypageSideBar = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 20px;
   z-index: 1;
-  position: fixed;
   top: 0px;
   padding-top: 180px;
-  /* position: absolute; */
-  margin-left: 1450px;
-  button {
-    width: 98px;
-    height: 33px;
-    background: #2f4a3b;
-    border-radius: 10px;
-    border: none;
-    border-radius: 10px;
-    color: #fff;
-    padding: 6px auto;
-    margin-top: 550px;
-    margin-left: 300px;
-    cursor: pointer;
-  }
 `;
 const Menu = styled.a`
-  width: 453px;
+  width: 300px;
   height: 35px;
   text-align: right;
   padding: 15px;
@@ -81,11 +66,35 @@ const Menu = styled.a`
   font-size: 22px;
   color: #000;
   margin-top: 20px;
-  margin-right: 40px;
+  margin-left: 80px;
   cursor: pointer;
   text-decoration: none;
   :hover {
     text-decoration: underline;
     text-underline-position: under;
   }
+`;
+const MenuWrapper = styled.div`
+  width: 453px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  position: fixed;
+`;
+const MyButton = styled.button`
+  width: 98px;
+  height: 33px;
+  background: #2f4a3b;
+  border-radius: 10px;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 550px;
+  margin-left: 300px;
+  cursor: pointer;
 `;

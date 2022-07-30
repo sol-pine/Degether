@@ -60,5 +60,4 @@ const MainContentSection = styled.section`
 `;
 const SideContentSection = styled.section`
   width: 453px;
-  background: blue;
 `;

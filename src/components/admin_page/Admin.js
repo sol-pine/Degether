@@ -11,7 +11,7 @@ function Admin(props) {
   const dispatch = useDispatch();
   const details = props.details;
   const file = props.file;
-  console.log(details);
+
   const { myProjectId } = useParams();
 
   const [name, setName] = useState("");
@@ -38,18 +38,6 @@ function Admin(props) {
   const [deCount, setDeCount] = useState(0);
   const [github, setGithub] = useState("");
   const [figma, setFigma] = useState("");
-
-  //   // 프로젝트 타입
-  //   let result = [];
-  //   const query = 'input[name="type"]:checked';
-  //   const handleType = (e) => {
-  //     result = [];
-  //     const selectedEls = document.querySelectorAll(query);
-  //     selectedEls.forEach((el) => {
-  //       let a = result.push(el.defaultValue);
-  //       setType(result);
-  //     });
-  //   };
 
   // 개발 언어
   let result = [];

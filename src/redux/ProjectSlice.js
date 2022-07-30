@@ -164,7 +164,7 @@ const ProjectSlice = createSlice({
   },
   extraReducers: {
     [addProject.fulfilled]: (state, action) => {
-      // window.location.replace("/");
+      window.location.replace("/");
     },
     [getProject.fulfilled]: (state, action) => {
       state.list = [...action.payload.list];

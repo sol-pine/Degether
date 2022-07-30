@@ -24,29 +24,40 @@ function Adminpage() {
     ]).then(([moduleExports]) => moduleExports);
   });
   return (
-    <Wrapper>
-      <Header />
-      <Container>
-        <LeftInfoBar />
-        <Suspense fallback={<Spinner />}>
-          <Admin details={details} file={file} />
-        </Suspense>
-        {chat ? <ChatSide /> : <UserSidebar />}
-      </Container>
-    </Wrapper>
+    <>
+      <MainContainer>
+        <Header />
+        <ContentContainer>
+          <MainContentSection>
+            <LeftInfoBar />
+            <Suspense fallback={<Spinner />}>
+              <Admin details={details} file={file} />
+            </Suspense>
+          </MainContentSection>
+          <SideContentSection>
+            {chat ? <ChatSide /> : <UserSidebar />}
+          </SideContentSection>
+        </ContentContainer>
+      </MainContainer>
+    </>
   );
 }
 
 export default Adminpage;
-const Wrapper = styled.div`
-  width: 100%;
-  overflow: auto;
-`;
-const Container = styled.div`
-  width: 1920px;
-  height: 1080px;
-  display: flex;
+const MainContainer = styled.div`
+  width: 1888px;
+  height: 100%;
   margin: 0 auto;
-  position: relative;
-  overflow-y: hidden;
+`;
+const ContentContainer = styled.div`
+  width: 1888px;
+  height: 100%;
+  display: flex;
+`;
+const MainContentSection = styled.section`
+  width: 1435px;
+  display: flex;
+`;
+const SideContentSection = styled.section`
+  width: 453px;
 `;
