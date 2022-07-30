@@ -115,6 +115,7 @@ const MemberBoxOutline = styled.div`
   justify-content: center;
   border: 0.5px solid #efefef;
   border-radius: 10px;
+  position: relative;
 `;
 const MemberBox = styled.div`
   width: 160px;
@@ -144,7 +145,7 @@ const MemberBox = styled.div`
 `;
 const LeaderIcon = styled.img`
   position: absolute;
-  left: 25px;
+  left: 10px;
 `;
 
 const MemberBoxGray = styled.div`

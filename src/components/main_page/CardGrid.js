@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from "react";
+
 import styled from "styled-components";
+
 import Spinner from "../Spinner";
 import SortTag from "./SortTag";
 

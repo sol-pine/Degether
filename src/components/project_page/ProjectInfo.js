@@ -55,19 +55,18 @@ function ProjectInfo({ projectDetails }) {
 }
 export default ProjectInfo;
 const Container = styled.div`
-  width: 1250px;
-  height: 1080px;
+  width: 1225px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 250px;
 `;
 const Title = styled.div`
-  width: 1082px;
+  width: 800px;
   height: 70px;
   background: #efefef;
   border-radius: 10px;
-  margin-top: 250px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,7 +75,7 @@ const Title = styled.div`
   color: #000;
 `;
 const InfoWrapper = styled.div`
-  width: 1082px;
+  width: 800px;
   height: 590px;
   border: 1px solid #d6e5d0;
   border-radius: 10px;
@@ -93,8 +92,6 @@ const InformationList = styled.div`
   width: 660px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
-  padding: 20px;
   margin-top: 50px;
   margin-left: 60px;
   p {

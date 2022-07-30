@@ -81,4 +81,8 @@ export function handleError(error) {
     localStorage.removeItem("token");
     window.location.replace("/");
   }
+  // 프로젝트 생성, 수정 오류 안내
+  if (error.response.status === 450) {
+    alert(error.response.data);
+  }
 }

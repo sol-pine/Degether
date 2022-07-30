@@ -26,26 +26,39 @@ function Projectpage() {
   });
   return (
     <>
-      <ProjectWrapper>
+      <MainContainer>
         <Header />
-        <MainContainer>
-          <LeftInfoBar />
-          <Suspense fallback={<Spinner />}>
-            <ProjectInfo projectDetails={projectDetails} />
-          </Suspense>
-          {chat ? <ChatSide /> : <UserSidebar />}
-        </MainContainer>
-      </ProjectWrapper>
+        <ContentContainer>
+          <MainContentSection>
+            <LeftInfoBar />
+            <Suspense fallback={<Spinner />}>
+              <ProjectInfo projectDetails={projectDetails} />
+            </Suspense>
+          </MainContentSection>
+          <SideContentSection>
+            {chat ? <ChatSide /> : <UserSidebar />}
+          </SideContentSection>
+        </ContentContainer>
+      </MainContainer>
     </>
   );
 }
 export default Projectpage;
-const ProjectWrapper = styled.div`
-  width: 100%;
-  overflow: auto;
-`;
 const MainContainer = styled.div`
   width: 1888px;
+  height: 100%;
   margin: 0 auto;
+`;
+const ContentContainer = styled.div`
+  width: 1888px;
+  height: 100%;
   display: flex;
+`;
+const MainContentSection = styled.section`
+  width: 1435px;
+  display: flex;
+`;
+const SideContentSection = styled.section`
+  width: 453px;
+  background: blue;
 `;

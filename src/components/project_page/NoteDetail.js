@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { SERVER_URL, token } from "../../shared/api";
 import axios, { Axios } from "axios";
+import { handleError } from "../../shared/commonFunction";
 const NoteDetail = (props) => {
   const [note, setNote] = useState();
   const [utterances, setUtterances] = useState([]);
@@ -28,7 +29,7 @@ const NoteDetail = (props) => {
           console.log(res);
           setUtterances(res.data.result);
         })
-        .catch((e) => console.log(e.message));
+        .catch((error) => handleError(error));
     }
   }, [note]);
   const onPlaying = () => {

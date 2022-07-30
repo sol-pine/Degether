@@ -67,7 +67,7 @@ function LeftInfoBar() {
 }
 export default LeftInfoBar;
 const Container = styled.div`
-  width: 212px;
+  width: 210px;
   height: 400px;
   background: #2f4a3b;
   margin-top: 150px;
@@ -77,7 +77,7 @@ const Container = styled.div`
   gap: 20px;
 `;
 const ProjectNav = styled.div`
-  width: 212px;
+  width: 210px;
   height: 42px;
   font-weight: 400;
   font-size: 22px;

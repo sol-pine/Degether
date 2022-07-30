@@ -124,7 +124,7 @@ function Admin(props) {
       .then((res) => {
         console.log(res);
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   }
 
   function submit() {
@@ -171,7 +171,7 @@ function Admin(props) {
       .then((res) => {
         navigate("/");
       })
-      .catch((error) => console.error(error.message));
+      .catch((error) => handleError(error));
   };
   return (
     <div>

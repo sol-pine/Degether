@@ -38,7 +38,7 @@ function ImgUpload() {
       >
         {changeThumbnail ? (
           <ThumbnailHover>
-            <label for="thumbnailUpload">
+            <label htmlFor="thumbnailUpload">
               <UploadIcon src="/img/upload.svg" alt="upload icon" />
             </label>
           </ThumbnailHover>

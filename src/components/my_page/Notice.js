@@ -129,8 +129,9 @@ const NoticeIconBox = styled.div`
 `;
 const RightBox = styled.div`
   width: 940px;
-  height: 788px;
+  height: 431px;
   overflow-y: auto;
+  overflow-x: hidden;
 `;
 const TextContainer = styled.div`
   width: 908px;
@@ -151,6 +152,7 @@ const MsgBox = styled.div`
   align-items: center;
   padding: 10px 0;
   position: relative;
+
   p {
     margin-left: 16px;
     &.bold {

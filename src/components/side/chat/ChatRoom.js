@@ -177,7 +177,7 @@ const MsgContainer = styled.div`
   padding: 20px;
   overflow: auto;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 `;
 const ChatContainer = styled.div`
   display: flex;

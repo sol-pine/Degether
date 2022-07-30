@@ -63,7 +63,7 @@ function ProjectInputBox() {
       figma: figma,
       deadLine: deadline,
       language: result,
-      genre: type,
+      genre: [type],
       step: step,
     };
     const formData = new FormData();
@@ -94,7 +94,7 @@ function ProjectInputBox() {
             <ProjectInput
               type="text"
               className="one"
-              placeholder="프로젝트 이름을 25자 이내로 입력해주세요"
+              placeholder="프로젝트 이름을 2글자 이상, 50글자 이하로 입력해주세요."
               maxLength="25"
               onChange={(e) => setName(e.target.value)}
             />

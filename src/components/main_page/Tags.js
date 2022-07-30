@@ -55,6 +55,7 @@ export function TypeTag() {
               onClick={() => {
                 dispatch(setType(String(item)));
                 dispatch(getProject({ sorted: "createdDate", genre: item }));
+                dispatch(openSearchButton(false));
               }}
             >
               {item}

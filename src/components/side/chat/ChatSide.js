@@ -22,14 +22,13 @@ export default ChatSide;
 const Container = styled.div`
   box-sizing: border-box;
   width: 453px;
-  min-height: 900px;
+  height: 1800px;
   background-color: #09120e;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 180px;
-  margin-left: 1435px;
-  position: fixed;
+  padding-top: 180px;
+  top: 0px;
   z-index: 3;
 `;
 const BtnWrapper = styled.div`

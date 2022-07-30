@@ -15,19 +15,9 @@ export const addProject = createAsyncThunk(
         },
       })
       .then((response) => console.log(response.data.result))
-      .catch((error) => console.error(error.toJson()));
+      .catch((error) => handleError(error));
   }
 );
-// addProject.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     if (error.response && error.response.status === 420) {
-//       localStorage.removeItem("token");
-//     } else if (error.response && error.response.status === 423) {
-//       console.log("423");
-//     }
-//   }
-// );
 
 // 프로젝트 리스트 받아오기
 export const getProject = createAsyncThunk("GET/getProject", async (args) => {
@@ -174,7 +164,7 @@ const ProjectSlice = createSlice({
   },
   extraReducers: {
     [addProject.fulfilled]: (state, action) => {
-      window.location.replace("/");
+      // window.location.replace("/");
     },
     [getProject.fulfilled]: (state, action) => {
       state.list = [...action.payload.list];

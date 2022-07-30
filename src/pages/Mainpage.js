@@ -1,5 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { MainHeader } from "../components/header/Header";
 import CardGrid from "../components/main_page/CardGrid";
@@ -11,6 +11,7 @@ import { Outlet } from "react-router-dom";
 function Mainpage() {
   const token = localStorage.getItem("token");
   const searchButton = useSelector((state) => state.Project.searchButton);
+
   return (
     <MainContainer>
       <MainHeader />
@@ -43,5 +44,5 @@ const MainContentSection = styled.section`
   width: 1435px;
 `;
 const SideContentSection = styled.section`
-  width: 1435px;
+  width: 453px;
 `;
