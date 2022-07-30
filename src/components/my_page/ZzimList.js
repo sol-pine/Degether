@@ -49,7 +49,6 @@ const GrayLineBox = styled.div`
   border: 1px solid #efefef;
   border-radius: 10px;
   display: flex;
-  overflow-y: auto;
 `;
 const Title = styled.div`
   width: 431px;
@@ -68,6 +67,8 @@ const CardGridContainer = styled.div`
   width: 940px;
   display: flex;
   justify-content: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 const CardGrid = styled.div`
   min-width: 940px;

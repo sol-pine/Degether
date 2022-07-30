@@ -48,13 +48,13 @@ function Myproject() {
           <p>나의 프로젝트</p>
         </MyProjectText>
         <Suspense fallback={<Spinner />}>
-          {myProjectList ? (
-            <MyProjectThumbnail myProjectList={myProjectList} />
-          ) : (
+          {!myProjectList ? (
             <WelcomMsg>
               참여 중인 프로젝트가 없습니다! <br />
               관심있는 프로젝트를 찾아 참여해보세요😊
             </WelcomMsg>
+          ) : (
+            <MyProjectThumbnail myProjectList={myProjectList} />
           )}
         </Suspense>
       </MainContainer>

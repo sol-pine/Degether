@@ -5,6 +5,7 @@ function Video(props) {
 
   useEffect(() => {
     setStreamManager(streamManager.addVideoElement(videoRef.current));
+    console.log(videoRef.current);
   }, []);
   useEffect(() => {}, [streamManager]);
 

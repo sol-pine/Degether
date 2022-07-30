@@ -9,7 +9,7 @@ import { createSession, createViduToken } from "../../redux/ViduSlice";
 import axios from "axios";
 import { SERVER_URL } from "../../shared/api";
 import { handleError } from "../../shared/commonFunction";
-
+import { useBeforeunload } from "react-beforeunload";
 function Vidu() {
   const dispatch = useDispatch();
   const viduToken = useSelector((state) => state.Vidu.viduToken);
@@ -22,10 +22,17 @@ function Vidu() {
   const [mic, setMic] = useState(false);
   const [publisher, setPublisher] = useState(null);
   const [subscribers, setSubscribers] = useState([]);
+  const [mainCam, setMainCam] = useState(null);
   let _subscribers = [];
-
+  let _sessionCreated = false;
   const localUser = new userModel();
+  localUser.setVideoActive(true);
+  localUser.setAudioActive(false);
   const userInfo = useSelector((state) => state.User.userInfo);
+
+  useBeforeunload((event) => {
+    leaveSession();
+  });
 
   // 1 joinSession => openvidu 객체 생성
   // 2 setSession(OV.initSession())
@@ -39,11 +46,11 @@ function Vidu() {
 
   // JOIN SESSION ====> OV 객체 생성, 미디어 연결
   useEffect(() => {
+    leaveSession();
     navigator.mediaDevices
       .getUserMedia({ audio: true, video: true })
       .then((stream) => {
-        console.log("연결 완료! ====> stream", stream);
-        console.log("JOIN SESSION ====> OV", OV);
+        // console.log("setOV");
         setOV(new OpenVidu());
       })
       .catch((e) => {
@@ -51,30 +58,26 @@ function Vidu() {
       });
   }, []);
 
-  // JOIN SESSION
-  const joinSession = () => {
-    setOV(new OpenVidu());
-  };
-
   // SET SESSION ===> 세션 초기화 (OV 생성 후 실행)
   useEffect(() => {
     if (OV != null) {
       // ** enableProdMode() : Disable all logging except error level / Returns void
       OV.enableProdMode();
       // ** initSession() 세션 초기화 : Returns new session / Returns Session
-      console.log("SET SESSION");
+      // console.log("SET SESSION");
+      console.log(session);
       setSession(OV.initSession());
     }
   }, [OV]);
 
   // Subscriber 등록 / GET TOKEN (CREATE SESSION, CREATE TOKEN) ===> 세션 생성, 토큰 생성
   useEffect(() => {
-    console.log("SESSION ====> session", session);
+    // console.log("useEffect session", session);
     if (session != null) {
-      console.log(session);
       session.on("streamCreated", (event) => {
         //Stream Created
         const tempSubscribers = [..._subscribers];
+        console.log(tempSubscribers);
         tempSubscribers.push(session.subscribe(event.stream, undefined));
         setSubscribers(tempSubscribers);
         _subscribers = tempSubscribers;
@@ -82,12 +85,18 @@ function Vidu() {
       });
       session.on("streamDestroyed", (event) => {
         //Stream Destroyed
-        const index = subscribers.indexOf(event.stream.streamManager, 0);
-        let tempSubscribers = [...subscribers];
+        let tempSubscribers = [..._subscribers];
+        // console.log(event.stream.streamManager);
+        console.log(tempSubscribers);
+        const index = tempSubscribers.indexOf(event.stream.streamManager, 0);
+        console.log(index);
         if (index > -1) {
           tempSubscribers.splice(index, 1);
         }
         setSubscribers(tempSubscribers);
+        _subscribers = tempSubscribers;
+        console.log(tempSubscribers);
+        console.log(_subscribers);
         console.warn("Stream Destroyed");
       });
 
@@ -97,25 +106,35 @@ function Vidu() {
           console.warn("Stream " + stream.streamId + " disconnected!");
         }
         //exception
-        console.log("exception");
+        // console.log("exception");
         console.log(event);
       });
 
       getToken();
+      _sessionCreated = true;
     }
+    return () => {
+      if (_sessionCreated) {
+        // console.log(session);
+        leaveSession();
+        // console.log("destroy");
+      }
+    };
   }, [session]);
 
   // GET TOKEN (CREATE SESSION, CREATE TOKEN)
   const getToken = () => {
-    dispatch(createSession(myProjectId));
-    dispatch(createViduToken(myProjectId));
+    // console.log("getToken");
+    dispatch(createSession(myProjectId)).then((res) => {
+      dispatch(createViduToken(myProjectId));
+    });
   };
 
   // TOKEN 이 있으면 SESSION CONNECT, Device 연결
   useEffect(() => {
-    console.log("useEffect token", viduToken);
+    // console.log("useEffect token", viduToken);
     if (viduToken != null && session != null) {
-      console.log("CONNECT!");
+      // console.log("CONNECT!");
       session
         .connect(viduToken, { clientData: nickname })
         .then(async () => {
@@ -128,7 +147,7 @@ function Vidu() {
             OV.initPublisher(undefined, {
               audioSource: undefined, // The source of audio. If undefined default microphone
               videoSource: undefined, // The source of video. If undefined default webcam
-              publishAudio: false, // Whether you want to start publishing with your audio unmuted or not
+              publishAudio: localUser.isAudioActive(), // Whether you want to start publishing with your audio unmuted or not
               publishVideo: localUser.isVideoActive(), // Whether you want to start publishing with your video enabled or not
               resolution: "640x480", // The resolution of your video
               frameRate: 30, // The frame rate of your video
@@ -150,7 +169,9 @@ function Vidu() {
   // 세션 연결
   useEffect(() => {
     if (publisher != null) {
+      // console.log("session publish");
       session.publish(publisher);
+      setMainCam(publisher);
     }
   }, [publisher]);
 
@@ -160,11 +181,13 @@ function Vidu() {
     localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
     setCam(localUser.isVideoActive());
-    console.log(localUser.isVideoActive());
+    // console.log(localUser.isVideoActive());
   }
   // 마이크 상태 변경 (on & off)
   function micStatusChanged() {
+    console.log(localUser.isAudioActive());
     localUser.setAudioActive(!localUser.isAudioActive());
+    console.log(localUser.isAudioActive());
     localUser.getStreamManager().publishAudio(localUser.isAudioActive());
     setMic(localUser.isAudioActive());
     console.log(localUser.isAudioActive());
@@ -214,7 +237,9 @@ function Vidu() {
 
   // LEAVE SESSION
   const leaveSession = () => {
+    console.log("leaveSession");
     if (session) {
+      console.log("session disconnect", session);
       session.disconnect();
     }
     setOV(null);
@@ -259,8 +284,29 @@ function Vidu() {
       })
       .catch((error) => handleError(error));
   };
+  // const switchCamera = (sub) => {
+  //   console.log(mainCam);
+  //   // console.log(index);
+  //   const tempSubscribers = [..._subscribers];
+  //   console.log(tempSubscribers);
+  //   // console.log(tempSubscribers);
+  //   // const tempMainCam = mainCam;
+  //   // setMainCam(sub);
+  //   // const index = _subscribers.indexOf(sub, 0);
+  //   // let tempSubscribers = [..._subscribers];
+  //   // if (index > -1) {
+  //   //   tempSubscribers.splice(index, 1,tempMainCam );
+  //   // }
+  //   // setSubscribers(tempSubscribers);
+  //   // _subscribers = tempSubscribers;
+  //   // console.log(index);
+  //   // console.log(_subscribers);
+  //   // console.log(tempSubscribers);
+  //   // console.log("Switch Camera");
+  // }
 
-  console.log(publisher, subscribers);
+  console.log("Subscribers", subscribers);
+  console.log("Pub", publisher);
   return (
     <>
       <Container>
@@ -270,13 +316,13 @@ function Vidu() {
               <MemberGrid>
                 {subscribers.map((sub, idx) => {
                   return (
-                    <div className="member" key={idx}>
+                    <div className="member" key={sub.stream.streamId}>
                       <Video streamManager={sub} />
                     </div>
                   );
                 })}
                 {Array.from({ length: 8 - subscribers.length }, (item, i) => {
-                  return <div className="member"></div>;
+                  return <div className="member" key={i}></div>;
                 })}
               </MemberGrid>
             </section>
@@ -326,20 +372,24 @@ function Vidu() {
                   <img src="/img/cam.svg" alt="cam control" />
                 </OffBtn>
               )}
-              <button
+              <OnBtn
                 onClick={() => {
                   startRecording();
+                  alert("녹음이 시작되었습니다.");
                 }}
               >
-                start recording
-              </button>
-              <button
+                RECORD <br />
+                ON
+              </OnBtn>
+              <OnBtn
                 onClick={() => {
                   stopRecording();
+                  alert("녹음이 종료되었습니다.");
                 }}
               >
-                stop recording
-              </button>
+                RECORD <br />
+                OFF
+              </OnBtn>
             </div>
           </MainVidu>
         </ViduBox>
@@ -393,7 +443,7 @@ const SubVidu = styled.div`
   .member {
     width: 136px;
     height: 136px;
-    background: #efefef;
+    background: #ddd;
     border-radius: 10px;
     margin-bottom: 16px;
   }
@@ -408,7 +458,7 @@ const MainVidu = styled.div`
   width: 758px;
   height: 663px;
   margin-left: 28px;
-  background: #000;
+  background: #ddd;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -417,7 +467,7 @@ const MainVidu = styled.div`
   video {
     width: 700px;
     height: 600px;
-    background: #09120e;
+    background: #ddd;
     border-radius: 10px;
   }
   div {
@@ -453,6 +503,8 @@ const OnBtn = styled.button`
   border: none;
   cursor: pointer;
   margin-right: 17px;
+  font-size: 12px;
+  line-height: 12px;
 `;
 const OffBtn = styled.button`
   width: 55px;

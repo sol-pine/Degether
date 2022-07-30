@@ -85,7 +85,7 @@ export const interestedProject = createAsyncThunk(
           },
         }
       )
-      .then((res) => res.data)
+      .then((res) => alert("관심 프로젝트로 등록되었습니다."))
       .catch((error) => handleError(error));
     return res.data;
   }
@@ -103,7 +103,7 @@ export const applyProject = createAsyncThunk(
           headers: { Authorization: localStorage.getItem("token") },
         }
       )
-      .then((res) => res.data)
+      .then((res) => alert("프로젝트 지원이 완료되었습니다."))
       .catch((error) => handleError(error));
     return res.data;
   }
