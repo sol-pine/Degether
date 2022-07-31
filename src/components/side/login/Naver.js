@@ -14,7 +14,8 @@ function NaverOAuthRedirectHandler() {
   useEffect(() => {
     axios
       .post(
-        `${SERVER_URL}/user/naver?code=${code}&redirectUrl=${REACT_APP_NAVER_REDIRECT_URL}/${REACT_APP_NAVER_STATE}`
+        `${SERVER_URL}/user/naver?code=${code}&redirectUrl=${REACT_APP_NAVER_REDIRECT_URL}
+        &state=${REACT_APP_NAVER_STATE}`
       )
       .then((response) => {
         const userId = response.data.result.userId;

@@ -8,6 +8,7 @@ function ProjectInputBox() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const thumbnail = useSelector((state) => state.Project.image);
+  console.log(thumbnail);
   // 프로젝트 데이터
   const [name, setName] = useState("");
   const [type, setType] = useState("");
@@ -117,8 +118,9 @@ function ProjectInputBox() {
                 return (
                   <div key={index}>
                     <Radio
+                      name="step"
                       type="radio"
-                      value={item}
+                      defaultValue={item}
                       onChange={(e) => setStep(e.target.value)}
                     />
                     <p>{item}</p>

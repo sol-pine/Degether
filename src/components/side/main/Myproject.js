@@ -9,7 +9,7 @@ import { handleError } from "../../../shared/commonFunction";
 function Myproject() {
   const navigate = useNavigate();
   const [myProjectList, setMyProjectList] = useState(null);
-
+  console.log(myProjectList);
   const MyProjectThumbnail = lazy(() => {
     return Promise.all([
       import("./MyProjectThumbnail"),

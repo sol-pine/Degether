@@ -11,7 +11,7 @@ function Admin(props) {
   const dispatch = useDispatch();
   const details = props.details;
   const file = props.file;
-
+  console.log(details);
   const { myProjectId } = useParams();
 
   const [name, setName] = useState("");
@@ -30,7 +30,7 @@ function Admin(props) {
   const languageList2 = ["Python", "TypeScript", "Kotlin", "Shell"];
   const [step, setStep] = useState("");
   const [description, setDescription] = useState("");
-  const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnail, setThumbnail] = useState("/img/default-card.png");
   const [deadline, setDeadline] = useState("");
 
   const [feCount, setFeCount] = useState(0);
@@ -128,7 +128,7 @@ function Admin(props) {
       figma: figma ? figma : details.figma,
       deadLine: deadline ? deadline : details.deadLine,
       language: language ? language : details.language,
-      genre: type ? type : details.genre,
+      genre: type ? [type] : details.genre,
       step: step ? step : details.step,
     };
     const formData = new FormData();
@@ -157,7 +157,7 @@ function Admin(props) {
         },
       })
       .then((res) => {
-        navigate("/");
+        window.location.href = "/";
       })
       .catch((error) => handleError(error));
   };
@@ -445,7 +445,14 @@ function Admin(props) {
               {imageSrc ? (
                 <Preview src={imageSrc} alt="미리보기 이미지" />
               ) : (
-                <Preview src={details.thumbnail} alt="기존 썸네일 이미지" />
+                <Preview
+                  src={
+                    details.thumbnail
+                      ? details.thumbnail
+                      : "/img/default-card.png"
+                  }
+                  alt="기존 썸네일 이미지"
+                />
               )}
             </section>
           </ImageBox>

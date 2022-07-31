@@ -9,7 +9,7 @@ function LogoBar() {
       <MainContainer>
         <LogoContainer>
           <Logo
-            src="/img/logo.svg"
+            src="/img/logo.png"
             alt="logo image"
             onClick={() => {
               window.location.replace("/");
@@ -37,5 +37,6 @@ const LogoContainer = styled.div`
 `;
 const Logo = styled.img`
   margin-left: 32px;
+  width: 45px;
   cursor: pointer;
 `;

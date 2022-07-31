@@ -75,7 +75,9 @@ const NoteDetail = (props) => {
         {utterances.map((item, idx) => {
           return (
             <div key={idx}>
-              <div onClick={() => playAudio(item)}>{item.msg}</div>
+              <RecordText onClick={() => playAudio(item)}>
+                {item.msg}
+              </RecordText>
 
               {item == utterance ? (
                 <input
@@ -107,4 +109,10 @@ const Container = styled.div`
   font-weight: 400;
   font-size: 18px;
   padding: 30px;
+`;
+const RecordText = styled.div`
+  :hover {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `;

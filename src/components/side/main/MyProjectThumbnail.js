@@ -6,8 +6,8 @@ function MyProjectThumbnail(props) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
   const myProjectList = props.myProjectList;
-  const TOTAL_SLIDES = myProjectList.length; // 전체 슬라이드 개수는 프로젝트 갯수만큼
-
+  const TOTAL_SLIDES = myProjectList.length - 1; // 전체 슬라이드 개수는 프로젝트 갯수만큼
+  console.log(TOTAL_SLIDES);
   const Slide = lazy(() => {
     return Promise.all([
       import("./Slide"),

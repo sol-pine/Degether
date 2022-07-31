@@ -81,6 +81,30 @@ export function handleError(error) {
     localStorage.removeItem("token");
     window.location.replace("/");
   }
+  // STT 토큰 오류 입니다.
+  if (error.response.status === 426) {
+    alert("녹음 서비스 에러 입니다.");
+  }
+  // STT 서비스 오류 입니다.
+  if (error.response.status === 427) {
+    alert("녹음 서비스 에러 입니다.");
+  }
+  // 존재하지 않는 프로젝트입니다.
+  if (error.response.status === 428) {
+    alert("존재하지 않는 프로젝트입니다.");
+  }
+  // 화상채팅 서버 오류입니다.
+  if (error.response.status === 429) {
+    alert("화상채팅 서버 오류입니다.");
+  }
+  // 프로젝트 최대 생성 갯수 초과
+  if (error.response.status === 430) {
+    alert("프로젝트는 최대 3개까지만 참여할 수 있습니다.");
+  }
+  // 프로젝트 참가 가능 갯수 초과
+  if (error.response.status === 450) {
+    alert("프로젝트는 최대 3개까지만 참여할 수 있습니다.");
+  }
   // 프로젝트 생성, 수정 오류 안내
   if (error.response.status === 450) {
     alert(error.response.data);

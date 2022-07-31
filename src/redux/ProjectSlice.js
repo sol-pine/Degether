@@ -7,14 +7,16 @@ import { handleError } from "../shared/commonFunction";
 export const addProject = createAsyncThunk(
   "ADD/addProject",
   async (formData) => {
-    const response = await axios
+    return await axios
       .post(`${SERVER_URL}/api/project`, formData, {
         headers: {
           Authorization: localStorage.getItem("token"),
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((response) => console.log(response.data.result))
+      .then((response) => {
+        return response.data.ok;
+      })
       .catch((error) => handleError(error));
   }
 );
@@ -164,7 +166,11 @@ const ProjectSlice = createSlice({
   },
   extraReducers: {
     [addProject.fulfilled]: (state, action) => {
-      window.location.replace("/");
+      if (action.payload) {
+        window.location.href = "/";
+      } else {
+        console.log("false");
+      }
     },
     [getProject.fulfilled]: (state, action) => {
       state.list = [...action.payload.list];

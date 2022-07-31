@@ -8,6 +8,7 @@ function LeftInfoBar() {
   const { myProjectId } = useParams();
   const navigate = useNavigate();
   const [projectData, setProjectData] = useState(null);
+  console.log(projectData);
   const id = localStorage.getItem("id");
   useEffect(() => {
     axios
@@ -43,7 +44,7 @@ function LeftInfoBar() {
         </ProjectNav>
         <ProjectNav
           onClick={() => {
-            // 프로젝트 아이디를 이용해 해당 관리자 프로젝트 페이지로 이동
+            // 프로젝트 아이디를 이용해 회의록 페이지로 이동
             navigate(`/meetingnote/${myProjectId}`);
           }}
         >

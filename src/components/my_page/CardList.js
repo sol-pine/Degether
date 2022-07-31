@@ -41,7 +41,7 @@ function CardList() {
                   {item.thumbnail ? (
                     <img src={item.thumbnail} alt="프로젝트 썸네일" />
                   ) : (
-                    <img src="/img/degether.png" alt="기본 이미지" />
+                    <img src="/img/default-card.png" alt="기본 이미지" />
                   )}
                 </CardImg>
               </Card>
@@ -88,5 +88,6 @@ const CardImg = styled.div`
     height: 300px;
     object-fit: cover;
     border-radius: 10px;
+    border: 1px solid #efefef;
   }
 `;

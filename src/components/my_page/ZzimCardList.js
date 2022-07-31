@@ -41,7 +41,7 @@ function ZzimCardList() {
                 {item.thumbnail ? (
                   <img src={item.thumbnail} alt="프로젝트 썸네일" />
                 ) : (
-                  <img src="/img/degether.png" alt="기본 이미지" />
+                  <img src="/img/default-card.png" alt="기본 이미지" />
                 )}
               </CardImg>
             </Card>
