@@ -1,48 +1,52 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
-import { MainHeader } from "../components/header/Header";
-import CardGrid from "../components/main_page/CardGrid";
-import Login from "../components/side/main/Login";
-import Myproject from "../components/side/main/Myproject";
-import SearchTab from "../components/main_page/SearchTab";
-import { Outlet } from "react-router-dom";
+import Headers from "../components/Header";
+import Card from "../components/Card";
 
-function Mainpage() {
-  const token = localStorage.getItem("token");
-  const searchButton = useSelector((state) => state.Project.searchButton);
-
+const MainPage = () => {
   return (
-    <MainContainer>
-      <MainHeader />
-      <ContentContainer>
-        <MainContentSection>
-          {searchButton ? <SearchTab /> : null}
-          <Outlet />
-          <CardGrid />
-        </MainContentSection>
-        <SideContentSection>
-          {token ? <Myproject /> : <Login />}
-        </SideContentSection>
-      </ContentContainer>
-    </MainContainer>
+    <div>
+      <Headers />
+      <div className="banner-container">
+        <div className="banner-img-wrapper">
+          <img className="banner" src="/img/banner.png" alt="배너" />
+          <button className="banner-btn">프로젝트 시작하기</button>
+        </div>
+      </div>
+
+      <div className="main-content">
+        <p>현재 모집 중인 프로젝트</p>
+        <div className="main-btn-wrapper">
+          <div className="search-container">
+            <input type="text" placeholder="검색" />
+            <button>
+              <img src="/img/ic-search.svg" alt="돋보기 아이콘" />
+            </button>
+          </div>
+          <button className="main-btn">최신 순</button>
+          <button className="main-btn">마감 순</button>
+        </div>
+      </div>
+      <div className="card-grid">
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+        <Card />
+      </div>
+    </div>
   );
-}
-export default Mainpage;
-const MainContainer = styled.div`
-  width: 1888px;
-  height: 100%;
-  margin: 0 auto;
-`;
-const ContentContainer = styled.div`
-  width: 1888px;
-  height: 100%;
-  margin: 62px auto;
-  display: flex;
-`;
-const MainContentSection = styled.section`
-  width: 1435px;
-`;
-const SideContentSection = styled.section`
-  width: 453px;
-`;
+};
+export default MainPage;
