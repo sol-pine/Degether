@@ -1,0 +1,118 @@
+/* project input modal */
+.project-input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+}
+.preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 280px;
+  background: #eee;
+  margin: 0 auto;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+}
+.preview input {
+  width: 200px;
+  height: 280px;
+  display: none;
+}
+.preview-image {
+  width: 200px;
+  height: 280px;
+  object-fit: cover;
+  border: 0.5px solid #a6b0c3;
+  margin: 0 auto;
+}
+.preview-icon {
+  width: 100px;
+}
+.project-input-wrapper {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.project-input-wrapper input {
+  font-size: 12px;
+  appearance: none;
+  border: none;
+  /* background: #eee; */
+  border: 0.5px solid #a6b0c3;
+  width: 200px;
+  padding: 5px;
+  margin-left: 10px;
+}
+.project-input-wrapper input:focus {
+  outline: none;
+}
+.project-input-wrapper input::placeholder {
+  font-size: 12px;
+}
+.type-input {
+  display: flex;
+}
+.type-input input {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border: 0.5px solid #a6b0c3;
+}
+.type-input input:checked {
+  background: #3b37d3;
+}
+.area {
+  display: flex;
+  align-items: flex-start;
+}
+textarea {
+  width: 200px;
+  height: 85px;
+  overflow: hidden;
+  border: none;
+  resize: none;
+  border: 0.5px solid #a6b0c3;
+  padding: 5px;
+  font-size: 12px;
+}
+textarea::placeholder {
+  font-size: 12px;
+  font-family: "Noto Sans KR", sans-serif;
+}
+textarea:focus {
+  outline: none;
+}
+.type-input .number {
+  width: 38px;
+}
+.project-input-wrapper section {
+  display: flex;
+  gap: 15px;
+}
+.btn-wrapper {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 10px;
+}
+.input-btn {
+  font-size: 12px;
+  background: #3b37d3;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+.input-btn:hover {
+  background: #2727af;
+}
+.btn-wrapper .bold {
+  font-weight: 800;
+}
