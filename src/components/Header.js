@@ -11,7 +11,7 @@ const Headers = () => {
           src="/img/logo.svg"
           alt="로고"
           onClick={() => {
-            navigate("/");
+            window.location.replace("/");
           }}
         />
         {token ? (
