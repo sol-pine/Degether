@@ -5,8 +5,8 @@ import { KAKAO_AUTH_URL } from "../shared/api";
 const LoginPage = () => {
   const navigate = useNavigate();
   return (
-    <div>
-      <div className="login-header"></div>
+    <div className="login-container">
+      {/* <div className="login-header"></div> */}
       <section className="login-section">
         <img
           className="degether"
