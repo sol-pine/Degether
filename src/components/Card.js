@@ -6,6 +6,7 @@ import { SERVER_URL } from "../shared/api";
 // import { cardData } from "../test/card_data";
 import { getProjectPage } from "../redux/modules/ProjectSlice";
 import { useNavigate } from "react-router-dom";
+import handleError from "../shared/handleError";
 
 const Card = (props) => {
   const navigate = useNavigate();
@@ -53,7 +54,8 @@ const Card = (props) => {
       )
       .then(() => {
         window.location.replace("/");
-      });
+      })
+      .catch((error) => handleError(error));
   };
 
   // 프로젝트 찜 취소
@@ -66,7 +68,8 @@ const Card = (props) => {
       })
       .then(() => {
         window.location.replace("/");
-      });
+      })
+      .catch((error) => handleError(error));
   };
 
   // 검색 결과가 없다면

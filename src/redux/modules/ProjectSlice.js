@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { SERVER_URL } from "../../shared/api";
-
-// import { handleError } from "../shared/commonFunction";
+import { handleError } from "../../shared/handleError";
 
 // 프로젝트 리스트 받아오기
 export const getProject = createAsyncThunk("GET/getProject", async (args) => {
@@ -18,7 +17,8 @@ export const getProject = createAsyncThunk("GET/getProject", async (args) => {
         Authorization: token ? token : null,
       },
     })
-    .then((res) => res.data.result.list);
+    .then((res) => res.data.result.list)
+    .catch((error) => handleError(error));
 });
 
 // 프로젝트 리스트 무한스크롤
@@ -35,7 +35,8 @@ export const getProjectPage = createAsyncThunk(
           Authorization: token ? token : null,
         },
       })
-      .then((res) => res.data.result.list);
+      .then((res) => res.data.result.list)
+      .catch((error) => handleError(error));
   }
 );
 

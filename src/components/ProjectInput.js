@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import AlertModal from "../elements/AlertModal";
 import { letsCreate } from "../redux/modules/ModalSlice";
 import { SERVER_URL } from "../shared/api";
+import { handleError } from "../shared/handleError";
 import "../style/modal.css";
 
 const ProjectInput = () => {
@@ -72,7 +73,8 @@ const ProjectInput = () => {
       })
       .then(() => {
         setModal(true);
-      });
+      })
+      .catch((error) => handleError(error));
   }
 
   return (

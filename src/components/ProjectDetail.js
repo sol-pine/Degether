@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "../style/modal.css";
-// import { detail } from "../test/detail_data";
 import { SERVER_URL } from "../shared/api";
 import AlertModal from "../elements/AlertModal";
+import { handleError } from "../shared/handleError";
 
 const ProjectDetail = (props) => {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ const ProjectDetail = (props) => {
     axios
       .get(`${SERVER_URL}/api/project/${projectId}`)
       .then((response) => setDetails(response.data.result));
+      .catch((error) => handleError(error));
   }, []);
   console.log(details);
 
@@ -42,7 +43,8 @@ const ProjectDetail = (props) => {
       )
       .then(() => {
         setModal(true);
-      });
+      })
+      .catch((error) => handleError(error));
   };
 
   if (loading) {

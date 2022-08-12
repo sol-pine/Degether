@@ -28,7 +28,7 @@ const AlertModal = (props) => {
           className="input-btn"
           onClick={() => {
             props.closeModal();
-            window.location.replace("/");
+            window.location.replace("");
           }}
         >
           확인

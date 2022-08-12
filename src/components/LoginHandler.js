@@ -8,6 +8,7 @@ import {
   REACT_APP_NAVER_STATE,
   SERVER_URL,
 } from "../shared/api";
+import { handleError } from "../shared/handleError";
 
 // 카카오 소셜 로그인
 export const Kakao = () => {
@@ -20,9 +21,10 @@ export const Kakao = () => {
       )
       .then((response) => {
         sessionStorage.setItem("token", response.headers.authorization);
+        sessionStorage.setItem("id", response.data.result.userId);
         navigate("/");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => handleError(error));
   }, []);
 };
 
@@ -37,9 +39,10 @@ export const Google = () => {
       )
       .then((response) => {
         sessionStorage.setItem("token", response.headers.authorization);
+        sessionStorage.setItem("id", response.data.result.userId);
         navigate("/");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => handleError(error));
   }, []);
 };
 
@@ -55,8 +58,9 @@ export const Naver = () => {
       )
       .then((response) => {
         sessionStorage.setItem("token", response.headers.authorization);
+        sessionStorage.setItem("id", response.data.result.userId);
         navigate("/");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => handleError(error));
   }, []);
 };

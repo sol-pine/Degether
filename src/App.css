@@ -304,12 +304,53 @@ section .degether {
 
 /* chat */
 .chat-container {
-  width: 1370px;
-  height: 200px;
+  width: 100%;
+  height: 280px;
   margin: 0 auto;
-  background: red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-size: 50%;
+  background-image: url(https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-1.2.1&q=80&cs=tinysrgb&fm=jpg&crop=entropy&w=4800);
+}
+.chat-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 80px;
 }
 
+/* projectlist */
+.project-list-container {
+  border-top: 1px solid #e5e5e5;
+  margin-top: 50px;
+}
+.mypage-title {
+  font-weight: 600;
+  font-size: 15px;
+  height: 30px;
+}
+.list-grid {
+  width: 100%;
+  margin-top: 30px;
+  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(5, 200px);
+  column-gap: 50px;
+  row-gap: 50px;
+}
+.no-project {
+  width: 200px;
+  height: 280px;
+  background: #eff2f5;
+  border: 0.5px solid #a6b0c3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  text-align: center;
+}
 /* footer */
 .footer-container {
   width: 100%;

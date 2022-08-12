@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const Headers = () => {
   const navigate = useNavigate();
   const token = sessionStorage.getItem("token");
-
+  const myId = sessionStorage.getItem("id");
   return (
     <div className="header-container">
       <header>
@@ -19,7 +19,7 @@ const Headers = () => {
             <p
               className="header-text mypage"
               onClick={() => {
-                navigate("/mypage");
+                navigate(`/mypage/${myId}`);
               }}
             >
               마이페이지
