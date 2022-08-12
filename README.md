@@ -1,4 +1,4 @@
-# 너, 내 동료가 돼라! 🤝 Together? Degether!👯‍♂️
+#사이드 프로젝트 솔루션 🤝 Together? Degether!👯‍♂️
 
 ![degether](https://user-images.githubusercontent.com/105091138/181830587-a4d41bd1-b0b1-4803-9efd-7ec86a94eb32.png)
 <br>
