@@ -3,7 +3,6 @@ import {useDispatch} from "react-redux";
 import "../style/modal.css";
 import AlertModal from "../elements/AlertModal";
 import {setCreate} from "../redux/modules/ModalSlice";
-import {handleError} from "../shared/handleError";
 import {useToday} from "../utils/hooks/useToday";
 import {useFormData} from "../utils/hooks/useFormData";
 import {postProject} from "../utils/apis/postProject";
@@ -52,7 +51,6 @@ const ProjectInput = () => {
     const addProject = (formData) => {
         postProject(formData)
             .then(()=>setModal(true))
-            .catch(err => handleError(err));
     }
 
     return (
