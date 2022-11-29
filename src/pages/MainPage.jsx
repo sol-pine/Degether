@@ -1,21 +1,21 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 import Card from "../components/Card";
-import { CardCreateModal, CardDetailModal } from "../elements/CardModal";
-import { letsCreate } from "../redux/modules/ModalSlice";
+import CardModal from "../elements/CardModal";
+import { setCreate } from "../redux/modules/ModalSlice";
 import { getProject } from "../redux/modules/ProjectSlice";
 
 const MainPage = () => {
   const dispatch = useDispatch();
   const create = useSelector((state) => state.Modal.create);
-  const [modal, setModal] = useState(false);
   const word = useRef();
 
   // 프로젝트 검색
   function search() {
     dispatch(getProject({ searchWord: word.current.value }));
   }
+
   // 엔터키 활성화
   const onKeyPress = (e) => {
     if (e.key == "Enter") {
@@ -25,14 +25,14 @@ const MainPage = () => {
 
   return (
     <div>
-      {create ? <CardCreateModal /> : null}
+      {create ? <CardModal create={true} /> : null}
       <Outlet />
       <div className="banner-container">
         <div className="banner-img-wrapper">
           <img className="banner" src="/img/banner.png" alt="배너" />
           <button
             onClick={() => {
-              dispatch(letsCreate(true));
+              dispatch(setCreate(true));
             }}
             className="banner-btn"
           >
