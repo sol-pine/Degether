@@ -1,4 +1,4 @@
-# 사이드 프로젝트 솔루션 🤝 Together? Degether!👯‍♂️
+# 사이드 프로젝트 팀원 매칭 & 미팅 솔루션 🤝 Degether
 
 ![degether](https://user-images.githubusercontent.com/105091138/181830587-a4d41bd1-b0b1-4803-9efd-7ec86a94eb32.png)
 <br>
@@ -38,28 +38,17 @@ Degether 는 Developers + Designers + Together 를 합친 단어로, 사이드 �
 
 ## ⚙️ 아키텍쳐
 
-![architecture_대지 1](https://user-images.githubusercontent.com/105091138/182218599-2594fcc5-4ba6-4957-abed-28fef67e93e5.png)
+![architecture_대지 1](https://user-images.githubusercontent.com/105091138/204495635-a84a3e63-c9df-4bae-9941-8a197f3e8175.png)
 
-## 🛠 기술 스택
-
-#### Tech
+## 🛠 사용 기술 및 라이브러리
 
 <p>
-<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
-<img src="https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=white">
-<img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white">
 <img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
 <img src="https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white">
+<img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black">
 <img src="https://img.shields.io/badge/stomp-000000?style=for-the-badge&logo=stomp&logoColor=white">
 <img src="https://img.shields.io/badge/axios-000000?style=for-the-badge&logo=axios&logoColor=white">
 <img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white">
-</p>
-
-#### Dev Tools
-
-<p>
-<img src="https://img.shields.io/badge/vsc-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white">
-<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white">
 </p>
 <br>
 
