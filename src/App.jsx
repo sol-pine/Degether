@@ -3,7 +3,7 @@ import "./App.css";
 import Headers from "./components/Header";
 import Footers from "./components/Footer";
 import MainPage from "./pages/MainPage";
-import { CardDetailModal } from "./elements/CardModal";
+import CardModal from "./elements/CardModal";
 import LoginPage from "./pages/LoginPage";
 import { Google, Kakao, Naver } from "./components/LoginHandler";
 import MyPage from "./pages/MyPage";
@@ -15,7 +15,7 @@ function App() {
       <Headers />
       <Routes>
         <Route path="/" element={<MainPage />}>
-          <Route path="/:projectId" element={<CardDetailModal />}></Route>
+          <Route path="/:projectId" element={<CardModal create={false} />}></Route>
         </Route>
         <Route path="/login" element={<LoginPage />}></Route>
         <Route path="/auth/kakao/callback" element={<Kakao />}></Route>
