@@ -6,7 +6,7 @@ import userModel from "openvidu-react/dist/models/user-model";
 import { useBeforeunload } from "react-beforeunload";
 import { useDispatch, useSelector } from "react-redux";
 import { createSession, createViduToken } from "../redux/modules/ViduSlice";
-import Video from "../components/Video";
+import Video from "./Video";
 
 const VideoChat = () => {
   const dispatch = useDispatch();
@@ -42,7 +42,6 @@ const VideoChat = () => {
     navigator.mediaDevices
       .getUserMedia({ audio: true, video: true })
       .then((stream) => {
-        // console.log("setOV");
         setOV(new OpenVidu());
       })
       .catch((e) => {
@@ -63,42 +62,29 @@ const VideoChat = () => {
 
   // Subscriber 등록 / GET TOKEN (CREATE SESSION, CREATE TOKEN) ===> 세션 생성, 토큰 생성
   useEffect(() => {
-    // console.log("useEffect session", session);
     if (session != null) {
       session.on("streamCreated", (event) => {
         //Stream Created
         const tempSubscribers = [..._subscribers];
-        console.log(tempSubscribers);
         tempSubscribers.push(session.subscribe(event.stream, undefined));
         setSubscribers(tempSubscribers);
         _subscribers = tempSubscribers;
-        console.log("Stream Created");
       });
       session.on("streamDestroyed", (event) => {
         //Stream Destroyed
         let tempSubscribers = [..._subscribers];
-        // console.log(event.stream.streamManager);
-        console.log(tempSubscribers);
         const index = tempSubscribers.indexOf(event.stream.streamManager, 0);
-        console.log(index);
         if (index > -1) {
           tempSubscribers.splice(index, 1);
         }
         setSubscribers(tempSubscribers);
         _subscribers = tempSubscribers;
-        console.log(tempSubscribers);
-        console.log(_subscribers);
-        console.warn("Stream Destroyed");
       });
 
       session.on("exception", (event) => {
         if (event.name === "ICE_CONNECTION_DISCONNECTED") {
           let stream = event.origin;
-          console.warn("Stream " + stream.streamId + " disconnected!");
         }
-        //exception
-        // console.log("exception");
-        console.log(event);
       });
 
       getToken();
@@ -113,7 +99,6 @@ const VideoChat = () => {
 
   // GET TOKEN (CREATE SESSION, CREATE TOKEN)
   const getToken = () => {
-    // console.log("getToken");
     dispatch(createSession(myProjectId)).then((res) => {
       dispatch(createViduToken(myProjectId));
     });
@@ -168,8 +153,8 @@ const VideoChat = () => {
     localUser.setVideoActive(!localUser.isVideoActive());
     localUser.getStreamManager().publishVideo(localUser.isVideoActive());
     setCam(localUser.isVideoActive());
-    // console.log(localUser.isVideoActive());
   }
+
   // 마이크 상태 변경 (on & off)
   function micStatusChanged() {
     localUser.setAudioActive(!localUser.isAudioActive());
@@ -177,18 +162,14 @@ const VideoChat = () => {
     setMic(localUser.isAudioActive());
   }
 
-  // LEAVE SESSION
+  // 세션 연결 해제
   const leaveSession = () => {
-    console.log("leaveSession");
-    if (session) {
-      console.log("session disconnect", session);
-      session.disconnect();
-    }
+    session && session.disconnect();
     setOV(null);
     setSession(null);
     setSubscribers([]);
     setPublisher(null);
-    localStorage.removeItem("viduToken");
+    sessionStorage.removeItem("viduToken");
   };
 
   return (

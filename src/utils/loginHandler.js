@@ -8,10 +8,10 @@ import {
   REACT_APP_NAVER_STATE,
   SERVER_URL,
 } from "../shared/api";
-import { handleError } from "../shared/handleError";
+import { handleError } from "./handleError";
 
 // 카카오 소셜 로그인
-export const Kakao = () => {
+export const kakaoOauth = () => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
   useEffect(() => {
@@ -29,7 +29,7 @@ export const Kakao = () => {
 };
 
 // 구글 소셜 로그인
-export const Google = () => {
+export const googleOauth = () => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
   useEffect(() => {
@@ -47,7 +47,7 @@ export const Google = () => {
 };
 
 // 네이버 소셜 로그인
-export const Naver = () => {
+export const naverOauth = () => {
   const navigate = useNavigate();
   const code = new URL(window.location.href).searchParams.get("code");
   useEffect(() => {

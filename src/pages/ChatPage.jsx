@@ -1,7 +1,7 @@
 import React from "react";
-import ProjectInfo from "../elements/ProjectInfo";
-import VideoChat from "../elements/VideoChat";
-import Chat from "../elements/Chat";
+import ProjectInfo from "../components/ProjectInfo";
+import VideoChat from "../components/VideoChat";
+import Chat from "../components/Chat";
 
 const ChatPage = () => {
   return (

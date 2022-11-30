@@ -1,4 +1,5 @@
 export const detail = {
+  projectId:1,
   thumbnail: "/img/test/5.png",
   projectName: "N빵",
   projectType: "앱",
@@ -7,4 +8,5 @@ export const detail = {
   devCount: 6,
   deCount: 2,
   deadline: "2022-08-26",
+
 };

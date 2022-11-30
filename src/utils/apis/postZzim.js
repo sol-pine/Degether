@@ -1,6 +1,6 @@
 import axios from "axios";
 import {SERVER_URL} from "../../shared/api";
-import {handleError} from "../../shared/handleError";
+import {handleError} from "../handleError";
 
 /** 프로젝트 찜 */
 export async function postZzim(projectId) {
