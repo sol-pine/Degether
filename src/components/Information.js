@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "../style/chat.css";
 import { SERVER_URL } from "../shared/api";
-import { handleError } from "../shared/handleError";
+import { handleError } from "../utils/handleError";
 
 const Information = () => {
   const { myProjectId } = useParams();

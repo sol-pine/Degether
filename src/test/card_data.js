@@ -5,7 +5,7 @@ export const cardData = [
     devCount: 5,
     deCount: 2,
     dDay: 13,
-    zzim: true,
+    isZzim: true,
     thumbnail:
       "https://camo.githubusercontent.com/38f26d160fafd71ad6508747ffe32de276904b84baf44fcdacfd1872cb838139/68747470733a2f2f696d67312e6461756d63646e2e6e65742f7468756d622f523132383078302f3f73636f64653d6d746973746f72793226666e616d653d6874747073253341253246253246626c6f672e6b616b616f63646e2e6e6574253246646e2532466c31667a572532466274724469495074716c692532466d727153453564376274744350706e6f73386133354b253246696d672e706e67",
   },
@@ -15,7 +15,7 @@ export const cardData = [
     devCount: 5,
     deCount: 2,
     dDay: 20,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/test/1.png",
   },
   {
@@ -24,7 +24,7 @@ export const cardData = [
     devCount: 6,
     deCount: 1,
     dDay: 4,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/test/2.png",
   },
   {
@@ -33,7 +33,7 @@ export const cardData = [
     devCount: 5,
     deCount: 1,
     dDay: 10,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/thumbnail.png",
   },
   {
@@ -42,7 +42,7 @@ export const cardData = [
     devCount: 6,
     deCount: 2,
     dDay: 11,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/test/4.png",
   },
   {
@@ -51,7 +51,7 @@ export const cardData = [
     devCount: 6,
     deCount: 2,
     dDay: 21,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/test/5.png",
   },
   {
@@ -60,7 +60,7 @@ export const cardData = [
     devCount: 4,
     deCount: 1,
     dDay: 3,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/thumbnail.png",
   },
   {
@@ -69,7 +69,7 @@ export const cardData = [
     devCount: 5,
     deCount: 0,
     dDay: 2,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/test/7.png",
   },
   {
@@ -78,7 +78,7 @@ export const cardData = [
     devCount: 4,
     deCount: 1,
     dDay: 8,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/test/8.png",
   },
   {
@@ -87,7 +87,7 @@ export const cardData = [
     devCount: 5,
     deCount: 1,
     dDay: 5,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/test/9.png",
   },
   {
@@ -96,7 +96,7 @@ export const cardData = [
     devCount: 6,
     deCount: 2,
     dDay: 4,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/thumbnail.png",
   },
   {
@@ -105,7 +105,7 @@ export const cardData = [
     devCount: 5,
     deCount: 2,
     dDay: 1,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/thumbnail.png",
   },
   {
@@ -114,7 +114,7 @@ export const cardData = [
     devCount: 6,
     deCount: 1,
     dDay: 1,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/test/12.png",
   },
   {
@@ -123,7 +123,7 @@ export const cardData = [
     devCount: 6,
     deCount: 2,
     dDay: 3,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/test/13.png",
   },
   {
@@ -132,7 +132,7 @@ export const cardData = [
     devCount: 5,
     deCount: 2,
     dDay: 13,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/thumbnail.png",
   },
   {
@@ -141,7 +141,7 @@ export const cardData = [
     devCount: 4,
     deCount: 0,
     dDay: 3,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/test/15.png",
   },
   {
@@ -150,7 +150,7 @@ export const cardData = [
     devCount: 5,
     deCount: 1,
     dDay: 4,
-    zzim: false,
+    isZzim: false,
     thumbnail: "/img/thumbnail.png",
   },
   {
@@ -159,7 +159,7 @@ export const cardData = [
     devCount: 6,
     deCount: 2,
     dDay: 2,
-    zzim: true,
+    isZzim: true,
     thumbnail: "/img/test/17.png",
   },
 ];

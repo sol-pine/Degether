@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Information from "../components/Information";
 import Members from "../components/Members";
 import { SERVER_URL } from "../shared/api";
-import { handleError } from "../shared/handleError";
+import { handleError } from "../utils/handleError";
 
 const ProjectInfo = () => {
   const { myProjectId } = useParams();

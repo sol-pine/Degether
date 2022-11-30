@@ -1,6 +1,6 @@
 import axios from "axios";
 import {SERVER_URL} from "../../shared/api";
-import {handleError} from "../../shared/handleError";
+import {handleError} from "../handleError";
 
 /** 유저 정보 수정 */
 export async function putUser(formData) {

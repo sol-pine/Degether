@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import AlertModal from "../elements/AlertModal";
 import { SERVER_URL } from "../shared/api";
-import { handleError } from "../shared/handleError";
+import { handleError } from "../utils/handleError";
 import "../style/chat.css";
 
 const NameCard = (props) => {
@@ -44,7 +44,7 @@ const NameCard = (props) => {
               {item.profileUrl ? (
                 <img src={item.profileUrl} alt="프로필" />
               ) : (
-                <img src="/img/user.gif" alt="프로필" />
+                <img src="/img/profile.jpeg" alt="프로필" />
               )}
               {item.nickname}
             </div>

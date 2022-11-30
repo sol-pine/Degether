@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { alertApply, seeDetail } from "../redux/modules/ModalSlice";
 
-const AlertModal = (props) => {
+const AlertModal = ({closeModal, message}) => {
   useEffect(() => {
     document.body.style.cssText = `
       position: fixed; 
@@ -19,15 +17,15 @@ const AlertModal = (props) => {
     <div
       className="modal-background"
       onClick={() => {
-        props.closeModal();
+       closeModal();
       }}
     >
       <div className="modal-body" onClick={(e) => e.stopPropagation()}>
-        <p>{props.message}</p>
+        <p>{message}</p>
         <button
           className="input-btn"
           onClick={() => {
-            props.closeModal();
+            closeModal();
             window.location.replace("");
           }}
         >

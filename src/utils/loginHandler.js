@@ -8,7 +8,7 @@ import {
   REACT_APP_NAVER_STATE,
   SERVER_URL,
 } from "../shared/api";
-import { handleError } from "../shared/handleError";
+import { handleError } from "./handleError";
 
 // 카카오 소셜 로그인
 export const kakaoOauth = () => {

@@ -9,7 +9,7 @@ const Profile = (userInfo) => {
     const [modal, setModal] = useState(false);
     // 프로필 썸네일
     const {originThumbnail} = useMemo(() => ({
-        originThumbnail: userInfo ? userInfo.profileUrl : "/img/user.gif"
+        originThumbnail: userInfo ? userInfo.profileUrl : "/img/profile.jpeg"
     }), [userInfo]);
     const [thumbnail, setThumbnail] = useState(originThumbnail);
     const [nickname, setNickname] = useState("");

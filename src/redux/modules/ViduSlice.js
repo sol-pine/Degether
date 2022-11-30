@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { OPENVIDU_SERVER_SECRET, OPENVIDU_SERVER_URL } from "../../shared/api";
-import { handleError } from "../../shared/handleError";
+import { handleError } from "../../utils/handleError";
 
 // 세션 생성
 export const createSession = createAsyncThunk(
@@ -60,7 +60,7 @@ const ViduSlice = createSlice({
       state.viduToken = sessionStorage.getItem("viduToken");
       console.log("get token");
     },
-    [createSession.fulfilled]: (state, action) => {
+    [createSession.fulfilled]: () => {
       console.log("session created!");
     },
   },

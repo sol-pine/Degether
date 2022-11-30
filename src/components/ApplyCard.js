@@ -4,7 +4,7 @@ import axios from "axios";
 import "../style/chat.css";
 import { SERVER_URL } from "../shared/api";
 import AlertModal from "../elements/AlertModal";
-import handleError from "../shared/handleError";
+import {handleError} from "../utils/handleError";
 
 const ApplyCard = (props) => {
   const applyData = props.applyData;
@@ -69,7 +69,7 @@ const ApplyCard = (props) => {
               {item.profileUrl ? (
                 <img src={item.profileUrl} alt="프로필" />
               ) : (
-                <img src="/img/user.gif" alt="프로필" />
+                <img src="/img/profile.jpeg" alt="프로필" />
               )}
               {item.nickname}
             </div>

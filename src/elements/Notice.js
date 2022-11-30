@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { SERVER_URL } from "../shared/api";
-import { handleError } from "../shared/handleError";
+import { handleError } from "../utils/handleError";
 
 const Notice = () => {
   const userId = sessionStorage.getItem("id");
@@ -43,7 +43,7 @@ const Notice = () => {
       .put(`${SERVER_URL}/api/sse/${notificationId}`, {
         headers: { Authorization: localStorage.getItem("token") },
       })
-      .then((response) => window.location.replace(""))
+      .then(() => window.location.replace(""))
       .catch((error) => handleError(error));
   }
   // 알림 삭제
@@ -52,7 +52,7 @@ const Notice = () => {
       .delete(`${SERVER_URL}/api/sse/${notificationId}`, {
         headers: { Authorization: localStorage.getItem("token") },
       })
-      .then((response) => window.location.replace(""))
+      .then(() => window.location.replace(""))
       .catch((error) => handleError(error));
   }
 
