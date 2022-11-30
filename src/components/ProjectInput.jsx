@@ -4,7 +4,7 @@ import "../style/modal.css";
 import AlertModal from "../elements/AlertModal";
 import {setCreate} from "../redux/modules/ModalSlice";
 import {useToday} from "../utils/hooks/useToday";
-import {useFormData} from "../utils/hooks/useFormData";
+import {handelFormData} from "../utils/handelFormData";
 import {postProject} from "../utils/apis/postProject";
 
 const ProjectInput = () => {
@@ -44,13 +44,13 @@ const ProjectInput = () => {
         deadLine: deadline,
     };
 
-    // 폼 데이터 처리
-    const formData = useFormData(projectRequestDto, thumbnail);
 
     // 새로운 프로젝트 등록
-    const addProject = (formData) => {
+    const addProject = () => {
+        // 폼 데이터 처리
+        const formData = handelFormData(projectRequestDto, thumbnail);
         postProject(formData)
-            .then(()=>setModal(true))
+            .then(() => setModal(true))
     }
 
     return (
@@ -150,12 +150,7 @@ const ProjectInput = () => {
                 />
             </div>
             <div className="btn-wrapper">
-                <button
-                    onClick={() => {
-                        addProject(formData);
-                    }}
-                    className="input-btn bold"
-                >
+                <button className="input-btn bold" onClick={() => addProject()}>
                     저장
                 </button>
                 <button
