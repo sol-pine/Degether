@@ -1,7 +1,7 @@
 import React, {useMemo} from "react";
 import {useParams} from "react-router-dom";
-import Information from "../components/Information";
-import Members from "../components/Members";
+import Information from "./Information";
+import Members from "./Members";
 import {getProjectInfo} from "../utils/apis/getProjectInfo";
 
 const ProjectInfo = () => {

@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from "react";
 import "../style/my.css";
-import AlertModal from "./AlertModal";
+import AlertModal from "../elements/AlertModal";
 import Notice from "./Notice";
 import {handelFormData} from "../utils/handelFormData";
 import {putUser} from "../utils/apis/putUser";

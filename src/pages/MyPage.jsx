@@ -1,6 +1,6 @@
 import React, {useMemo, useState} from "react";
-import Profile from "../elements/Profile";
-import ProjectList from "../elements/ProjectList";
+import Profile from "../components/Profile";
+import ProjectList from "../components/ProjectList";
 import "../style/my.css";
 import {getUser} from "../utils/apis/getUser";
 

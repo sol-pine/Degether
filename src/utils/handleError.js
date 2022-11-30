@@ -2,7 +2,7 @@ export function handleError(error) {
   // 로그인이 필요합니다.
   if (error.response.status === 410) {
     alert("로그인이 필요합니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 최대 업로드 사이즈를 초과했습니다.
@@ -42,43 +42,43 @@ export function handleError(error) {
   // 유효하지 않은 토큰입니다.
   if (error.response.status === 419) {
     alert("로그인이 필요합니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 유효기간이 만료된 토큰입니다.
   if (error.response.status === 420) {
     alert("로그인이 필요합니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 기존 서명을 확인할 수 없습니다.
   if (error.response.status === 421) {
     alert("로그인이 필요합니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 지원하지 않는 토큰입니다.
   if (error.response.status === 422) {
     alert("로그인이 필요합니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 토큰형식이 맞지 않습니다.
   if (error.response.status === 423) {
     alert("로그인이 필요합니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 탈퇴한 회원입니다.
   if (error.response.status === 424) {
     alert("탈퇴한 회원입니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // 네이버 오류입니다.
   if (error.response.status === 425) {
     alert("네이버 오류입니다.");
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     window.location.replace("/");
   }
   // STT 토큰 오류 입니다.
